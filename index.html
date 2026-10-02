@@ -49,7 +49,7 @@
       display: block;
       position: fixed;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.03));
       z-index: 999;
       background-size: 100% 3px, 6px 100%;
       pointer-events: none;
@@ -112,6 +112,21 @@
     .retro-blink {
       animation: retroBlink 0.9s infinite;
     }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 16s linear infinite;
+    }
+
+    /* FPV CRT Noise */
+    .fpv-noise {
+      background: radial-gradient(circle, rgba(0,242,254,0.06) 0%, rgba(0,0,0,0.72) 100%);
+    }
   </style>
 </head>
 <body class="crt-overlay bg-[#0a0d16] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
@@ -159,6 +174,11 @@
           </div>
           <span id="hud-morale-val" class="text-rose-300 text-xs font-bold">100%</span>
         </div>
+        <!-- Kafein Göstergesi -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black" title="Çok çay ve nöbet halüsinasyona yol açar!">
+          <span class="text-yellow-400 text-xs pixel-font">☕ KAFEİN:</span>
+          <span id="hud-caffeine" class="text-yellow-300 font-bold text-sm">0%</span>
+        </div>
         <!-- Instagram Takipçi -->
         <button id="btn-open-instagram-hud" class="pixel-box bg-gradient-to-r from-pink-900 to-purple-900 hover:from-pink-800 hover:to-purple-800 px-2 py-0.5 flex items-center gap-1 border-2 border-black cursor-pointer" title="Kulüp Instagram Hesabı">
           <span class="text-pink-300 text-xs pixel-font">📸 IG:</span>
@@ -177,6 +197,22 @@
       </div>
     </div>
   </header>
+
+  <!-- ================= UFUK ÇANA ALARM BANDI (KLEPTOMANİ REFLEKSİ) ================= -->
+  <div id="ufuk-alert-bar" class="w-full bg-rose-950 border-b-4 border-black px-4 py-2 hidden z-30 transition-all">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl animate-bounce">🦹‍♂️</span>
+        <div>
+          <span class="pixel-font text-xs text-amber-300">UYARI: UFUK ÇANA SİNSİCE MASAYA YANAŞTI!</span>
+          <p id="ufuk-steal-desc" class="text-xs text-white font-mono">1 kutu lehim telini montunun cebine indirmek üzere!</p>
+        </div>
+      </div>
+      <button id="btn-catch-ufuk" class="pixel-btn bg-amber-500 hover:bg-amber-400 text-black pixel-font text-xs px-3 py-1.5 retro-blink">
+        ✋ HOP DEDİK UFUK! (YAKALA)
+      </button>
+    </div>
+  </div>
 
   <main class="w-full flex-1 max-w-6xl mx-auto p-2 sm:p-4 relative">
     
@@ -201,7 +237,7 @@
               <span class="text-[10px] text-slate-400">ATÜ Atölye Masası #01</span>
             </div>
             <p id="burka-dialogue" class="text-lg text-slate-100 leading-snug font-mono min-h-[48px]">
-              "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak! Parçaları test edip sensörleri kalibre edelim."
+              "Ufuk Çana tornavidaları cebine atmadan pervaneleri sıkalım! Çukurova semalarında Barkan'ı kimse tutamayacak."
             </p>
           </div>
         </div>
@@ -334,7 +370,7 @@
           </div>
 
           <div class="text-[11px] text-slate-400 mt-2">
-            💡 Her mühendislik işlemi 1 gün harcar. Geliştirme öncesi mini-oyunu iyi oynamak arıza şansını düşürür!
+            💡 Her mühendislik işlemi 1 gün harcar. Gözünüz masadaki Ufuk'ta olsun!
           </div>
         </div>
 
@@ -368,7 +404,7 @@
       <div class="pixel-box bg-[#1b253b] p-3 border-4 border-black flex flex-col sm:flex-row items-center justify-between gap-3">
         <div class="text-center sm:text-left">
           <span class="pixel-font text-xs text-amber-300 block mb-0.5">HAZIRLIK TAMAMLANDI MI?</span>
-          <span class="text-sm text-slate-300">Önce simülasyon uçuşunda kapıları geç, QR kod tara ve kargoyu bırak; ardından TEKNOFEST festival alanına git!</span>
+          <span class="text-sm text-slate-300">Simülasyon uçuşunda kapıları geç, QR tara ve kargoyu bırak; ardından TEKNOFEST festivaline geç!</span>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button id="btn-open-room" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white text-sm pixel-font px-4 py-2.5">🚪 ATÖLYEDE GEZ</button>
@@ -389,7 +425,7 @@
       <!-- Flight Header Telemetry -->
       <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex flex-wrap items-center justify-between gap-2 text-sm font-mono">
         <div class="flex flex-wrap items-center gap-2.5">
-          <span class="pixel-font text-xs text-cyan-300">TELEMETRİ: BARKAN</span>
+          <span class="pixel-font text-xs text-cyan-300">BARKAN HUD</span>
           <span class="text-emerald-400">PİL: <b id="sim-battery-text">100%</b></span>
           <span class="text-amber-400">KAPI: <b id="sim-gate-text">0 / 8</b></span>
           <span class="text-yellow-400">KOMBO: <b id="sim-combo-text">x1</b></span>
@@ -398,6 +434,13 @@
           <span id="sim-payload-status" class="text-purple-300 font-bold bg-purple-950 px-1.5 py-0.5 border border-purple-600 text-xs">📦 KARGO: HAZIR</span>
         </div>
         <div class="flex items-center gap-2">
+          <!-- FPV Gözlük Mod Butonu -->
+          <button id="btn-toggle-fpv" class="pixel-btn bg-purple-800 hover:bg-purple-700 text-white text-xs px-2 py-1" title="Kokpit İçi FPV Gözlük Modu">
+            👓 FPV GÖZLÜK (C)
+          </button>
+          <button id="btn-drop-cargo" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white text-xs px-2 py-1">
+            📦 YÜKÜ AT (BOŞLUK)
+          </button>
           <span id="sim-wind-indicator" class="text-xs bg-slate-800 px-2 py-0.5 border border-slate-600 text-slate-300">RÜZGAR: HAFİF</span>
           <button id="btn-abort-flight" class="pixel-btn bg-rose-800 text-white text-xs px-2 py-1">
             ATÖLYEYE DÖN ↩
@@ -408,6 +451,30 @@
       <!-- Flight Simulation Canvas Area -->
       <div class="w-full relative border-4 border-black bg-slate-950 overflow-hidden pixel-box" style="height: 440px;">
         <canvas id="flight-canvas" class="w-full h-full block"></canvas>
+
+        <!-- FPV Static & OSD Overlay -->
+        <div id="fpv-overlay-ui" class="absolute inset-0 pointer-events-none hidden fpv-noise p-3 flex flex-col justify-between">
+          <div class="flex justify-between text-xs text-green-400 font-mono">
+            <span>VOLT: 15.6V | RSSI: 99%</span>
+            <span>MOD: FPV ACRO ANALOG</span>
+            <span>YAW: 045°</span>
+          </div>
+          <div class="self-center my-auto flex flex-col items-center">
+            <div class="w-16 h-0.5 bg-green-400/70 mb-2"></div>
+            <div class="w-5 h-5 border-2 border-green-400 rounded-full flex items-center justify-center text-[8px] text-green-400">+</div>
+            <div class="w-16 h-0.5 bg-green-400/70 mt-2"></div>
+          </div>
+          <div class="text-center text-[11px] text-green-400 font-mono">
+            [FPV PİLOTAJI AKTİF — KAPILARDAN GEÇİŞTE +%25 EKSTRA SKOR VE JÜRİ PUANI]
+          </div>
+        </div>
+
+        <!-- Canlı Telsiz & TEKNOFEST Spikeri Ticker Bar -->
+        <div class="absolute bottom-0 left-0 right-0 bg-black/85 border-t border-cyan-800 px-3 py-1 text-xs text-cyan-300 font-mono overflow-hidden pointer-events-none">
+          <div id="sim-announcer-text" class="animate-marquee">
+            🎙️ SPİKER: "Adana semalarında Barkan rüzgarı esiyor! Kaptan Burka kapılara doğru alçalıyor! Tribünler ayakta!"
+          </div>
+        </div>
         
         <!-- On-canvas dynamic notifications -->
         <div id="sim-message-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 hidden z-10 p-4 text-center">
@@ -420,22 +487,45 @@
 
         <!-- Controls Guide Hint Overlay -->
         <div class="absolute top-2 left-2 text-[11px] text-slate-300 bg-black/70 px-2 py-1 border border-slate-700 pointer-events-none hidden sm:block font-mono">
-          KONTROLLER: [W/S] Gaz/İn • [A/D] Yön • [BOŞLUK] Kargo Bırak • [QR Hedefinde 3 sn Sabit Kalıp Tara]
+          KONTROLLER: [W/S] Gaz/İn • [A/D] Yön • [BOŞLUK] Kargo At • [C] FPV Modu • [QR Hedefinde 3 sn Sabit Kal]
         </div>
       </div>
 
       <!-- Mobile Touch Controls Bar -->
-      <div class="grid grid-cols-5 gap-1.5 sm:hidden pt-1">
+      <div class="grid grid-cols-6 gap-1.5 sm:hidden pt-1">
         <button id="btn-touch-left" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-cyan-700">◀ SOL</button>
         <button id="btn-touch-up" class="pixel-btn bg-blue-700 text-white text-lg py-3 active:bg-blue-600">▲ GAZ</button>
         <button id="btn-touch-down" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-slate-700">▼ İN</button>
         <button id="btn-touch-right" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-cyan-700">SAĞ ▶</button>
-        <button id="btn-touch-drop" class="pixel-btn bg-purple-700 text-white text-xs py-3 active:bg-purple-600 pixel-font">📦 BIRAK</button>
+        <button id="btn-touch-drop" class="pixel-btn bg-purple-700 text-white text-xs py-3 active:bg-purple-600 pixel-font">📦 AT</button>
+        <button id="btn-touch-fpv" class="pixel-btn bg-indigo-700 text-white text-xs py-3 active:bg-indigo-600 pixel-font">👓 FPV</button>
       </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- SCREEN 3: TEKNOFEST FUAR & FESTİVAL ÇADIR ALANI -->
+    <!-- SCREEN 3: GECE HURDALIĞINA SIZMA (STEALTH) -->
+    <!-- ========================================== -->
+    <section id="screen-stealth" class="w-full hidden space-y-2">
+      <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex flex-wrap justify-between items-center text-sm font-mono gap-2">
+        <div>
+          <span class="pixel-font text-xs text-emerald-400">🌙 KAMPÜS HURDALIĞI OPERASYONU</span>
+          <span class="text-slate-400 ml-2">Bekçinin fenerinden kaç, yeşil kasalardan parça topla!</span>
+        </div>
+        <button id="btn-abort-stealth" class="pixel-btn bg-rose-800 text-white text-xs px-2 py-1">
+          KAÇ (ATÖLYEYE DÖN ↩)
+        </button>
+      </div>
+
+      <div class="w-full relative border-4 border-black bg-slate-950 overflow-hidden pixel-box" style="height: 380px;">
+        <canvas id="stealth-canvas" class="w-full h-full block"></canvas>
+      </div>
+      <p class="text-xs text-slate-400 font-mono text-center">
+        Kontroller: WASD / Ok tuşları ile yürü ya da gitmek istediğin yere tıkla • Sandıklara dokunarak bedava parça kap!
+      </p>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 4: TEKNOFEST FUAR & FESTİVAL ÇADIRLARI -->
     <!-- ========================================== -->
     <section id="screen-festival" class="w-full hidden space-y-4">
       <div class="pixel-box bg-[#1b1e36] p-4 border-4 border-black relative">
@@ -446,7 +536,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 font-mono">
-          <!-- Tent 1: ITU Rival Booth -->
+          <!-- Tent 1: ITU Rival Booth & Ufuk Spy Mission -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-amber-400 pixel-font text-xs mb-1 flex items-center justify-between">
@@ -454,22 +544,27 @@
                 <span class="text-[10px] text-slate-400">Rakip Takım</span>
               </div>
               <p class="text-xs text-slate-300 mt-2">
-                "Bizim prepreg karbon fiber Almanya'dan özel geldi. Siz Adana sıcağında erimeyin sakın!"
+                "Bizim karbon fiber Almanya'dan özel geldi. Adana sıcağında erimeyin sakın!"
               </p>
               <div id="itu-intel-text" class="text-[11px] text-cyan-300 mt-2 bg-black/40 p-1.5 border border-slate-800 rounded">
-                Dronlarını inceleyip taktik geliştirebilirsin.
+                Dronlarını inceleyebilir veya Ufuk'u gizli parça aşırmaya yollayabilirsin!
               </div>
             </div>
-            <button id="btn-visit-itu" class="pixel-btn bg-amber-700 hover:bg-amber-600 text-white text-xs px-2 py-2 mt-3">
-              👀 DRONLARINI İNCELE (+12 XP)
-            </button>
+            <div class="space-y-1.5 mt-3">
+              <button id="btn-visit-itu" class="pixel-btn bg-amber-700 hover:bg-amber-600 text-white text-xs px-2 py-1.5 w-full">
+                👀 DRONLARINI İNCELE (+12 XP)
+              </button>
+              <button id="btn-ufuk-spy" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white text-xs px-2 py-1.5 w-full">
+                🕵️ UFUK'U CASUSLUĞA YOLLA (%60 Şans)
+              </button>
+            </div>
           </div>
 
           <!-- Tent 2: ASELSAN & BAYKAR Booth -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-cyan-400 pixel-font text-xs mb-1 flex items-center justify-between">
-                <span>🛡️️ SAVUNMA SANAYİİ STANDI</span>
+                <span>🛡 SAVUNMA SANAYİİ STANDI</span>
                 <span class="text-[10px] text-slate-400">ASELSAN / BAYKAR</span>
               </div>
               <p class="text-xs text-slate-300 mt-2">
@@ -480,7 +575,7 @@
               </div>
             </div>
             <button id="btn-visit-defense" class="pixel-btn bg-cyan-700 hover:bg-cyan-600 text-white text-xs px-2 py-2 mt-3">
-              🎁 PROMOSYON PARÇA AL (+1 Parça)
+              🎁 PROMOSYON PARÇA AL (+1 Parça, +15 XP)
             </button>
           </div>
 
@@ -517,7 +612,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SCREEN 4: TEKNOFEST FİNALLERİ & JÜRİ       -->
+    <!-- SCREEN 5: TEKNOFEST FİNALLERİ & JÜRİ       -->
     <!-- ========================================== -->
     <section id="screen-competition" class="w-full hidden space-y-4">
       <div class="pixel-box bg-[#1b1e36] p-4 border-4 border-black relative overflow-hidden">
@@ -584,7 +679,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SCREEN 5: ATÖLYE 2D GEZİNTİ EKRANI         -->
+    <!-- SCREEN 6: ATÖLYE 2D GEZİNTİ EKRANI         -->
     <!-- ========================================== -->
     <section id="screen-room" class="w-full hidden space-y-2">
       <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex justify-between items-center">
@@ -686,7 +781,7 @@
       <div class="text-amber-400 pixel-font text-xs mb-1">🔥 OCAKTA NÖBET VAKTİ</div>
       <h3 class="text-lg text-white font-bold mb-2">5 Saatlik Ocak Nöbeti</h3>
       <p class="text-xs text-slate-300 mb-4">
-        "Ocakta oturup semaverin başında beklemek, çay doldurmak ve gelen geçenle memleket kurtarmak mecburi... Moral düşecek ama cep harçlığı çıkacak!"
+        "Ocakta oturup semaverin başında beklemek, çay doldurmak ve gelen geçenle memleket kurtarmak mecburi... Moral düşecek, kafein fırlayacak ama harçlık çıkacak!"
       </p>
 
       <!-- Animated Clock Visual -->
@@ -702,7 +797,7 @@
       </div>
 
       <div class="text-xs text-slate-400 mb-4">
-        Sonuç: <span class="text-rose-400 font-bold">-15 Moral</span> | Kazanç: <span class="text-emerald-400 font-bold">+₺180 Cep Harçlığı</span> | 1 Gün Geçer
+        Sonuç: <span class="text-rose-400 font-bold">-15 Moral</span> | Kafein: <span class="text-yellow-400 font-bold">+40%</span> | Kazanç: <span class="text-emerald-400 font-bold">+₺180 Harçlık</span>
       </div>
 
       <button id="btn-start-ocak" class="pixel-btn bg-amber-700 hover:bg-amber-600 text-white pixel-font text-xs px-5 py-2.5">
@@ -784,6 +879,7 @@
         <div>Toplam İkram Edilen Çay: <span id="stat-total-tea" class="text-white font-bold">0</span> bardak</div>
         <div>SKS'ye Verilen Dilekçeler: <span id="stat-total-pet" class="text-white font-bold">0</span> adet</div>
         <div>Ocakta Geçirilen Nöbet: <span id="stat-total-ocak" class="text-white font-bold">0</span> saat</div>
+        <div>Ufuk Çana Yakalama: <span id="stat-total-ufuk" class="text-white font-bold">0</span> kez</div>
         <div>Barkan Kazaları (Kırım): <span id="stat-total-crash" class="text-white font-bold">0</span> kez</div>
       </div>
 
@@ -847,9 +943,7 @@
           gain.connect(this.ctx.destination);
           osc.start();
           osc.stop(this.ctx.currentTime + duration);
-        } catch (e) {
-          // ignore audio context failures
-        }
+        } catch (e) {}
       }
 
       playSuccess() {
@@ -878,10 +972,15 @@
         this.beep(880, 'sine', 0.06, 0.2);
         setTimeout(() => this.beep(1320, 'sine', 0.1, 0.2), 60);
       }
+
+      playAlarm() {
+        if (this.muted) return;
+        [400, 600, 400, 600].forEach((f, i) => setTimeout(() => this.beep(f, 'square', 0.09, 0.22), i * 90));
+      }
     }
 
     const audio = new RetroAudio();
-    const STORAGE_KEY = 'kaan_teknofest_game_v3';
+    const STORAGE_KEY = 'kaan_teknofest_game_v9_master';
 
     const defaultGameState = {
       season: 1,
@@ -900,12 +999,13 @@
       petitions: 0,
       teas: 0,
       ocakHours: 0,
+      caffeine: 0,
       quests: [],
       parts: 2,
       members: [],
       badges: {},
       theme: "normal",
-      stats: { pet: 0, tea: 0, ocak: 0, crash: 0 },
+      stats: { pet: 0, tea: 0, ocak: 0, crash: 0, ufuk: 0 },
       morale: 100,
       xp: 0,
       instagram: {
@@ -976,6 +1076,65 @@
       }, 3000);
     }
 
+    /* --- UFUK ÇANA (KLEPTOMANİ REFLEKS MEKANİĞİ) --- */
+    let ufukSneakTimeout = null;
+    let ufukStealActive = false;
+
+    function triggerUfukSneak() {
+      if (ufukStealActive || screenWorkshop.classList.contains('hidden')) return;
+      ufukStealActive = true;
+      const bar = document.getElementById('ufuk-alert-bar');
+      const desc = document.getElementById('ufuk-steal-desc');
+      
+      const steals = [
+        { name: "1 rulo kaliteli lehim telini", type: "part" },
+        { name: "₺150 nakit kulüp aidatını", type: "money" },
+        { name: "Yedek LiPo pil voltmetresini", type: "part" },
+        { name: "4 adet karbon fiber pervaneyi", type: "part" }
+      ];
+      const target = steals[Math.floor(Math.random() * steals.length)];
+      desc.innerText = `${target.name} montunun cebine indirmek üzere! Hemen yakala!`;
+      bar.classList.remove('hidden');
+      audio.playAlarm();
+
+      ufukSneakTimeout = setTimeout(() => {
+        if (ufukStealActive) {
+          ufukStealActive = false;
+          bar.classList.add('hidden');
+          if (target.type === 'part' && gameState.parts > 0) {
+            gameState.parts--;
+            showToast(`🦹‍♂️ Ufuk Çana ${target.name} aşırdı ve kaçtı! (-1 Parça)`, 'rose');
+          } else {
+            gameState.budget = Math.max(0, gameState.budget - 150);
+            showToast(`🦹‍♂️ Ufuk Çana ${target.name} aşırdı! (-₺150)`, 'rose');
+          }
+          gameState.morale = Math.max(0, gameState.morale - 10);
+          updateHUD();
+          saveGame();
+        }
+      }, 3500);
+    }
+
+    document.getElementById('btn-catch-ufuk').addEventListener('click', () => {
+      if (ufukStealActive) {
+        clearTimeout(ufukSneakTimeout);
+        ufukStealActive = false;
+        document.getElementById('ufuk-alert-bar').classList.add('hidden');
+        audio.playSuccess();
+        gameState.morale = Math.min(100, gameState.morale + 8);
+        gameState.stats.ufuk = (gameState.stats.ufuk || 0) + 1;
+        badge('ufukcu', '✋ Ufuk Avcısı');
+        showToast('✋ Kaptan Burka Ufuk\'u ensesinden tuttu: "Kanka valla geri getirecektim ya!" (+8 Moral)', 'emerald');
+        updateBurkaDialogue("Ufuk'a göz kulak olun, lehim tellerini masaya bantlayın!");
+        updateHUD();
+        saveGame();
+      }
+    });
+
+    setInterval(() => {
+      if (Math.random() < 0.65) triggerUfukSneak();
+    }, 30000);
+
     const DRONE_THEMES = {
       'cyan': { name: 'Neon Camgöbeği', hex: '#00f2fe', flame: '#38bdf8', accent: '#0284c7' },
       'laser-red': { name: 'Lazer Kırmızısı', hex: '#f43f5e', flame: '#fb7185', accent: '#be123c' },
@@ -999,8 +1158,9 @@
       "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak!",
       "Çukurova'nın sıcağında ESC'ler kavrulmasın diye özel hava kanalı açtık, işte ATÜ mühendisliği!",
       "Rektörlükten bir sponsorluk daha koparırsak karbon fiber gövdeyi baştan dökeceğiz!",
+      "Ufuk Çana multimetreyi montuna sokmadan otopilot PID kalibrasyonunu bitirelim.",
       "Yazılımcımız iki gündür çayla besleniyor ama otonom rota ve QR tarama algoritmamız şiir gibi oldu.",
-      "Kaan Teknoloji Kulübü olarak pes etmek yok! Bu dron finallerde birincilik kürsüsüne çıkacak!",
+      "FPV gözlüğü takıp uçurunca Barkan adeta Adana semalarında şahin gibi süzülüyor!",
       "Ocakta 5 saat çay beklerken bile Barkan'ın telemetri kodlarını düşündüm.",
       "Instagram'da paylaştığımız lehim dumanı videosu keşfete düşmüş, takipçi akıyor!"
     ];
@@ -1008,9 +1168,9 @@
     const NPCQ = [
       ["Görkem Kemal (Başkan)", "Arkadaşlar, Instagram'da rektörlüğü etiketlemeyi unutmayın, bütçe onayını oradan takip ediyorlar!"],
       ["Görkem Kemal (Başkan)", "Toplantı 5 dakika sürecek dedim, 2 saat oldu. Neyse, dron uçsun da gerisi teferruat."],
-      ["Mehmet Kuyucu", "Dron düşerse 'planlı acil iniş' diyeceğiz, jüri de inanır. Ben konuşurum!"],
+      ["Mehmet Kuyucu", "Dron düşerse 'planlı iniş' diyeceğiz, jüri de inanır. Ben konuşurum!"],
       ["Mehmet Kuyucu", "Lehim kokusu bende şef parfümü etkisi yapıyor. Ocakta taze çay var mı?"],
-      ["Mehmet Kuyucu", "Barkan'a bir de bıyık çizsek mi? Aerodinamik olur valla."]
+      ["Ufuk Çana", "Kanka o fazlalık lehim teli miydi ya? Neyse çekmeceye koymuştum..."]
     ];
 
     function npcSay(name, text) { 
@@ -1140,6 +1300,7 @@
       document.getElementById('hud-budget').innerText = `₺${gameState.budget.toLocaleString()}`;
       document.getElementById('hud-morale-val').innerText = `${Math.round(gameState.morale)}%`;
       document.getElementById('hud-morale-bar').style.width = `${Math.max(0, Math.min(100, gameState.morale))}%`;
+      document.getElementById('hud-caffeine').innerText = `${Math.round(gameState.caffeine)}%`;
       document.getElementById('hud-xp').innerText = gameState.xp;
       document.getElementById('hud-followers').innerText = gameState.instagram.followers;
 
@@ -1204,6 +1365,7 @@
     function spendDay() {
       gameState.daysLeft--; 
       mor(gameState.perks.mehmet ? -2 : -4);
+      gameState.caffeine = Math.max(0, gameState.caffeine - 15);
       if (hasM('yazilimci')) gameState.xp += 2;
       if (gameState.morale < 20 && gameState.members.length && Math.random() < 0.3) { 
         const m = gameState.members.pop(); 
@@ -1353,12 +1515,13 @@
     }
 
     const QUESTS = {
-      ocak: { t:'Ocakta 5 Saat Nöbet', d:'Semaver başında 5 saat nöbet tut, cep harçlığı çıkar', c:'+₺180 | -15 Moral', b:'NÖBETE GİT 🔥', col:'amber', always:1 },
-      tea: { t:'Demlikte Tavşan Kanı Çay', d:'Moral toplar ama etkisi her çayda azalır', c:'-₺60 | +5~15 Moral', b:'DEMLE ☕', col:'rose', always:1 },
+      ocak: { t:'Ocakta 5 Saat Nöbet', d:'Semaver başında 5 saat nöbet tut, cep harçlığı çıkar', c:'+₺180 | -15 Moral | +40% Kafein', b:'NÖBETE GİT 🔥', col:'amber', always:1 },
+      stealth: { t:'Kampüs Hurdalığına Sız', d:'Gece bekçiye yakalanmadan bedava parça topla (Riskli)', c:'+Parça / +XP / Rektörlük Riski', b:'SIZ (GECE) 🌙', col:'emerald', always:1 },
+      tea: { t:'Demlikte Tavşan Kanı Çay', d:'Moral toplar, kafein tazeler', c:'-₺60 | +Moral | +20% Kafein', b:'DEMLE ☕', col:'rose', always:1 },
       clean: { t:'3D Yazıcı & Masa Temizliği', d:'AR-GE tecrübesi kazan', c:'+15 XP | -10 Moral', b:'TOPLA 🧹', col:'indigo', always:1 },
-      sponsor: { t:'Rektörlük / SKS Dilekçesi', d:'Reddedilebilir! Çok dilekçe = azar', c:'₺500-900 (şansa bağlı) | -15 Moral', b:'DİLEKÇE 📜', col:'emerald', p:.5 },
-      esnaf: { t:'Çukurova Esnafı Turu', d:'Kapı kapı dolaş, bazıları "haftaya gel" der', c:'₺200-450 (%60) | -10 Moral', b:'GEZ 🏪', col:'teal', p:.4 },
-      hurda: { t:'Hurdalıkta Parça Avı', d:'Ne çıkacağı belli olmaz', c:'XP / ₺ / yara bere', b:'KARIŞTIR 🔧', col:'orange', p:.5 },
+      sponsor: { t:'Rektörlük / SKS Dilekçesi', d:'Reddedilebilir! Çok dilekçe = azar', c:'₺500-900 (şansa bağlı) | -15 Moral', b:'DİLEKÇE 📜', col:'teal', p:.5 },
+      esnaf: { t:'Çukurova Esnafı Turu', d:'Kapı kapı dolaş, bazıları "haftaya gel" der', c:'₺200-450 (%60) | -10 Moral', b:'GEZ 🏪', col:'sky', p:.4 },
+      hurda: { t:'Hurdalıkta Parça Avı', d:'Gündüz hurda ara, ne çıkacağı belli olmaz', c:'XP / ₺ / yara bere', b:'KARIŞTIR 🔧', col:'orange', p:.5 },
       mehmet: { t:'Mehmet Kuyucu Şov Saati', d:'Eğlenceli ama bazen ters tepiyor', c:'+20 Moral (%70)', b:'İZLE 🤡', col:'pink', p:.4 },
       siparis: { t:'Parça Siparişi', d:'Geliştirmeler için yedek parça lazım', c:'-₺350 | +2 Parça', b:'SİPARİŞ 📦', col:'orange', always:1 },
       uye: { t:'Üye Alım Standı', d:'Yeni üye yetenek getirir ama küsebilir', c:'Rastgele üye | -5 Moral', b:'STAND AÇ 🧑‍🔧', col:'lime', p:.35 }
@@ -1418,10 +1581,11 @@
             gameState.ocakHours = (gameState.ocakHours || 0) + 5;
             gameState.stats.ocak = (gameState.stats.ocak || 0) + 5;
             gameState.budget += 180;
+            gameState.caffeine = Math.min(100, gameState.caffeine + 40);
             mor(-15);
             spendDay();
             audio.playSuccess();
-            showToast('🔥 5 saatlik nöbet bitti: +₺180 Harçlık, -15 Moral', 'amber');
+            showToast('🔥 5 saatlik nöbet bitti: +₺180 Harçlık, -15 Moral, +40% Kafein', 'amber');
             badge('ocakci', '🔥 Ocak Bekçisi');
             saveGame();
             updateHUD();
@@ -1507,7 +1671,6 @@
       ig.postsCount++;
       ig.postsHistory.push({ title, likes: baseLikes, followers: newFollowers });
 
-      // Check milestones
       IG_MILESTONES.forEach(ms => {
         if (ig.followers >= ms.goal && !ig.claimedMilestones.includes(ms.goal)) {
           ig.claimedMilestones.push(ms.goal);
@@ -1603,6 +1766,11 @@
         openOcakModal();
         return;
       }
+      if (type === 'stealth') {
+        showScreen('stealth');
+        startStealth();
+        return;
+      }
       if (type === 'tea') { 
         if (gameState.budget < 60) { 
           showToast('☕ Çay-şeker alacak para yok!', 'rose'); 
@@ -1633,10 +1801,11 @@
         const gain = Math.max(4, Math.round((16 - 2 * g.teas) * [0.4, 0.8, 1.1, 1.4][g._tq == null ? 1 : g._tq])); 
         g.teas++; 
         g.stats.tea++; 
+        g.caffeine = Math.min(100, g.caffeine + 20);
         mor(gain); 
         audio.playCollect();
         if (g.stats.tea >= 6) badge('cayci', '☕ Çay Tiryakisi');
-        showToast(`☕ Çay içildi: +${gain} Moral${gain <= 5 ? ' (çaydan bıktık)' : ''}`, 'rose');
+        showToast(`☕ Çay içildi: +${gain} Moral, +20% Kafein`, 'rose');
       } else if (t === 'clean') { 
         g.xp += 15; 
         mor(-10); 
@@ -1707,6 +1876,141 @@
       g.quests = g.quests.filter(k => k === 'tea' || k === 'clean' || k === 'ocak' || k !== t);
     }
 
+    /* --- STEALTH GAME LOOP (KAMPÜS HURDALIĞINA SIZMA) --- */
+    const screenStealth = document.getElementById('screen-stealth');
+    const stealthCanvas = document.getElementById('stealth-canvas');
+    const stealthCtx = stealthCanvas.getContext('2d');
+    let stealthAnimId = null;
+
+    const stealthState = {
+      player: { x: 40, y: 190, r: 10, speed: 3.2, targetX: 40, targetY: 190 },
+      guard: { x: 300, y: 190, dir: 1, angle: 0, range: 120, fov: Math.PI / 3.4 },
+      crates: [
+        { x: 180, y: 70, looted: false },
+        { x: 440, y: 100, looted: false },
+        { x: 360, y: 300, looted: false }
+      ],
+      keys: {}
+    };
+
+    function startStealth() {
+      stealthCanvas.width = stealthCanvas.parentElement.clientWidth;
+      stealthCanvas.height = 380;
+      stealthState.player.x = 40;
+      stealthState.player.y = 190;
+      stealthState.player.targetX = 40;
+      stealthState.player.targetY = 190;
+      stealthState.crates.forEach(c => c.looted = false);
+      loopStealth();
+    }
+
+    function loopStealth() {
+      const w = stealthCanvas.width, h = stealthCanvas.height;
+      const p = stealthState.player, g = stealthState.guard;
+
+      if (stealthState.keys.ArrowLeft || stealthState.keys.KeyA) { p.x -= p.speed; p.targetX = p.x; }
+      if (stealthState.keys.ArrowRight || stealthState.keys.KeyD) { p.x += p.speed; p.targetX = p.x; }
+      if (stealthState.keys.ArrowUp || stealthState.keys.KeyW) { p.y -= p.speed; p.targetY = p.y; }
+      if (stealthState.keys.ArrowDown || stealthState.keys.KeyS) { p.y += p.speed; p.targetY = p.y; }
+
+      const dx = p.targetX - p.x, dy = p.targetY - p.y;
+      const distToTarget = Math.hypot(dx, dy);
+      if (distToTarget > 4) {
+        p.x += (dx / distToTarget) * p.speed;
+        p.y += (dy / distToTarget) * p.speed;
+      }
+
+      p.x = Math.max(15, Math.min(w - 15, p.x));
+      p.y = Math.max(15, Math.min(h - 15, p.y));
+
+      // Guard patrol
+      g.x += g.dir * 1.8;
+      if (g.x > w - 110) { g.dir = -1; g.angle = Math.PI; }
+      if (g.x < 130) { g.dir = 1; g.angle = 0; }
+
+      stealthCtx.fillStyle = '#0a0f1d';
+      stealthCtx.fillRect(0, 0, w, h);
+
+      // Crates
+      stealthState.crates.forEach(c => {
+        stealthCtx.fillStyle = c.looted ? '#475569' : '#10b981';
+        stealthCtx.fillRect(c.x - 12, c.y - 12, 24, 24);
+        stealthCtx.strokeStyle = '#000';
+        stealthCtx.strokeRect(c.x - 12, c.y - 12, 24, 24);
+
+        const dist = Math.hypot(p.x - c.x, p.y - c.y);
+        if (dist < 24 && !c.looted) {
+          c.looted = true;
+          gameState.parts++;
+          gameState.xp += 15;
+          audio.playCollect();
+          showToast('📦 Hurda sandığından sağlam parça kurtarıldı! (+1 Parça, +15 XP)', 'emerald');
+          badge('stealth_master', '🥷 Hurdalık Hayaleti');
+        }
+      });
+
+      // Guard Flashlight Cone (FOV)
+      stealthCtx.save();
+      stealthCtx.fillStyle = 'rgba(250, 204, 21, 0.22)';
+      stealthCtx.beginPath();
+      stealthCtx.moveTo(g.x, g.y);
+      stealthCtx.arc(g.x, g.y, g.range, g.angle - g.fov / 2, g.angle + g.fov / 2);
+      stealthCtx.closePath();
+      stealthCtx.fill();
+      stealthCtx.restore();
+
+      // Guard Body
+      stealthCtx.fillStyle = '#e11d48';
+      stealthCtx.beginPath();
+      stealthCtx.arc(g.x, g.y, 11, 0, Math.PI * 2);
+      stealthCtx.fill();
+
+      // Player Body (Burka)
+      stealthCtx.fillStyle = '#00f2fe';
+      stealthCtx.beginPath();
+      stealthCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      stealthCtx.fill();
+
+      // Detection
+      const pDist = Math.hypot(p.x - g.x, p.y - g.y);
+      const pAngle = Math.atan2(p.y - g.y, p.x - g.x);
+      let angleDiff = Math.abs(pAngle - g.angle);
+      if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
+
+      if (pDist < g.range && angleDiff < g.fov / 2) {
+        cancelAnimationFrame(stealthAnimId);
+        audio.playHit();
+        gameState.budget = Math.max(0, gameState.budget - 300);
+        showToast('🚨 YAKALANDIN! Güvenlik görevlisi tutanak tuttu: -₺300 ceza!', 'rose');
+        spendDay();
+        showScreen('workshop');
+        updateHUD();
+        return;
+      }
+
+      stealthAnimId = requestAnimationFrame(loopStealth);
+    }
+
+    stealthCanvas.addEventListener('pointerdown', e => {
+      const rect = stealthCanvas.getBoundingClientRect();
+      const scaleX = stealthCanvas.width / rect.width;
+      const scaleY = stealthCanvas.height / rect.height;
+      stealthState.player.targetX = (e.clientX - rect.left) * scaleX;
+      stealthState.player.targetY = (e.clientY - rect.top) * scaleY;
+    });
+
+    window.addEventListener('keydown', e => stealthState.keys[e.code] = true);
+    window.addEventListener('keyup', e => stealthState.keys[e.code] = false);
+
+    document.getElementById('btn-abort-stealth').addEventListener('click', () => {
+      cancelAnimationFrame(stealthAnimId);
+      spendDay();
+      showScreen('workshop');
+      updateHUD();
+      showToast('Hurdalıktan çıkıldı, parçalar atölyeye aktarıldı.', 'cyan');
+    });
+
+    /* --- ATÖLYE GEZİNTİSİ (ROOM CANVAS) --- */
     let roomOn = false; 
     const rm = { 
       x: 300, 
@@ -1722,7 +2026,7 @@
       { x:20,  y:30,  w:110, h:50, n:'🔥 Lehim Masası', a:'lehim' },
       { x:170, y:30,  w:110, h:50, n:'☕ Çay Ocağı',   a:'cay' },
       { x:330, y:30,  w:110, h:50, n:'🐱 Kedi Lehim',   a:'kedi' },
-      { x:490, y:30,  w:110, h:50, n:'📋 Görev Panosu', a:'pano' },
+      { x:490, y:30,  w:110, h:50, n:'🦹 Ufuk Masası',  a:'ufuk' },
       { x:20,  y:230, w:110, h:50, n:'🛫 Uçuş Alanı',   a:'ucus' },
       { x:250, y:230, w:120, h:50, n:'🏆 Şeref Köşesi', a:'muze' },
       { x:490, y:230, w:110, h:50, n:'🚪 Çıkış',        a:'pano' }
@@ -1831,6 +2135,10 @@
         saveGame(); 
         updateHUD(); 
       }
+      else if (s.a === 'ufuk') {
+        npcSay('Ufuk Çana', 'Kanka valla montumun fermuarı bozulmuştu, lehim telini o yüzden cebime sıkıştırmıştım!');
+        showToast('🦹 Ufuk masasında bir şeyler saklıyor...', 'amber');
+      }
       else if (s.a === 'muze') {
         openMuseumModal();
       }
@@ -1900,6 +2208,7 @@
 
     function showScreen(name) {
       document.getElementById('screen-room').classList.add('hidden'); 
+      document.getElementById('screen-stealth').classList.add('hidden');
       roomOn = name === 'room'; 
       if (roomOn) { 
         document.getElementById('screen-room').classList.remove('hidden'); 
@@ -1921,6 +2230,8 @@
       } else if (name === 'competition') {
         screenCompetition.classList.remove('hidden');
         startCompetitionSequence();
+      } else if (name === 'stealth') {
+        document.getElementById('screen-stealth').classList.remove('hidden');
       }
     }
 
@@ -1929,6 +2240,7 @@
     let flightAnimationId = null;
 
     const simState = {
+      isFpv: false,
       drone: {
         x: 80,
         y: 200,
@@ -1982,6 +2294,35 @@
     }
     window.addEventListener('resize', resizeFlightCanvas);
 
+    function toggleFpvMode() {
+      simState.isFpv = !simState.isFpv;
+      const fpvUi = document.getElementById('fpv-overlay-ui');
+      if (simState.isFpv) {
+        fpvUi.classList.remove('hidden');
+        audio.playSuccess();
+        badge('fpv_ace', '👓 FPV Pilotu');
+        showToast('👓 FPV Kokpit Gözlük Modu Aktif! (+%25 Skor Bonusu)', 'purple');
+      } else {
+        fpvUi.classList.add('hidden');
+      }
+    }
+    document.getElementById('btn-toggle-fpv').onclick = toggleFpvMode;
+    document.getElementById('btn-touch-fpv').onclick = toggleFpvMode;
+
+    const announcerPhrases = [
+      "🎙️ SPİKER: 'Adana semalarında Barkan fırtınası! Kaptan Burka kapılara doğru alçalıyor!'",
+      "🎙️ SPİKER: 'Kargo bırakma alanına yaklaşıldı! Rüzgara karşı otonom stabilizasyon harika!'",
+      "🎙️ SPİKER: 'ATÜ Kaan Teknoloji kapıyı santimetreyle sıyırdı, tribünler ayakta!'",
+      "🎙️ SPİKER: 'Görüntü işleme hedefi taranıyor, yerli algoritma kusursuz çalışıyor!'"
+    ];
+    let announcerIdx = 0;
+    setInterval(() => {
+      if (!screenFlight.classList.contains('hidden')) {
+        announcerIdx = (announcerIdx + 1) % announcerPhrases.length;
+        document.getElementById('sim-announcer-text').innerText = announcerPhrases[announcerIdx];
+      }
+    }, 7000);
+
     function startFlightSimulation() {
       resizeFlightCanvas();
       const night = gameState.season % 3 === 0; 
@@ -1991,6 +2332,9 @@
       document.getElementById('sim-message-overlay').classList.add('hidden');
 
       const maxBatt = 100 + (gameState.drone.batteryLvl - 1) * 20;
+
+      simState.isFpv = false;
+      document.getElementById('fpv-overlay-ui').classList.add('hidden');
 
       simState.drone.x = 80;
       simState.drone.y = flightCanvas.height / 2;
@@ -2068,8 +2412,10 @@
       const gap = Math.max(76, 110 - gameState.season * 3);
       Object.assign(simState, { total, missed: 0, hull: 100, birds: [], cells: [], t: 0, gates: [] });
       
+      const hasHallucination = gameState.caffeine > 55;
       for (let i = 1; i <= total; i++) {
         const mid = Math.floor(Math.random() * (flightCanvas.height - gap - 120)) + 60;
+        const isGhost = hasHallucination && Math.random() < 0.35 && gameState.drone.softwareLvl < 3;
         simState.gates.push({ 
           x: 120 + 390 * i, 
           baseY: mid, 
@@ -2077,6 +2423,7 @@
           gap, 
           passed: false, 
           ph: Math.random() * 6,
+          isGhost: isGhost,
           amp: (gameState.season >= 2 && i > 2) ? 20 + Math.min(30, gameState.season * 3) : 0 
         });
         simState.cells.push({ 
@@ -2267,32 +2614,37 @@
       // Gate passing logic
       simState.gates.forEach(g => {
         if (!g.passed && g.x < d.x) {
-          const inRing = (d.y >= g.topY && d.y <= g.topY + g.gap);
-          if (inRing) {
-            g.passed = true;
-            simState.passedGates++;
-            simState.score += 150 * simState.combo;
-            simState.combo = Math.min(5, simState.combo + 1);
-            audio.playCollect();
-
-            for (let i = 0; i < 14; i++) {
-              simState.particles.push({
-                x: g.x,
-                y: d.y,
-                vx: (Math.random() - 0.5) * 160,
-                vy: (Math.random() - 0.5) * 160,
-                life: 0.6,
-                maxLife: 0.6,
-                color: activeColor.hex
-              });
-            }
-          } else {
-            g.passed = true;
-            simState.combo = 1;
+          g.passed = true;
+          if (g.isGhost) {
             audio.playHit();
-            simState.score = Math.max(0, simState.score - 40); 
-            simState.missed++; 
-            damage(20, 'Kapı direğine çarptı!');
+            showToast('👻 Hayalet kapıdan geçtiniz! Uykusuzluk ve kafein serabı!', 'purple');
+          } else {
+            const inRing = (d.y >= g.topY && d.y <= g.topY + g.gap);
+            if (inRing) {
+              simState.passedGates++;
+              let baseGateScore = 150 * (simState.isFpv ? 1.25 : 1);
+              simState.score += Math.round(baseGateScore * simState.combo);
+              simState.combo = Math.min(5, simState.combo + 1);
+              audio.playCollect();
+
+              for (let i = 0; i < 14; i++) {
+                simState.particles.push({
+                  x: g.x,
+                  y: d.y,
+                  vx: (Math.random() - 0.5) * 160,
+                  vy: (Math.random() - 0.5) * 160,
+                  life: 0.6,
+                  maxLife: 0.6,
+                  color: activeColor.hex
+                });
+              }
+            } else {
+              simState.combo = 1;
+              audio.playHit();
+              simState.score = Math.max(0, simState.score - 40); 
+              simState.missed++; 
+              damage(20, 'Kapı direğine çarptı!');
+            }
           }
         }
       });
@@ -2409,7 +2761,6 @@
         flightCtx.lineWidth = 2;
         flightCtx.strokeRect(st.x, h - 22, st.width, 18);
 
-        // QR pixel dots pattern
         flightCtx.fillStyle = '#ffffff';
         for (let i = 0; i < 4; i++) {
           flightCtx.fillRect(st.x + 8 + i * 14, h - 18, 5, 5);
@@ -2420,7 +2771,6 @@
         flightCtx.fillStyle = '#38bdf8';
         flightCtx.fillText('📷 QR HEDEFİ', st.x + 6, h - 28);
 
-        // Draw holographic scanning cone if drone is hovering above it
         const d = simState.drone;
         if (!st.scanned && Math.abs(d.x - (st.x + st.width / 2)) < 50 && d.y > (h - 180)) {
           flightCtx.save();
@@ -2467,7 +2817,7 @@
           flightCtx.fillRect(g.x - 3, 0, 6, g.topY);
           flightCtx.fillRect(g.x - 3, g.topY + g.gap, 6, h - (g.topY + g.gap));
 
-          flightCtx.strokeStyle = g.passed ? '#22c55e' : '#00f2fe';
+          flightCtx.strokeStyle = g.isGhost ? 'rgba(0, 242, 254, 0.35)' : (g.passed ? '#22c55e' : '#00f2fe');
           flightCtx.lineWidth = 5;
           flightCtx.strokeRect(g.x - 14, g.topY, 28, g.gap);
 
@@ -2536,50 +2886,52 @@
         });
       }
 
-      // Draw Drone (BARKAN)
+      // Draw Drone (BARKAN) - Only if not in FPV
       const d = simState.drone;
       const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
 
-      flightCtx.save();
-      flightCtx.translate(d.x, d.y);
-      flightCtx.rotate(d.tilt);
+      if (!simState.isFpv) {
+        flightCtx.save();
+        flightCtx.translate(d.x, d.y);
+        flightCtx.rotate(d.tilt);
 
-      if (gameState.season % 3 === 0) {
-        const coneGrad = flightCtx.createRadialGradient(16, 0, 4, 160, 0, 160);
-        coneGrad.addColorStop(0, 'rgba(254, 240, 138, 0.35)');
-        coneGrad.addColorStop(1, 'rgba(254, 240, 138, 0)');
-        flightCtx.fillStyle = coneGrad;
-        flightCtx.beginPath();
-        flightCtx.moveTo(14, -3);
-        flightCtx.lineTo(160, -45);
-        flightCtx.lineTo(160, 45);
-        flightCtx.lineTo(14, 3);
-        flightCtx.fill();
+        if (gameState.season % 3 === 0) {
+          const coneGrad = flightCtx.createRadialGradient(16, 0, 4, 160, 0, 160);
+          coneGrad.addColorStop(0, 'rgba(254, 240, 138, 0.35)');
+          coneGrad.addColorStop(1, 'rgba(254, 240, 138, 0)');
+          flightCtx.fillStyle = coneGrad;
+          flightCtx.beginPath();
+          flightCtx.moveTo(14, -3);
+          flightCtx.lineTo(160, -45);
+          flightCtx.lineTo(160, 45);
+          flightCtx.lineTo(14, 3);
+          flightCtx.fill();
+        }
+
+        flightCtx.fillStyle = '#1e293b';
+        flightCtx.fillRect(-18, -4, 36, 8);
+        flightCtx.fillStyle = activeColor.accent;
+        flightCtx.fillRect(-10, -8, 20, 16);
+
+        flightCtx.fillStyle = '#e2e8f0';
+        flightCtx.fillRect(-18, -9, 4, 5);
+        flightCtx.fillRect(14, -9, 4, 5);
+
+        flightCtx.fillStyle = activeColor.flame;
+        const propOffset = (Date.now() % 60 < 30) ? 14 : 10;
+        flightCtx.fillRect(-24, -11, propOffset, 2);
+        flightCtx.fillRect(10, -11, propOffset, 2);
+
+        flightCtx.fillStyle = '#22c55e';
+        flightCtx.fillRect(8, -2, 4, 4);
+
+        if (simState.payload.active && !simState.payload.deployed) {
+          flightCtx.fillStyle = '#d97706';
+          flightCtx.fillRect(-5, 8, 10, 8);
+        }
+
+        flightCtx.restore();
       }
-
-      flightCtx.fillStyle = '#1e293b';
-      flightCtx.fillRect(-18, -4, 36, 8);
-      flightCtx.fillStyle = activeColor.accent;
-      flightCtx.fillRect(-10, -8, 20, 16);
-
-      flightCtx.fillStyle = '#e2e8f0';
-      flightCtx.fillRect(-18, -9, 4, 5);
-      flightCtx.fillRect(14, -9, 4, 5);
-
-      flightCtx.fillStyle = activeColor.flame;
-      const propOffset = (Date.now() % 60 < 30) ? 14 : 10;
-      flightCtx.fillRect(-24, -11, propOffset, 2);
-      flightCtx.fillRect(10, -11, propOffset, 2);
-
-      flightCtx.fillStyle = '#22c55e';
-      flightCtx.fillRect(8, -2, 4, 4);
-
-      if (simState.payload.active && !simState.payload.deployed) {
-        flightCtx.fillStyle = '#d97706';
-        flightCtx.fillRect(-5, 8, 10, 8);
-      }
-
-      flightCtx.restore();
 
       if (simState.combo > 1) {
         flightCtx.font = '14px "Press Start 2P", monospace';
@@ -2637,6 +2989,9 @@
         e.preventDefault();
         deployPayload();
       }
+      if (e.code === 'KeyC') {
+        toggleFpvMode();
+      }
     });
 
     window.addEventListener('keyup', (e) => {
@@ -2659,6 +3014,7 @@
     bindTouchBtn('btn-touch-left', 'left');
     bindTouchBtn('btn-touch-right', 'right');
     document.getElementById('btn-touch-drop').addEventListener('click', deployPayload);
+    document.getElementById('btn-drop-cargo').addEventListener('click', deployPayload);
 
     document.getElementById('btn-go-festival').addEventListener('click', () => {
       showScreen('festival');
@@ -2666,6 +3022,7 @@
       gameState.visitedFestivalItu = false;
       document.getElementById('btn-visit-defense').disabled = false;
       document.getElementById('btn-visit-itu').disabled = false;
+      document.getElementById('btn-ufuk-spy').disabled = false;
       updateBurkaDialogue("Festival çadırları kaynıyor! İTÜ çadırına selam verelim, savunma sanayii standından parça toplayalım.");
     });
 
@@ -2689,6 +3046,23 @@
       audio.playCollect();
       npcSay('İTÜ Kaptanı', 'Vay ATÜ Kaan Kulübü! Gövdeniz fena durmuyor ama rüzgarda dikkat edin.');
       showToast('🐝 İTÜ çadırıyla teknik sohbet edildi: +12 XP', 'amber');
+      saveGame();
+      updateHUD();
+    });
+
+    document.getElementById('btn-ufuk-spy').addEventListener('click', () => {
+      document.getElementById('btn-ufuk-spy').disabled = true;
+      if (Math.random() < 0.6) {
+        gameState.parts++;
+        gameState.xp += 25;
+        audio.playSuccess();
+        badge('casus', '🕵️ Çadır Casusu');
+        showToast('🕵️ Ufuk İTÜ çadırından 1 takım karbon pervane aşırdı! (+1 Parça, +25 XP)', 'emerald');
+      } else {
+        gameState.budget = Math.max(0, gameState.budget - 350);
+        audio.playHit();
+        showToast('🚨 Ufuk İTÜ çadırında yakalandı! ₺350 kefalet ödendi, jüriye şikayet edildik!', 'rose');
+      }
       saveGame();
       updateHUD();
     });
@@ -2932,16 +3306,13 @@
       const w = cvs.width;
       const h = cvs.height;
 
-      // Outer background
       ctx.fillStyle = '#0b0f19';
       ctx.fillRect(0, 0, w, h);
 
-      // Border
       ctx.strokeStyle = '#00f2fe';
       ctx.lineWidth = 6;
       ctx.strokeRect(8, 8, w - 16, h - 16);
 
-      // Header Banner
       ctx.fillStyle = '#1e3a8a';
       ctx.fillRect(14, 14, w - 28, 55);
 
@@ -2953,7 +3324,6 @@
       ctx.font = '11px monospace';
       ctx.fillText('ATÜ • TEKNOFEST ADANA RESMİ KATILIM KARNESİ', 26, 58);
 
-      // Burka Portrait mini draw
       ctx.fillStyle = '#1e293b';
       ctx.fillRect(26, 85, 80, 80);
       ctx.fillStyle = '#f5c6a5';
@@ -2970,7 +3340,6 @@
       ctx.font = '11px "Press Start 2P", monospace';
       ctx.fillText('KAPTAN BURKA', 20, 182);
 
-      // Stats block
       ctx.font = '16px monospace';
       ctx.fillStyle = '#ffffff';
       ctx.fillText(`Sezon: #${gameState.season} Dönem`, 130, 105);
@@ -2978,7 +3347,6 @@
       ctx.fillText(`Dron: Barkan-X1 (${gameState.drone.colorTheme.toUpperCase()})`, 130, 155);
       ctx.fillText(`Instagram: @kaanteknoloji (${gameState.instagram.followers} Takipçi)`, 130, 180);
 
-      // Divider
       ctx.strokeStyle = '#334155';
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -2986,7 +3354,6 @@
       ctx.lineTo(w - 26, 205);
       ctx.stroke();
 
-      // Lower highlights
       ctx.font = '14px monospace';
       ctx.fillStyle = '#facc15';
       ctx.fillText(`🥇 Şampiyonluk: ${gameState.trophies.gold} | 🥈 Kürsü: ${gameState.trophies.podium}`, 26, 235);
@@ -2995,15 +3362,13 @@
       ctx.fillStyle = '#c084fc';
       ctx.fillText(`📦 Hedefe Kargo: ${gameState.payloadDrops || 0} adet`, 26, 285);
       ctx.fillStyle = '#f43f5e';
-      ctx.fillText(`☕ Kulüp Çayı: ${gameState.stats.tea} bardak | 🔥 Ocak Nöbeti: ${gameState.stats.ocak} saat`, 26, 310);
+      ctx.fillText(`☕ Kulüp Çayı: ${gameState.stats.tea} | 🔥 Ocak: ${gameState.stats.ocak} saat | 🦹 Ufuk: ${gameState.stats.ufuk || 0}`, 26, 310);
 
-      // Footer stamp
       ctx.fillStyle = '#94a3b8';
       ctx.font = '10px monospace';
       ctx.fillText('Adana Alparslan Türkeş Bilim ve Teknoloji Üniversitesi', 26, 355);
       ctx.fillText(`Onaylandı: ${new Date().toLocaleDateString('tr-TR')}`, w - 170, 355);
 
-      // Trigger download
       const imgData = cvs.toDataURL('image/png');
       const link = document.createElement('a');
       link.download = `Kaan_Teknoloji_TEKNOFEST_Sezon_${gameState.season}.png`;
@@ -3026,11 +3391,12 @@
       }
       gameState.budget += startBudget;
       gameState.morale = 100;
+      gameState.caffeine = 0;
       gameState.daysLeft = Math.max(10, 14 - Math.floor(gameState.season / 3));
       gameState.petitions = 0; 
       gameState.teas = 0; 
       rollQuests(); 
-      gameState.stats = { pet: 0, tea: 0, ocak: 0, crash: 0 }; 
+      gameState.stats = { pet: 0, tea: 0, ocak: 0, crash: 0, ufuk: gameState.stats.ufuk || 0 }; 
       pickTheme();
       gameState.drone.testFlightDone = false;
       gameState.drone.payloadSuccess = false;
@@ -3094,18 +3460,22 @@
     }
 
     const ALL_BADGES = [
-      { id: 'sampiyon',  name: '🏆 Şampiyon',            desc: 'TEKNOFEST 1.lik kupasını kazan' },
-      { id: 'kursu',     name: '🥈 Kürsü Fatihi',        desc: 'İlk 3 takım arasında bitir' },
-      { id: 'nisanci',   name: '🎯 Keskin Nişancı',      desc: 'Faydalı yükü hedef çemberine tam isabet bırak' },
-      { id: 'tarayici',  name: '📷 Görüntü İşleme Ustası',desc: 'QR hedef üzerinde 3 sn sabit kalıp tara' },
-      { id: 'ocakci',    name: '🔥 Ocak Bekçisi',        desc: 'Ocakta 5 saat nöbet tut' },
-      { id: 'fenomen',   name: '📸 Viral Kulüp',         desc: 'Instagram\'da 1000+ takipçiye ulaş' },
-      { id: 'rekor',     name: '⚡ Rekor Pilot',          desc: 'Test uçuşunda 1000+ skor yap' },
-      { id: 'itu',       name: '🐝 Arı Avcısı',          desc: 'İTÜ ArıDrone takımını 3 kez geride bırak' },
-      { id: 'cayci',     name: '☕ Çay Tiryakisi',        desc: 'Kulüpte 6 demlik çay tüket' },
-      { id: 'kebapci',   name: '🌶️ Kebap Sever',         desc: 'Festivalde Adana kebap & şalgam göm' },
-      { id: 'azar',      name: '😡 SKS Müdavimi',        desc: 'SKS Daire Başkanından azar işit' },
-      { id: 'dusmeden',  name: '🛡️ Kusursuz Sezon',      desc: 'Hiç düşmeden şampiyon ol' }
+      { id: 'sampiyon',       name: '🏆 Şampiyon',            desc: 'TEKNOFEST 1.lik kupasını kazan' },
+      { id: 'kursu',          name: '🥈 Kürsü Fatihi',        desc: 'İlk 3 takım arasında bitir' },
+      { id: 'nisanci',        name: '🎯 Keskin Nişancı',      desc: 'Faydalı yükü hedef çemberine tam isabet bırak' },
+      { id: 'tarayici',       name: '📷 Görüntü İşleme Ustası',desc: 'QR hedef üzerinde 3 sn sabit kalıp tara' },
+      { id: 'fpv_ace',        name: '👓 FPV Pilotu',          desc: 'Kokpit içi FPV gözlük modunda uçuş yap' },
+      { id: 'ufukcu',         name: '✋ Ufuk Avcısı',          desc: 'Ufuk Çana\'yı alet çalarken ensesinden yakala' },
+      { id: 'stealth_master', name: '🥷 Hurdalık Hayaleti',   desc: 'Gece hurdalığa sızıp yakalanmadan parça kurtar' },
+      { id: 'casus',          name: '🕵️ Çadır Casusu',        desc: 'İTÜ çadırından başarıyla parça aşır' },
+      { id: 'ocakci',         name: '🔥 Ocak Bekçisi',        desc: 'Ocakta 5 saat nöbet tut' },
+      { id: 'fenomen',        name: '📸 Viral Kulüp',         desc: 'Instagram\'da 1000+ takipçiye ulaş' },
+      { id: 'rekor',          name: '⚡ Rekor Pilot',          desc: 'Test uçuşunda 1000+ skor yap' },
+      { id: 'itu',            name: '🐝 Arı Avcısı',          desc: 'İTÜ ArıDrone takımını 3 kez geride bırak' },
+      { id: 'cayci',          name: '☕ Çay Tiryakisi',        desc: 'Kulüpte 6 demlik çay tüket' },
+      { id: 'kebapci',        name: '🌶️ Kebap Sever',         desc: 'Festivalde Adana kebap & şalgam göm' },
+      { id: 'azar',           name: '😡 SKS Müdavimi',        desc: 'SKS Daire Başkanından azar işit' },
+      { id: 'dusmeden',       name: '🛡️ Kusursuz Sezon',      desc: 'Hiç düşmeden şampiyon ol' }
     ];
 
     function openMuseumModal() {
@@ -3117,6 +3487,7 @@
       document.getElementById('stat-total-tea').innerText = gameState.stats ? gameState.stats.tea : 0;
       document.getElementById('stat-total-pet').innerText = gameState.stats ? gameState.stats.pet : 0;
       document.getElementById('stat-total-ocak').innerText = gameState.stats ? gameState.stats.ocak : 0;
+      document.getElementById('stat-total-ufuk').innerText = gameState.stats ? (gameState.stats.ufuk || 0) : 0;
       document.getElementById('stat-total-crash').innerText = gameState.stats ? gameState.stats.crash : 0;
 
       const grid = document.getElementById('museum-badge-grid');
