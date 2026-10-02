@@ -1,0 +1,3319 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kaan Teknoloji Kulübü: TEKNOFEST Döngüsü</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    :root {
+      --pixel-bg: #0b0f19;
+      --pixel-card: #151d30;
+      --pixel-border: #2a3b61;
+      --pixel-accent: #00f2fe;
+      --pixel-gold: #f39c12;
+      --pixel-green: #2ecc71;
+      --pixel-red: #e74c3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: 'VT323', monospace;
+    }
+
+    .pixel-font {
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    body {
+      background-color: var(--pixel-bg);
+      color: #e2e8f0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+
+    /* CRT Scanline Overlay */
+    .crt-overlay::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 999;
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    /* Pixel Art Borders */
+    .pixel-box {
+      border: 4px solid #000;
+      box-shadow: inset -4px -4px 0px 0px rgba(0, 0, 0, 0.5), inset 4px 4px 0px 0px rgba(255, 255, 255, 0.15), 4px 4px 0px 0px #000;
+    }
+
+    .pixel-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #000;
+      box-shadow: inset -3px -3px 0px 0px rgba(0, 0, 0, 0.45), inset 3px 3px 0px 0px rgba(255, 255, 255, 0.3), 3px 3px 0px 0px #000;
+      transition: all 0.06s ease;
+      cursor: pointer;
+    }
+
+    .pixel-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: inset 3px 3px 0px 0px rgba(0, 0, 0, 0.45), 1px 1px 0px 0px #000;
+    }
+
+    .pixel-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(1);
+      transform: none !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a3b61;
+      border: 2px solid #000;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-35px); }
+    }
+    .float-text {
+      animation: floatUp 1.2s forwards;
+      pointer-events: none;
+    }
+
+    @keyframes retroBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.3; }
+    }
+    .retro-blink {
+      animation: retroBlink 0.9s infinite;
+    }
+  </style>
+</head>
+<body class="crt-overlay bg-[#0a0d16] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+  <header class="w-full bg-[#111728] border-b-4 border-black px-3 py-2 z-20 shadow-md">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <!-- Title & Club Identity -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-cyan-600 border-2 border-black flex items-center justify-center font-bold text-lg pixel-box text-white">
+          ⚡
+        </div>
+        <div>
+          <h1 class="pixel-font text-xs sm:text-sm text-cyan-300 tracking-wider">KAAN TEKNOLOJİ KULÜBÜ</h1>
+          <p class="text-xs sm:text-sm text-amber-400 font-mono tracking-wide">ATÜ • TEKNOFEST DÖNGÜSÜ (ROGUE-LITE)</p>
+        </div>
+      </div>
+
+      <!-- Resource Display -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
+        <!-- Loop Counter -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
+          <span class="text-amber-400 text-xs pixel-font">DÖNGÜ:</span>
+          <span id="hud-season" class="text-amber-300 font-bold text-lg">1</span>
+        </div>
+        <!-- Kalan Gün -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
+          <span class="text-sky-400 text-xs pixel-font">GÜN:</span>
+          <span id="hud-days" class="text-sky-300 font-bold text-lg">14</span>
+        </div>
+        <!-- Yedek Parça -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
+          <span class="text-orange-400 text-xs pixel-font">PARÇA:</span>
+          <span id="hud-parts" class="text-orange-300 font-bold text-lg">2</span>
+        </div>
+        <!-- Bütçe -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
+          <span class="text-emerald-400 text-xs pixel-font">BÜTÇE:</span>
+          <span id="hud-budget" class="text-emerald-300 font-bold text-lg">₺1,800</span>
+        </div>
+        <!-- Moral -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
+          <span class="text-rose-400 text-xs pixel-font">MORAL:</span>
+          <div class="w-12 bg-black border border-slate-600 h-2.5 relative overflow-hidden inline-block align-middle">
+            <div id="hud-morale-bar" class="bg-rose-500 h-full w-full transition-all duration-300"></div>
+          </div>
+          <span id="hud-morale-val" class="text-rose-300 text-xs font-bold">100%</span>
+        </div>
+        <!-- Instagram Takipçi -->
+        <button id="btn-open-instagram-hud" class="pixel-box bg-gradient-to-r from-pink-900 to-purple-900 hover:from-pink-800 hover:to-purple-800 px-2 py-0.5 flex items-center gap-1 border-2 border-black cursor-pointer" title="Kulüp Instagram Hesabı">
+          <span class="text-pink-300 text-xs pixel-font">📸 IG:</span>
+          <span id="hud-followers" class="text-pink-200 font-bold text-lg">180</span>
+        </button>
+        <!-- AR-GE XP -->
+        <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
+          <span class="text-cyan-400 text-xs pixel-font">XP:</span>
+          <span id="hud-xp" class="text-cyan-300 font-bold text-lg">0</span>
+        </div>
+
+        <button id="btn-difficulty" class="pixel-btn bg-slate-800 text-amber-300 px-2 py-1 text-xs">ZORLUK: NORMAL</button>
+        <button id="btn-open-museum-header" class="pixel-btn bg-yellow-700 hover:bg-yellow-600 text-white px-2 py-1 text-xs" title="Şeref Köşesi ve Kulüp Müzesi">🏆 MÜZE</button>
+        <button id="btn-new-game" class="pixel-btn bg-rose-800 text-white px-2 py-1 text-xs">🆕 SIFIRLA</button>
+        <button id="btn-toggle-sound" class="pixel-btn bg-slate-800 text-slate-200 px-2 py-1 text-xs" title="Sesi Aç/Kapat">🔊</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full flex-1 max-w-6xl mx-auto p-2 sm:p-4 relative">
+    
+    <!-- ========================================== -->
+    <!-- SCREEN 1: ATÖLYE (MAIN WORKSHOP HUB)       -->
+    <!-- ========================================== -->
+    <section id="screen-workshop" class="w-full space-y-4">
+      
+      <!-- Burka Dialogue & Club Atmosphere Box -->
+      <div class="pixel-box bg-[#131b2e] p-3 sm:p-4 border-4 border-black relative">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <!-- Burka Animated Pixel Avatar -->
+          <div class="flex flex-col items-center flex-shrink-0">
+            <canvas id="avatar-canvas" width="64" height="64" class="pixel-box bg-slate-900 border-2 border-black w-20 h-20 shadow-inner"></canvas>
+            <span class="pixel-font text-[10px] text-cyan-300 mt-1">KAPTAN BURKA</span>
+            <span class="text-xs text-slate-400 font-mono">Takım Lideri</span>
+          </div>
+          <!-- Speech Bubble -->
+          <div class="flex-1 bg-[#1c2742] p-3 rounded pixel-box border-2 border-slate-700 relative w-full">
+            <div class="text-amber-300 text-xs pixel-font mb-1 flex items-center justify-between">
+              <span id="speaker-name">BURKA DİYOR Kİ:</span>
+              <span class="text-[10px] text-slate-400">ATÜ Atölye Masası #01</span>
+            </div>
+            <p id="burka-dialogue" class="text-lg text-slate-100 leading-snug font-mono min-h-[48px]">
+              "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak! Parçaları test edip sensörleri kalibre edelim."
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room Decor Bar -->
+      <div id="room-decor" class="pixel-box bg-[#101726] p-2 border-4 border-black text-base text-center font-mono text-slate-300"></div>
+
+      <!-- Workshop Grid: Drone Specs, Engineering & Quests -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        
+        <!-- Drone Preview & Modular TWR Specs -->
+        <div class="pixel-box bg-[#131b2e] p-3 border-4 border-black flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b-2 border-slate-700 pb-2 mb-2">
+              <h2 class="pixel-font text-xs text-cyan-300">BARKAN-X1 DRON</h2>
+              <span class="text-xs text-amber-400 font-mono">AR-GE Versiyonu</span>
+            </div>
+            
+            <!-- Drone Pixel Render Preview Canvas -->
+            <div class="w-full h-32 bg-slate-950 border-2 border-black flex items-center justify-center relative overflow-hidden pixel-box mb-2">
+              <canvas id="drone-preview-canvas" width="128" height="96" class="w-32 h-24"></canvas>
+              <div class="absolute bottom-1 right-2 text-[10px] text-cyan-400 font-mono">ATÜ İHA LAB</div>
+            </div>
+
+            <!-- Drone LED Color Themes -->
+            <div class="mb-2 bg-slate-900/80 p-1.5 border border-slate-800 rounded">
+              <div class="text-[10px] pixel-font text-slate-300 mb-1 flex justify-between">
+                <span>LED & KİT TEMA:</span>
+                <span id="theme-color-label" class="text-cyan-300 font-mono">Neon Mavi</span>
+              </div>
+              <div class="flex items-center justify-between gap-1">
+                <button class="w-5 h-5 rounded-full border-2 border-black bg-cyan-400 hover:scale-110" onclick="setDroneColor('cyan')" title="Neon Camgöbeği"></button>
+                <button class="w-5 h-5 rounded-full border-2 border-black bg-rose-500 hover:scale-110" onclick="setDroneColor('laser-red')" title="Lazer Kırmızısı"></button>
+                <button class="w-5 h-5 rounded-full border-2 border-black bg-emerald-400 hover:scale-110" onclick="setDroneColor('cyber-green')" title="Siber Yeşil"></button>
+                <button class="w-5 h-5 rounded-full border-2 border-black bg-amber-400 hover:scale-110" onclick="setDroneColor('gold')" title="Altın Sarısı"></button>
+                <button class="w-5 h-5 rounded-full border-2 border-black bg-purple-500 hover:scale-110" onclick="setDroneColor('synth-purple')" title="Sentetik Mor"></button>
+              </div>
+            </div>
+
+            <!-- Modular Physics Specs (TWR & Weight) -->
+            <div class="mb-2 p-1.5 bg-black/50 border border-slate-700 text-xs font-mono grid grid-cols-2 gap-2 text-slate-300">
+              <div>Toplam Ağırlık: <b id="stat-weight" class="text-cyan-300">850g</b></div>
+              <div>İtki/Ağırlık (TWR): <b id="stat-twr" class="text-emerald-300">2.1x</b></div>
+            </div>
+
+            <!-- Stats List -->
+            <div class="space-y-1.5 text-sm font-mono">
+              <div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Gövde Dayanımı:</span>
+                  <span id="stat-frame" class="text-cyan-400 font-bold">Sv. 1</span>
+                </div>
+                <div class="w-full bg-slate-900 border border-slate-700 h-2 mt-0.5">
+                  <div id="stat-bar-frame" class="bg-cyan-500 h-full w-[20%] transition-all"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Yazılım & Otopilot:</span>
+                  <span id="stat-software" class="text-emerald-400 font-bold">Sv. 1</span>
+                </div>
+                <div class="w-full bg-slate-900 border border-slate-700 h-2 mt-0.5">
+                  <div id="stat-bar-software" class="bg-emerald-500 h-full w-[20%] transition-all"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Batarya Kapasitesi:</span>
+                  <span id="stat-battery" class="text-amber-400 font-bold">Sv. 1</span>
+                </div>
+                <div class="w-full bg-slate-900 border border-slate-700 h-2 mt-0.5">
+                  <div id="stat-bar-battery" class="bg-amber-500 h-full w-[20%] transition-all"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2 pt-2 border-t-2 border-slate-800 text-xs text-slate-400">
+            Hazırlık Durumu: <span id="drone-readiness" class="text-green-400 font-bold">%35 Hazır</span>
+            <div id="members-line" class="mt-0.5 text-[11px] text-slate-400"></div>
+          </div>
+        </div>
+
+        <!-- Drone Upgrades (Primary Engineering) -->
+        <div class="pixel-box bg-[#131b2e] p-3 border-4 border-black flex flex-col justify-between">
+          <div>
+            <h2 class="pixel-font text-xs text-amber-300 border-b-2 border-slate-700 pb-2 mb-3">DONANIM & YAZILIM AR-GE</h2>
+            <div class="space-y-2">
+              
+              <!-- Upgrade 1: Frame -->
+              <div class="p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-bold text-white">Karbon Gövde & Fırçasız Motor</div>
+                  <div class="text-xs text-slate-400">İtki ve rüzgar mukavemeti artar</div>
+                  <div class="text-xs text-emerald-400 mt-0.5">Maliyet: <span id="cost-frame">₺550</span> | -18 Moral</div>
+                </div>
+                <button id="btn-upgrade-frame" class="pixel-btn bg-cyan-700 hover:bg-cyan-600 text-white text-xs px-2 py-1.5">
+                  GELİŞTİR
+                </button>
+              </div>
+
+              <!-- Upgrade 2: Software -->
+              <div class="p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-bold text-white">Otopilot PID & Sensör Füzyonu</div>
+                  <div class="text-xs text-slate-400">Dron sapmasını ve titremeyi azaltır</div>
+                  <div class="text-xs text-emerald-400 mt-0.5">Maliyet: <span id="cost-software">₺480</span> | -18 Moral</div>
+                </div>
+                <button id="btn-upgrade-software" class="pixel-btn bg-emerald-700 hover:bg-emerald-600 text-white text-xs px-2 py-1.5">
+                  KODLA
+                </button>
+              </div>
+
+              <!-- Upgrade 3: Battery -->
+              <div class="p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-bold text-white">LiPo 4S Batarya Paketi & BMS</div>
+                  <div class="text-xs text-slate-400">Uçuş süresi ve menzil uzar</div>
+                  <div class="text-xs text-emerald-400 mt-0.5">Maliyet: <span id="cost-battery">₺520</span> | -18 Moral</div>
+                </div>
+                <button id="btn-upgrade-battery" class="pixel-btn bg-amber-700 hover:bg-amber-600 text-white text-xs px-2 py-1.5">
+                  YÜKSELT
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="text-[11px] text-slate-400 mt-2">
+            💡 Her mühendislik işlemi 1 gün harcar. Geliştirme öncesi mini-oyunu iyi oynamak arıza şansını düşürür!
+          </div>
+        </div>
+
+        <!-- Quest Board & Social Links -->
+        <div class="pixel-box bg-[#131b2e] p-3 border-4 border-black flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b-2 border-slate-700 pb-2 mb-2">
+              <h2 class="pixel-font text-xs text-purple-300">KULÜP GÖREV PANOSU</h2>
+              <button id="btn-open-instagram-box" class="pixel-btn bg-gradient-to-r from-pink-700 to-purple-700 hover:from-pink-600 hover:to-purple-600 text-white text-[10px] px-2 py-0.5 pixel-font">📸 INSTAGRAM</button>
+            </div>
+            
+            <div class="space-y-2">
+              <div id="quest-list" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Action Links -->
+          <div class="mt-3 flex gap-2">
+            <button id="btn-open-arge" class="flex-1 pixel-btn bg-cyan-900 hover:bg-cyan-800 text-cyan-200 text-xs py-2">
+              🧬 KALICI AR-GE
+            </button>
+            <button id="btn-open-museum" class="flex-1 pixel-btn bg-yellow-800 hover:bg-yellow-700 text-yellow-200 text-xs py-2">
+              🏆 ŞEREF KÖŞESİ
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Workshop Bottom Actions -->
+      <div class="pixel-box bg-[#1b253b] p-3 border-4 border-black flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="text-center sm:text-left">
+          <span class="pixel-font text-xs text-amber-300 block mb-0.5">HAZIRLIK TAMAMLANDI MI?</span>
+          <span class="text-sm text-slate-300">Önce simülasyon uçuşunda kapıları geç, QR kod tara ve kargoyu bırak; ardından TEKNOFEST festival alanına git!</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="btn-open-room" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white text-sm pixel-font px-4 py-2.5">🚪 ATÖLYEDE GEZ</button>
+          <button id="btn-launch-test" class="pixel-btn bg-blue-600 hover:bg-blue-500 text-white text-sm pixel-font px-4 py-2.5">
+            🕹️ TEST UÇUŞU BAŞLAT
+          </button>
+          <button id="btn-go-festival" class="pixel-btn bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white text-sm pixel-font px-5 py-2.5 shadow-lg retro-blink">
+            🎪 TEKNOFEST FESTİVALİNE GİT!
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 2: TEST UÇUŞU SİMÜLASYONU (CANVAS) -->
+    <!-- ========================================== -->
+    <section id="screen-flight" class="w-full hidden space-y-2">
+      <!-- Flight Header Telemetry -->
+      <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex flex-wrap items-center justify-between gap-2 text-sm font-mono">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="pixel-font text-xs text-cyan-300">TELEMETRİ: BARKAN</span>
+          <span class="text-emerald-400">PİL: <b id="sim-battery-text">100%</b></span>
+          <span class="text-amber-400">KAPI: <b id="sim-gate-text">0 / 8</b></span>
+          <span class="text-yellow-400">KOMBO: <b id="sim-combo-text">x1</b></span>
+          <span class="text-cyan-400">SKOR: <b id="sim-score-text">0</b></span>
+          <span id="sim-scan-status" class="text-sky-300 font-bold bg-sky-950 px-1.5 py-0.5 border border-sky-600 text-xs">📷 QR: TARANIYOR</span>
+          <span id="sim-payload-status" class="text-purple-300 font-bold bg-purple-950 px-1.5 py-0.5 border border-purple-600 text-xs">📦 KARGO: HAZIR</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="sim-wind-indicator" class="text-xs bg-slate-800 px-2 py-0.5 border border-slate-600 text-slate-300">RÜZGAR: HAFİF</span>
+          <button id="btn-abort-flight" class="pixel-btn bg-rose-800 text-white text-xs px-2 py-1">
+            ATÖLYEYE DÖN ↩
+          </button>
+        </div>
+      </div>
+
+      <!-- Flight Simulation Canvas Area -->
+      <div class="w-full relative border-4 border-black bg-slate-950 overflow-hidden pixel-box" style="height: 440px;">
+        <canvas id="flight-canvas" class="w-full h-full block"></canvas>
+        
+        <!-- On-canvas dynamic notifications -->
+        <div id="sim-message-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 hidden z-10 p-4 text-center">
+          <h2 id="sim-modal-title" class="pixel-font text-xl text-amber-400 mb-2">UÇUŞ TAMAMLANDI!</h2>
+          <p id="sim-modal-desc" class="text-lg text-slate-200 font-mono mb-4">Kapılar geçildi, QR tarandı, veriler kaydedildi.</p>
+          <button id="btn-sim-modal-ok" class="pixel-btn bg-cyan-600 hover:bg-cyan-500 text-white pixel-font text-xs px-4 py-2">
+            ATÖLYEYE VERİLERİ AKTAR
+          </button>
+        </div>
+
+        <!-- Controls Guide Hint Overlay -->
+        <div class="absolute top-2 left-2 text-[11px] text-slate-300 bg-black/70 px-2 py-1 border border-slate-700 pointer-events-none hidden sm:block font-mono">
+          KONTROLLER: [W/S] Gaz/İn • [A/D] Yön • [BOŞLUK] Kargo Bırak • [QR Hedefinde 3 sn Sabit Kalıp Tara]
+        </div>
+      </div>
+
+      <!-- Mobile Touch Controls Bar -->
+      <div class="grid grid-cols-5 gap-1.5 sm:hidden pt-1">
+        <button id="btn-touch-left" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-cyan-700">◀ SOL</button>
+        <button id="btn-touch-up" class="pixel-btn bg-blue-700 text-white text-lg py-3 active:bg-blue-600">▲ GAZ</button>
+        <button id="btn-touch-down" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-slate-700">▼ İN</button>
+        <button id="btn-touch-right" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-cyan-700">SAĞ ▶</button>
+        <button id="btn-touch-drop" class="pixel-btn bg-purple-700 text-white text-xs py-3 active:bg-purple-600 pixel-font">📦 BIRAK</button>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 3: TEKNOFEST FUAR & FESTİVAL ÇADIR ALANI -->
+    <!-- ========================================== -->
+    <section id="screen-festival" class="w-full hidden space-y-4">
+      <div class="pixel-box bg-[#1b1e36] p-4 border-4 border-black relative">
+        <div class="text-center pb-3 border-b-2 border-slate-700">
+          <span class="pixel-font text-xs text-amber-400 tracking-wider">TEKNOFEST ADANA FESTİVAL ALANI</span>
+          <h2 class="pixel-font text-base sm:text-xl text-white mt-1">FUAR ÇADIRLARI & STANTLAR</h2>
+          <p class="text-sm text-cyan-300 font-mono mt-0.5">Jüri değerlendirmesine geçmeden önce stantları gez, parça topla ve enerji depola!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 font-mono">
+          <!-- Tent 1: ITU Rival Booth -->
+          <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
+            <div>
+              <div class="text-amber-400 pixel-font text-xs mb-1 flex items-center justify-between">
+                <span>🐝 İTÜ ARIDRONE ÇADIRI</span>
+                <span class="text-[10px] text-slate-400">Rakip Takım</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-2">
+                "Bizim prepreg karbon fiber Almanya'dan özel geldi. Siz Adana sıcağında erimeyin sakın!"
+              </p>
+              <div id="itu-intel-text" class="text-[11px] text-cyan-300 mt-2 bg-black/40 p-1.5 border border-slate-800 rounded">
+                Dronlarını inceleyip taktik geliştirebilirsin.
+              </div>
+            </div>
+            <button id="btn-visit-itu" class="pixel-btn bg-amber-700 hover:bg-amber-600 text-white text-xs px-2 py-2 mt-3">
+              👀 DRONLARINI İNCELE (+12 XP)
+            </button>
+          </div>
+
+          <!-- Tent 2: ASELSAN & BAYKAR Booth -->
+          <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
+            <div>
+              <div class="text-cyan-400 pixel-font text-xs mb-1 flex items-center justify-between">
+                <span>🛡️️ SAVUNMA SANAYİİ STANDI</span>
+                <span class="text-[10px] text-slate-400">ASELSAN / BAYKAR</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-2">
+                "Mühendis adayı gençler! Yerli otopilot ve aviyonik parçalarımıza göz atmak ister misiniz?"
+              </p>
+              <div id="booth-promo-text" class="text-[11px] text-emerald-300 mt-2 bg-black/40 p-1.5 border border-slate-800 rounded">
+                Ücretsiz promosyon yedek parça ve teknik danışmanlık veriliyor.
+              </div>
+            </div>
+            <button id="btn-visit-defense" class="pixel-btn bg-cyan-700 hover:bg-cyan-600 text-white text-xs px-2 py-2 mt-3">
+              🎁 PROMOSYON PARÇA AL (+1 Parça)
+            </button>
+          </div>
+
+          <!-- Tent 3: Adana Kebap & Şalgam -->
+          <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
+            <div>
+              <div class="text-rose-400 pixel-font text-xs mb-1 flex items-center justify-between">
+                <span>🌶️ ADANA KEBAP & ŞALGAM</span>
+                <span class="text-[10px] text-slate-400">Festival Lezzeti</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-2">
+                "Zırh kıyması, bol sumaklı soğan ve buz gibi şalgam! Burka ve ekibin morali tavan yapsın!"
+              </p>
+              <div class="text-[11px] text-rose-300 mt-2 bg-black/40 p-1.5 border border-slate-800 rounded">
+                Maliyet: ₺120 | Moral anında %100 olur & Uçuş hızı artar!
+              </div>
+            </div>
+            <button id="btn-eat-kebap" class="pixel-btn bg-rose-700 hover:bg-rose-600 text-white text-xs px-2 py-2 mt-3">
+              🍢 DÜRÜM GÖM (%100 Moral)
+            </button>
+          </div>
+        </div>
+
+        <!-- Advance to Jury Stage Button -->
+        <div class="mt-4 pt-3 border-t-2 border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="text-xs text-slate-300 font-mono">
+            Çadırları gezip takımı hazırladıysan resmi jüri uçuş ve sunum değerlendirmesine geç!
+          </div>
+          <button id="btn-proceed-jury" class="pixel-btn bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white pixel-font text-xs sm:text-sm px-6 py-3 shadow-lg retro-blink">
+            ⚖️ JÜRİ SUNUMUNA GEÇ!
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 4: TEKNOFEST FİNALLERİ & JÜRİ       -->
+    <!-- ========================================== -->
+    <section id="screen-competition" class="w-full hidden space-y-4">
+      <div class="pixel-box bg-[#1b1e36] p-4 border-4 border-black relative overflow-hidden">
+        
+        <!-- TEKNOFEST Header Banner -->
+        <div class="text-center pb-3 border-b-2 border-slate-700">
+          <span class="pixel-font text-xs text-amber-400 tracking-wider">TEKNOFEST ADANA FİNALLERİ</span>
+          <h2 class="pixel-font text-base sm:text-xl text-white mt-1">İHA SERBEST GÖREV KATEGORİSİ</h2>
+          <p class="text-sm text-cyan-300 font-mono mt-0.5">Jüri Değerlendirmesi & Canlı Puan Tablosu</p>
+        </div>
+
+        <!-- Evaluation Stage Visualizer -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+          <!-- Jury 1 -->
+          <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700">
+            <div class="text-amber-400 pixel-font text-[10px] mb-1">JÜRİ ÜYESİ 1 (TÜBİTAK)</div>
+            <div class="text-slate-300 font-mono text-xs">Uçuş Stabilitesi & Parkur Hızı</div>
+            <div class="text-2xl font-bold text-white mt-2 font-mono"><span id="comp-score-flight">0</span> / 40</div>
+            <div class="text-[11px] text-slate-400 mt-1" id="comp-feedback-flight">Değerlendiriliyor...</div>
+          </div>
+
+          <!-- Jury 2 -->
+          <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700">
+            <div class="text-cyan-400 pixel-font text-[10px] mb-1">JÜRİ ÜYESİ 2 (ASELSAN)</div>
+            <div class="text-slate-300 font-mono text-xs">Görüntü İşleme & Kargo Görevi</div>
+            <div class="text-2xl font-bold text-white mt-2 font-mono"><span id="comp-score-soft">0</span> / 35</div>
+            <div class="text-[11px] text-slate-400 mt-1" id="comp-feedback-soft">Değerlendiriliyor...</div>
+          </div>
+
+          <!-- Jury 3 -->
+          <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700">
+            <div class="text-purple-400 pixel-font text-[10px] mb-1">JÜRİ BAŞKANI (ATÜ DANIŞMAN)</div>
+            <div class="text-slate-300 font-mono text-xs">Tasarım Özgünlüğü & Takım Ruhu</div>
+            <div class="text-2xl font-bold text-white mt-2 font-mono"><span id="comp-score-team">0</span> / 25</div>
+            <div class="text-[11px] text-slate-400 mt-1" id="comp-feedback-team">Değerlendiriliyor...</div>
+          </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="pixel-box bg-[#0f1422] p-3 border-2 border-black">
+          <div class="text-xs pixel-font text-amber-300 mb-2">CANLI LİDERLİK TABLOSU (10 TAKIM)</div>
+          <div class="space-y-1.5 font-mono text-sm max-h-96 overflow-y-auto" id="comp-leaderboard">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Results / Next Loop Announcement -->
+        <div id="comp-results-card" class="mt-4 p-3 bg-gradient-to-r from-blue-900/60 to-purple-900/60 border-2 border-cyan-400 pixel-box text-center hidden">
+          <h3 id="comp-award-title" class="pixel-font text-base text-amber-300">TEBRİKLER! 🏆 KÜRSÜ BAŞARISI!</h3>
+          <p id="comp-award-desc" class="text-slate-200 text-sm font-mono mt-1">
+            Kaan Teknoloji Kulübü ATÜ'yü gururlandırdı!
+          </p>
+          <div class="mt-3 flex flex-wrap justify-center gap-3">
+            <button id="btn-download-scorecard" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white pixel-font text-xs px-4 py-2.5">
+              📥 SKOR KARTINI İNDİR (PNG)
+            </button>
+            <button id="btn-next-season-loop" class="pixel-btn bg-emerald-600 hover:bg-emerald-500 text-white pixel-font text-xs px-5 py-2.5">
+              🔄 YENİ SEZONA GEÇ (DÖNGÜYÜ BAŞLAT)
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 5: ATÖLYE 2D GEZİNTİ EKRANI         -->
+    <!-- ========================================== -->
+    <section id="screen-room" class="w-full hidden space-y-2">
+      <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex justify-between items-center">
+        <span class="pixel-font text-xs text-cyan-300">KAAN TEKNOLOJİ ATÖLYESİ</span>
+        <button id="btn-room-back" class="pixel-btn bg-rose-800 text-white text-xs px-2 py-1">↩ GERİ</button>
+      </div>
+      <canvas id="room-canvas" width="640" height="320" class="w-full border-4 border-black bg-slate-900 cursor-pointer"></canvas>
+      <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 font-mono gap-2">
+        <span>Yürüme: Tıkla / Dokun veya WASD/Oklar • İstasyonla Etkileşim: [E] tuşu ya da tıkla</span>
+        <span class="text-amber-400 font-bold">Mobil: İstasyona dokunarak veya aşağıdaki tuşlarla git!</span>
+      </div>
+      <!-- Room Mobile Touch Navigation Bar -->
+      <div class="grid grid-cols-5 gap-2 pt-1 sm:hidden">
+        <button id="btn-room-left" class="pixel-btn bg-slate-800 text-white text-lg py-2">◀</button>
+        <button id="btn-room-up" class="pixel-btn bg-slate-800 text-white text-lg py-2">▲</button>
+        <button id="btn-room-down" class="pixel-btn bg-slate-800 text-white text-lg py-2">▼</button>
+        <button id="btn-room-right" class="pixel-btn bg-slate-800 text-white text-lg py-2">▶</button>
+        <button id="btn-room-action" class="pixel-btn bg-cyan-700 text-white text-xs py-2 pixel-font">[E] GİR</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: KULÜP INSTAGRAM SAYFASI (@kaanteknoloji) -->
+  <div id="modal-instagram" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
+    <div class="pixel-box bg-[#181124] border-4 border-black max-w-xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b-2 border-pink-700 pb-2 mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 flex items-center justify-center text-xs text-white pixel-font">
+            IG
+          </div>
+          <div>
+            <h2 class="pixel-font text-xs text-pink-300">@kaanteknoloji</h2>
+            <p class="text-xs text-slate-400 font-mono">ATÜ Kaan Teknoloji Kulübü Resmi Hesabı</p>
+          </div>
+        </div>
+        <button id="btn-close-instagram" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-3 gap-2 mb-3 text-center font-mono">
+        <div class="p-2 bg-black/40 border border-slate-700 rounded">
+          <div class="text-xs text-slate-400">Takipçi</div>
+          <div id="ig-modal-followers" class="text-lg font-bold text-pink-300">180</div>
+        </div>
+        <div class="p-2 bg-black/40 border border-slate-700 rounded">
+          <div class="text-xs text-slate-400">Toplam Beğeni</div>
+          <div id="ig-modal-likes" class="text-lg font-bold text-amber-300">0</div>
+        </div>
+        <div class="p-2 bg-black/40 border border-slate-700 rounded">
+          <div class="text-xs text-slate-400">Paylaşılan Gönderi</div>
+          <div id="ig-modal-posts" class="text-lg font-bold text-cyan-300">0</div>
+        </div>
+      </div>
+
+      <!-- Milestones Bar -->
+      <div class="mb-4 p-2 bg-[#231535] border border-pink-600/50 rounded">
+        <div class="text-xs pixel-font text-pink-300 mb-1 flex justify-between">
+          <span>SPONSORLUK HEDEFİ:</span>
+          <span id="ig-next-goal-text" class="text-amber-300">Hedef: 500 Takipçi (+₺500)</span>
+        </div>
+        <div class="w-full bg-black h-2.5 border border-slate-700 rounded overflow-hidden">
+          <div id="ig-goal-bar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-full w-[36%] transition-all"></div>
+        </div>
+      </div>
+
+      <!-- Create Post Form -->
+      <div class="p-3 bg-black/50 border border-slate-700 rounded mb-4 font-mono">
+        <div class="text-xs pixel-font text-amber-300 mb-2">YENİ GÖNDERİ PAYLAŞ (-5 Moral)</div>
+        <div class="space-y-2 text-xs">
+          <div>
+            <label class="text-slate-300 block mb-1">Gönderi Konsepti Seç:</label>
+            <select id="ig-post-concept" class="w-full bg-slate-900 border border-slate-700 text-white p-1.5 rounded">
+              <option value="lehim">🔥 "Lehim Dumanı ve Uykusuz ATÜ Gecesi" (+Bol Beğeni)</option>
+              <option value="barkan">🚀 "Barkan-X1 Kanat Açıyor! TEKNOFEST Yolundayız" (+Takipçi)</option>
+              <option value="kedi">🐱 "Atölyemizin Başmühendisi: Kedi Lehim" (+Viral Şansı)</option>
+              <option value="cay">☕ "Semt Bizim, Çay Kulübün!" (+Kulüp Ruhu)</option>
+            </select>
+          </div>
+          <button id="btn-ig-publish" class="pixel-btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white pixel-font text-xs px-3 py-2 w-full mt-2">
+            📸 GÖNDERİYİ PAYLAŞ & ETKİLEŞİM TOPLA
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Feed History -->
+      <div class="space-y-2">
+        <div class="text-xs pixel-font text-slate-300 mb-1">SON GÖNDERİLER</div>
+        <div id="ig-feed-list" class="space-y-1.5 font-mono text-xs max-h-40 overflow-y-auto pr-1">
+          <div class="text-slate-500 italic p-2 text-center bg-black/30 border border-slate-800">Henüz bir gönderi paylaşılmadı. İlk postunu atıp takipçi kas!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: OCAKTA 5 SAAT NÖBET MİNİ-GÖREVİ -->
+  <div id="modal-ocak" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
+    <div class="pixel-box bg-[#1b1712] border-4 border-black max-w-lg w-full p-4 relative text-center font-mono">
+      <div class="text-amber-400 pixel-font text-xs mb-1">🔥 OCAKTA NÖBET VAKTİ</div>
+      <h3 class="text-lg text-white font-bold mb-2">5 Saatlik Ocak Nöbeti</h3>
+      <p class="text-xs text-slate-300 mb-4">
+        "Ocakta oturup semaverin başında beklemek, çay doldurmak ve gelen geçenle memleket kurtarmak mecburi... Moral düşecek ama cep harçlığı çıkacak!"
+      </p>
+
+      <!-- Animated Clock Visual -->
+      <div class="my-4 flex flex-col items-center justify-center">
+        <div class="w-24 h-24 rounded-full border-4 border-amber-500 bg-black flex items-center justify-center text-3xl font-bold text-amber-300 pixel-font shadow-inner">
+          <span id="ocak-clock-text">0/5</span>
+        </div>
+        <div class="text-xs text-amber-200 mt-2 font-mono" id="ocak-status-log">Nöbet başlamak üzere...</div>
+      </div>
+
+      <div class="w-full bg-slate-900 border border-slate-700 h-3 mb-4 rounded overflow-hidden">
+        <div id="ocak-progress-bar" class="bg-amber-500 h-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <div class="text-xs text-slate-400 mb-4">
+        Sonuç: <span class="text-rose-400 font-bold">-15 Moral</span> | Kazanç: <span class="text-emerald-400 font-bold">+₺180 Cep Harçlığı</span> | 1 Gün Geçer
+      </div>
+
+      <button id="btn-start-ocak" class="pixel-btn bg-amber-700 hover:bg-amber-600 text-white pixel-font text-xs px-5 py-2.5">
+        ⏳ NÖBETİ BAŞLAT (5 SAAT BEKLE)
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: KALICI AR-GE YETENEK AĞACI -->
+  <div id="modal-arge" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 hidden">
+    <div class="pixel-box bg-[#151c2f] border-4 border-black max-w-2xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b-2 border-slate-700 pb-2 mb-3">
+        <div>
+          <h2 class="pixel-font text-xs sm:text-sm text-cyan-300">KALICI AR-GE YETENEK AĞACI</h2>
+          <p class="text-xs text-slate-400 font-mono">Döngüler arası sıfırlanmayan kalıcı kulüp kazanımları</p>
+        </div>
+        <button id="btn-close-arge" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
+      </div>
+
+      <div class="text-sm font-mono text-amber-300 mb-3">
+        Mevcut AR-GE Puanınız: <span id="arge-available-xp" class="font-bold text-base">0</span> XP
+      </div>
+
+      <div id="perk-list" class="space-y-2.5 font-mono"></div>
+
+      <textarea id="save-box" rows="2" class="w-full bg-black text-xs text-slate-300 border border-slate-700 p-1 mt-3" placeholder="Kayıt kodu: Dışa Aktar'a bas ve kopyala; İçe Aktar için yapıştır"></textarea>
+      <div class="mt-4 pt-2 border-t-2 border-slate-700 flex justify-between items-center text-xs text-slate-400 font-mono">
+        <span>Kazanılan geliştirmeler sonsuza dek sizindir.</span>
+        <span>
+          <button id="btn-export" class="text-cyan-300 hover:underline mr-2">📤 Dışa Aktar</button>
+          <button id="btn-import" class="text-emerald-300 hover:underline mr-2">📥 İçe Aktar</button>
+          <button id="btn-reset-save" class="text-rose-400 hover:underline">Kaydı Sıfırla</button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KULÜP MÜZESİ & ŞEREF KÖŞESİ -->
+  <div id="modal-museum" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
+    <div class="pixel-box bg-[#151c2f] border-4 border-black max-w-2xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b-2 border-amber-600 pb-2 mb-3">
+        <div>
+          <h2 class="pixel-font text-xs sm:text-sm text-amber-300">🏆 ATÜ ŞEREF KÖŞESİ & MÜZE</h2>
+          <p class="text-xs text-slate-400 font-mono">Kaan Teknoloji Kulübü'nün tüm sezonluk başarıları ve vitrini</p>
+        </div>
+        <button id="btn-close-museum" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-center font-mono">
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">🥇</div>
+          <div class="text-xs text-slate-400 mt-1">1.lik Kupaları</div>
+          <div id="museum-gold" class="text-xl font-bold text-amber-300">0</div>
+        </div>
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">🥈</div>
+          <div class="text-xs text-slate-400 mt-1">Kürsü Dereceleri</div>
+          <div id="museum-podium" class="text-xl font-bold text-slate-200">0</div>
+        </div>
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">⚡</div>
+          <div class="text-xs text-slate-400 mt-1">Rekor Uçuş Skoru</div>
+          <div id="museum-highscore" class="text-xl font-bold text-cyan-300">0</div>
+        </div>
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">📦</div>
+          <div class="text-xs text-slate-400 mt-1">Kargo İsabetleri</div>
+          <div id="museum-payloads" class="text-xl font-bold text-purple-300">0</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="text-xs pixel-font text-cyan-300 mb-2">KAZANILABİLİR KULÜP ROZETLERİ</div>
+        <div id="museum-badge-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs"></div>
+      </div>
+
+      <div class="p-2.5 bg-black/60 border border-slate-700 rounded text-xs font-mono text-slate-300 space-y-1">
+        <div class="text-amber-300 font-bold mb-1">GENEL KULÜP İSTATİSTİKLERİ:</div>
+        <div>Toplam İkram Edilen Çay: <span id="stat-total-tea" class="text-white font-bold">0</span> bardak</div>
+        <div>SKS'ye Verilen Dilekçeler: <span id="stat-total-pet" class="text-white font-bold">0</span> adet</div>
+        <div>Ocakta Geçirilen Nöbet: <span id="stat-total-ocak" class="text-white font-bold">0</span> saat</div>
+        <div>Barkan Kazaları (Kırım): <span id="stat-total-crash" class="text-white font-bold">0</span> kez</div>
+      </div>
+
+      <div class="mt-4 pt-2 border-t-2 border-slate-700 flex justify-end">
+        <button id="btn-museum-download-card" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white pixel-font text-xs px-4 py-2">
+          📥 RETRO SKOR KARTI İNDİR (PNG)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TEKNİK SORU CEVAP & SEÇİMLER -->
+  <div id="modal-quiz" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
+    <div class="pixel-box bg-[#151c2f] border-4 border-black max-w-xl w-full p-4">
+      <div class="pixel-font text-xs text-amber-300 mb-2">
+        <span id="quiz-title">JÜRİ SORU-CEVAP</span> <span id="quiz-prog"></span>
+      </div>
+      <p id="quiz-q" class="text-lg text-white font-mono mb-3"></p>
+      <div id="quiz-opts" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Hidden Canvas for PNG Card Generation -->
+  <canvas id="scorecard-canvas" width="600" height="380" class="hidden"></canvas>
+
+  <footer class="w-full bg-[#111728] border-t-4 border-black py-2 px-4 text-center text-xs text-slate-400 font-mono">
+    <span>Kaan Teknoloji Kulübü • Adana Alparslan Türkeş Bilim ve Teknoloji Üniversitesi (ATÜ) • Gururla Geliştirildi</span>
+    <span class="block text-[10px] text-slate-500 mt-1 tracking-wide">⚙ powered by Ahmet Burka Karakış</span>
+  </footer>
+
+  <script>
+    class RetroAudio {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            this.ctx = new AudioContextClass();
+          }
+        }
+      }
+
+      beep(freq = 440, type = 'square', duration = 0.08, vol = 0.15) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {
+          // ignore audio context failures
+        }
+      }
+
+      playSuccess() {
+        if (this.muted) return;
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+          setTimeout(() => this.beep(freq, 'triangle', 0.12, 0.2), i * 90);
+        });
+      }
+
+      playFanfare() {
+        if (this.muted) return;
+        const notes = [440, 440, 440, 554.37, 659.25, 880];
+        const times = [0, 120, 240, 360, 500, 700];
+        notes.forEach((n, i) => {
+          setTimeout(() => this.beep(n, 'square', 0.18, 0.25), times[i]);
+        });
+      }
+
+      playHit() {
+        if (this.muted) return;
+        this.beep(120, 'sawtooth', 0.15, 0.3);
+      }
+
+      playCollect() {
+        if (this.muted) return;
+        this.beep(880, 'sine', 0.06, 0.2);
+        setTimeout(() => this.beep(1320, 'sine', 0.1, 0.2), 60);
+      }
+    }
+
+    const audio = new RetroAudio();
+    const STORAGE_KEY = 'kaan_teknofest_game_v3';
+
+    const defaultGameState = {
+      season: 1,
+      budget: 1800,
+      difficulty: "normal",
+      sponsor: "",
+      catDay: -1,
+      lehimDay: -1,
+      visitedFestivalPromo: false,
+      visitedFestivalItu: false,
+      trophies: { gold: 0, podium: 0 },
+      rivalWins: 0,
+      highScore: 0,
+      payloadDrops: 0,
+      daysLeft: 14,
+      petitions: 0,
+      teas: 0,
+      ocakHours: 0,
+      quests: [],
+      parts: 2,
+      members: [],
+      badges: {},
+      theme: "normal",
+      stats: { pet: 0, tea: 0, ocak: 0, crash: 0 },
+      morale: 100,
+      xp: 0,
+      instagram: {
+        followers: 180,
+        likes: 0,
+        postsCount: 0,
+        postsHistory: [],
+        claimedMilestones: []
+      },
+      drone: {
+        colorTheme: 'cyan',
+        frameLvl: 1,
+        softwareLvl: 1,
+        batteryLvl: 1,
+        testFlightDone: false,
+        lastFlightScore: 0,
+        payloadSuccess: false,
+        scanSuccess: false
+      },
+      perks: {
+        tubitak: false,
+        print3d: false,
+        gps: false,
+        parachute: false,
+        mehmet: false,
+        aura: false,
+        camera: false,
+        esc: false,
+        telemetri: false,
+        simsrv: false
+      }
+    };
+
+    let gameState = { ...defaultGameState };
+
+    function loadSave() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          gameState = Object.assign({}, JSON.parse(JSON.stringify(defaultGameState)), JSON.parse(saved));
+          gameState.drone = Object.assign({}, defaultGameState.drone, gameState.drone);
+          gameState.perks = Object.assign({}, defaultGameState.perks, gameState.perks);
+          gameState.trophies = Object.assign({}, defaultGameState.trophies, gameState.trophies);
+          gameState.stats = Object.assign({}, defaultGameState.stats, gameState.stats);
+          gameState.instagram = Object.assign({}, defaultGameState.instagram, gameState.instagram);
+        }
+      } catch (err) {
+        console.warn('Save load error:', err);
+      }
+    }
+
+    function saveGame() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+      } catch (err) {
+        console.warn('Save write error:', err);
+      }
+    }
+
+    function showToast(msg, color = 'cyan') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `pixel-box bg-[#151c2f] border-2 border-${color}-400 px-3 py-2 text-sm font-mono text-white shadow-lg pointer-events-auto float-text`;
+      toast.innerHTML = msg;
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 3000);
+    }
+
+    const DRONE_THEMES = {
+      'cyan': { name: 'Neon Camgöbeği', hex: '#00f2fe', flame: '#38bdf8', accent: '#0284c7' },
+      'laser-red': { name: 'Lazer Kırmızısı', hex: '#f43f5e', flame: '#fb7185', accent: '#be123c' },
+      'cyber-green': { name: 'Siber Yeşil', hex: '#22c55e', flame: '#4ade80', accent: '#15803d' },
+      'gold': { name: 'Altın Sarısı', hex: '#facc15', flame: '#fde047', accent: '#ca8a04' },
+      'synth-purple': { name: 'Sentetik Mor', hex: '#c084fc', flame: '#d8b4fe', accent: '#7e22ce' }
+    };
+
+    function setDroneColor(themeKey) {
+      if (!DRONE_THEMES[themeKey]) return;
+      gameState.drone.colorTheme = themeKey;
+      document.getElementById('theme-color-label').innerText = DRONE_THEMES[themeKey].name;
+      document.getElementById('theme-color-label').style.color = DRONE_THEMES[themeKey].hex;
+      audio.beep(700, 'square', 0.05);
+      showToast(`🎨 Barkan LED rengi: ${DRONE_THEMES[themeKey].name}`, 'cyan');
+      saveGame();
+      renderDronePreview();
+    }
+
+    const burkaQuotes = [
+      "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak!",
+      "Çukurova'nın sıcağında ESC'ler kavrulmasın diye özel hava kanalı açtık, işte ATÜ mühendisliği!",
+      "Rektörlükten bir sponsorluk daha koparırsak karbon fiber gövdeyi baştan dökeceğiz!",
+      "Yazılımcımız iki gündür çayla besleniyor ama otonom rota ve QR tarama algoritmamız şiir gibi oldu.",
+      "Kaan Teknoloji Kulübü olarak pes etmek yok! Bu dron finallerde birincilik kürsüsüne çıkacak!",
+      "Ocakta 5 saat çay beklerken bile Barkan'ın telemetri kodlarını düşündüm.",
+      "Instagram'da paylaştığımız lehim dumanı videosu keşfete düşmüş, takipçi akıyor!"
+    ];
+
+    const NPCQ = [
+      ["Görkem Kemal (Başkan)", "Arkadaşlar, Instagram'da rektörlüğü etiketlemeyi unutmayın, bütçe onayını oradan takip ediyorlar!"],
+      ["Görkem Kemal (Başkan)", "Toplantı 5 dakika sürecek dedim, 2 saat oldu. Neyse, dron uçsun da gerisi teferruat."],
+      ["Mehmet Kuyucu", "Dron düşerse 'planlı acil iniş' diyeceğiz, jüri de inanır. Ben konuşurum!"],
+      ["Mehmet Kuyucu", "Lehim kokusu bende şef parfümü etkisi yapıyor. Ocakta taze çay var mı?"],
+      ["Mehmet Kuyucu", "Barkan'a bir de bıyık çizsek mi? Aerodinamik olur valla."]
+    ];
+
+    function npcSay(name, text) { 
+      updateBurkaDialogue(text); 
+      document.getElementById('speaker-name').innerText = name.toUpperCase() + ' DİYOR Kİ:'; 
+    }
+
+    function updateBurkaDialogue(customText = null) {
+      if (customText) document.getElementById('speaker-name').innerText = 'BURKA DİYOR Kİ:';
+      const el = document.getElementById('burka-dialogue');
+      if (customText) {
+        el.innerText = `"${customText}"`;
+      } else {
+        if (Math.random() < 0.35) { 
+          const n = NPCQ[Math.floor(Math.random() * NPCQ.length)]; 
+          el.innerText = `"${n[1]}"`; 
+          document.getElementById('speaker-name').innerText = n[0].toUpperCase() + ' DİYOR Kİ:'; 
+          return; 
+        }
+        document.getElementById('speaker-name').innerText = 'BURKA DİYOR Kİ:';
+        const rand = burkaQuotes[Math.floor(Math.random() * burkaQuotes.length)];
+        el.innerText = `"${rand}"`;
+      }
+    }
+
+    function renderBurkaAvatar() {
+      const canvas = document.getElementById('avatar-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 64, 64);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, 64, 64);
+
+      // Hair
+      ctx.fillStyle = '#2b1b17';
+      ctx.fillRect(16, 8, 32, 16);
+      ctx.fillRect(12, 16, 40, 8);
+
+      // Skin
+      ctx.fillStyle = '#f5c6a5';
+      ctx.fillRect(16, 20, 32, 22);
+
+      // Eyes
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(22, 26, 4, 4);
+      ctx.fillRect(38, 26, 4, 4);
+
+      // Glasses
+      ctx.fillStyle = '#00f2fe';
+      ctx.fillRect(20, 24, 8, 2);
+      ctx.fillRect(36, 24, 8, 2);
+      ctx.fillRect(28, 26, 8, 2);
+
+      // Smile
+      ctx.fillStyle = '#a84c32';
+      ctx.fillRect(28, 36, 8, 2);
+
+      // Tech Hoodie
+      ctx.fillStyle = '#1e3a8a';
+      ctx.fillRect(12, 42, 40, 22);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillRect(28, 42, 8, 22);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(18, 48, 6, 4);
+    }
+
+    let rotorFrame = 0;
+    function renderDronePreview() {
+      const canvas = document.getElementById('drone-preview-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 128, 96);
+
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < 128; x += 16) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 96); ctx.stroke();
+      }
+      for (let y = 0; y < 96; y += 16) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(128, y); ctx.stroke();
+      }
+
+      const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
+      const cx = 64;
+      const cy = 48 + Math.sin(Date.now() / 400) * 3;
+
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(cx - 32, cy - 4, 64, 8);
+      ctx.fillRect(cx - 4, cy - 20, 8, 40);
+
+      ctx.fillStyle = activeColor.accent;
+      ctx.fillRect(cx - 14, cy - 10, 28, 20);
+
+      ctx.fillStyle = activeColor.hex;
+      ctx.fillRect(cx - 3, cy - 3, 6, 6);
+
+      ctx.fillStyle = '#e2e8f0';
+      const motors = [
+        { x: cx - 32, y: cy },
+        { x: cx + 32, y: cy },
+        { x: cx, y: cy - 20 },
+        { x: cx, y: cy + 20 }
+      ];
+      motors.forEach(m => {
+        ctx.fillRect(m.x - 4, m.y - 4, 8, 8);
+        ctx.fillStyle = activeColor.flame;
+        if (rotorFrame % 2 === 0) {
+          ctx.fillRect(m.x - 12, m.y - 1, 24, 2);
+        } else {
+          ctx.fillRect(m.x - 1, m.y - 10, 2, 20);
+        }
+      });
+      rotorFrame++;
+    }
+
+    function calculateDroneSpecs() {
+      const d = gameState.drone;
+      const weight = 650 + (d.frameLvl * 80) + (d.batteryLvl * 120) + (d.softwareLvl * 40);
+      const thrust = (1300 + (d.frameLvl * 280)) * (gameState.perks.esc ? 1.15 : 1);
+      const twr = (thrust / weight).toFixed(2);
+      return { weight, thrust, twr };
+    }
+
+    function updateHUD() {
+      document.getElementById('hud-season').innerText = gameState.season;
+      document.getElementById('hud-budget').innerText = `₺${gameState.budget.toLocaleString()}`;
+      document.getElementById('hud-morale-val').innerText = `${Math.round(gameState.morale)}%`;
+      document.getElementById('hud-morale-bar').style.width = `${Math.max(0, Math.min(100, gameState.morale))}%`;
+      document.getElementById('hud-xp').innerText = gameState.xp;
+      document.getElementById('hud-followers').innerText = gameState.instagram.followers;
+
+      const specs = calculateDroneSpecs();
+      document.getElementById('stat-weight').innerText = `${specs.weight}g`;
+      document.getElementById('stat-twr').innerText = `${specs.twr}x`;
+
+      document.getElementById('stat-frame').innerText = `Sv. ${gameState.drone.frameLvl}`;
+      document.getElementById('stat-bar-frame').style.width = `${Math.min(100, gameState.drone.frameLvl * 20)}%`;
+
+      document.getElementById('stat-software').innerText = `Sv. ${gameState.drone.softwareLvl}`;
+      document.getElementById('stat-bar-software').style.width = `${Math.min(100, gameState.drone.softwareLvl * 20)}%`;
+
+      document.getElementById('stat-battery').innerText = `Sv. ${gameState.drone.batteryLvl}`;
+      document.getElementById('stat-bar-battery').style.width = `${Math.min(100, gameState.drone.batteryLvl * 20)}%`;
+
+      const totalLevels = gameState.drone.frameLvl + gameState.drone.softwareLvl + gameState.drone.batteryLvl;
+      const readyPercent = Math.min(100, Math.round((totalLevels / 15) * 100));
+      document.getElementById('drone-readiness').innerText = `%${readyPercent} Hazır ${gameState.drone.testFlightDone ? '(Test Edildi ✓)' : '(Test Gerekli)'}`;
+
+      const frameCost = Math.round(550 * Math.pow(1.5, gameState.drone.frameLvl - 1));
+      const softCost = Math.round(480 * Math.pow(1.5, gameState.drone.softwareLvl - 1));
+      const battCost = Math.round(520 * Math.pow(1.5, gameState.drone.batteryLvl - 1));
+
+      document.getElementById('cost-frame').innerText = `₺${frameCost}`;
+      document.getElementById('cost-software').innerText = `₺${softCost}`;
+      document.getElementById('cost-battery').innerText = `₺${battCost}`;
+
+      document.getElementById('btn-upgrade-frame').disabled = gameState.budget < frameCost || gameState.morale < 10;
+      document.getElementById('btn-upgrade-software').disabled = gameState.budget < softCost || gameState.morale < 10;
+      document.getElementById('btn-upgrade-battery').disabled = gameState.budget < battCost || gameState.morale < 10;
+
+      const dl = gameState.daysLeft <= 0;
+      document.getElementById('btn-launch-test').disabled = dl;
+      if (dl) ['btn-upgrade-frame','btn-upgrade-software','btn-upgrade-battery'].forEach(i => document.getElementById(i).disabled = true);
+      document.getElementById('hud-days').innerText = Math.max(0, gameState.daysLeft);
+      document.getElementById('hud-parts').innerText = gameState.parts;
+      document.getElementById('btn-difficulty').innerText = 'ZORLUK: ' + DIFF().n;
+
+      const tr = gameState.trophies || { gold: 0, podium: 0 };
+      document.getElementById('room-decor').innerText = 'KULÜP ODASI: 🪑 ' + (gameState.season >= 2 ? '🪴 ' : '') + (gameState.season >= 3 ? '🛋️ ' : '') + (gameState.members.length ? '🎧 ' : '') + (Object.keys(gameState.badges).length >= 2 ? '🖼️ ' : '') + (tr.podium ? '🥈'.repeat(Math.min(tr.podium, 5)) + ' ' : '') + (tr.gold ? '🏆'.repeat(Math.min(tr.gold, 5)) : '');
+      
+      ['frame','software','battery'].forEach(p => { 
+        if (gameState.parts < (gameState.drone[p + 'Lvl'] >= 4 ? 2 : 1)) {
+          document.getElementById('btn-upgrade-' + p).disabled = true; 
+        }
+      });
+
+      document.getElementById('members-line').innerText = `Sezon: ${THEMES[gameState.theme] || THEMES.normal} | Üyeler: ${gameState.members.length ? gameState.members.map(m => MEM[m]).join(', ') : 'yok'}`;
+
+      if (DRONE_THEMES[gameState.drone.colorTheme]) {
+        document.getElementById('theme-color-label').innerText = DRONE_THEMES[gameState.drone.colorTheme].name;
+        document.getElementById('theme-color-label').style.color = DRONE_THEMES[gameState.drone.colorTheme].hex;
+      }
+
+      renderPerkUI(); 
+      renderQuests();
+    }
+
+    const lv = () => gameState.drone.frameLvl + gameState.drone.softwareLvl + gameState.drone.batteryLvl;
+
+    function spendDay() {
+      gameState.daysLeft--; 
+      mor(gameState.perks.mehmet ? -2 : -4);
+      if (hasM('yazilimci')) gameState.xp += 2;
+      if (gameState.morale < 20 && gameState.members.length && Math.random() < 0.3) { 
+        const m = gameState.members.pop(); 
+        showToast('😤 Üye küstü ve ayrıldı: ' + MEM[m], 'rose'); 
+      }
+      
+      const par = (gameState.perks.parachute ? 0.35 : 1) * DIFF().dis;
+      const lowM = gameState.morale < 30 ? 2 : 1;
+      const d = gameState.drone;
+      const r = Math.random();
+
+      if (r < 0.025 * lowM * par) { 
+        const ps = ['frame', 'software', 'battery'].filter(p => d[p + 'Lvl'] > 1);
+        if (ps.length) { 
+          const p = ps[Math.floor(Math.random() * ps.length)]; 
+          d[p + 'Lvl']--; 
+          d.testFlightDone = false; 
+          gameState.stats.crash++; 
+          audio.playHit();
+          showToast(`💀 DRONE DÜŞTÜ! ${({frame:'Gövde',software:'Yazılım',battery:'Batarya'})[p]} seviyesi geriledi!`, 'rose'); 
+          npcSay('Mehmet Kuyucu', 'Ben ona sadece "uç" dedim, kendisi karar verdi!'); 
+        } 
+      }
+      else if (r < 0.04 * par) { 
+        gameState.budget = Math.round(gameState.budget * 0.8); 
+        showToast('🔥 Atölyede kısa devre yangını! Bütçenin %20\'si gitti', 'rose'); 
+      }
+      else if (r < 0.06 * par && d.softwareLvl > 1) { 
+        d.softwareLvl--; 
+        showToast('💾 Disk bozuldu, yedek yoktu! Yazılım -1 seviye', 'rose'); 
+      }
+
+      const e = Math.random();
+      if (gameState.daysLeft === 1) {
+        askChoice('KRİZ GÜNÜ', 'Yarışmadan önceki son gün! Laptop açılmıyor ve bir üye hasta görünüyor.', [
+          ['💻 Yedekten kurtar: -₺200', () => { gameState.budget = Math.max(0, gameState.budget - 200); }],
+          ['🤒 Üyeyi dinlendir: +10 Moral', () => { mor(10); }],
+          ['🔥 Sabaha kadar çalış: -25 Moral, +1 Parça', () => { mor(-25); gameState.parts++; }]
+        ]);
+      } else if (e < 0.10) { 
+        mor(20); 
+        gameState.budget = Math.max(0, gameState.budget - 150); 
+        npcSay('Mehmet Kuyucu', 'Kahvaltı hazır! Simidi ben aldım, parasını kasadan düştüm!'); 
+        showToast('🥯 Atölye kahvaltısı: +20 Moral -₺150', 'amber'); 
+      } else if (e < 0.16) { 
+        mor(-20); 
+        gameState.budget = Math.max(0, gameState.budget - 200); 
+        audio.playHit(); 
+        npcSay('Rektörlük', 'Atölyenin elektrik faturası ve gürültü şikâyetleri masamda! Bir daha olmasın!'); 
+        showToast('🏛️ Rektörlükten azar: -20 Moral -₺200', 'rose'); 
+      }
+
+      if (gameState.daysLeft <= 0) { 
+        showToast('⏰ Süre doldu! TEKNOFEST zamanı!', 'rose'); 
+        updateBurkaDialogue("Takvim bitti! Elimizdeki dronla Adana'ya gidiyoruz, festival çadırlarına göz atalım!"); 
+        return; 
+      }
+
+      if (Math.random() < 0.28) {
+        const evs = [
+          () => { gameState.budget = Math.max(0, gameState.budget - 250); return '🔥 ESC yandı! Yedek için -₺250'; },
+          () => { gameState.morale = Math.max(0, gameState.morale - 10); return '⚡ Atölyede elektrik kesildi! Moral -10'; },
+          () => { gameState.budget += 450; return '🎁 Mezun ağabeylerden bağış: +₺450'; },
+          () => { gameState.xp += 8; return '🧑‍🏫 Hocadan değerli ipucu: +8 AR-GE XP'; }
+        ];
+        showToast(evs[Math.floor(Math.random() * evs.length)](), 'amber');
+      }
+    }
+
+    function upgradeDrone(part) {
+      if (gameState.daysLeft <= 0) return;
+      const need = gameState.drone[part + 'Lvl'] >= 4 ? 2 : 1;
+      if (gameState.parts < need) { 
+        showToast('📦 Yedek parça yok! Sipariş ver ya da festival standında ara', 'amber'); 
+        return; 
+      }
+      playMini(part === 'software' ? 'pid' : 'lehim', q => { 
+        gameState._q = q; 
+        upgradeDone(part, need); 
+      });
+    }
+
+    function upgradeDone(part, need) {
+      const before = lv(), b0 = gameState.budget;
+      _upgradeDrone(part);
+      if (lv() > before) {
+        gameState.parts -= need; 
+        const lvl = gameState.drone[part + 'Lvl'];
+        let fail = Math.min(0.40, 0.05 + lvl * 0.03) + (gameState.morale < 30 ? 0.08 : 0); 
+        if (gameState.perks.print3d) fail *= 0.7; 
+        if (hasM('lehimci')) fail *= 0.75; 
+        fail *= [1.5, 1.1, 0.6, 0.25][gameState._q == null ? 1 : gameState._q];
+        
+        if (Math.random() < fail) { 
+          gameState.drone[part + 'Lvl']--; 
+          gameState.budget += Math.round((b0 - gameState.budget) / 2); 
+          audio.playHit();
+          showToast(part === 'software' ? '🐛 Derleme hatası, kod çöktü! Yarım bütçe iade' : '🔩 Lehim/montaj hatası! Yarım bütçe iade', 'rose'); 
+        }
+        spendDay(); 
+        saveGame(); 
+        updateHUD(); 
+      }
+    }
+
+    function _upgradeDrone(part) {
+      let moraleCost = 18;
+      if (gameState.perks.aura) {
+        moraleCost = Math.round(moraleCost * 0.6);
+      }
+
+      if (part === 'frame') {
+        const cost = Math.round(550 * Math.pow(1.5, gameState.drone.frameLvl - 1));
+        if (gameState.budget >= cost && gameState.morale >= moraleCost) {
+          gameState.budget -= cost;
+          gameState.morale = Math.max(0, gameState.morale - moraleCost);
+          gameState.drone.frameLvl++;
+          audio.beep(600, 'square', 0.1);
+          showToast(`⚡ Gövde Sv. ${gameState.drone.frameLvl} seviyesine çıkarıldı!`, 'cyan');
+          updateBurkaDialogue("Yeni karbon kollar takıldı, Barkan havada ok gibi gidecek!");
+        }
+      } else if (part === 'software') {
+        const cost = Math.round(480 * Math.pow(1.5, gameState.drone.softwareLvl - 1));
+        if (gameState.budget >= cost && gameState.morale >= moraleCost) {
+          gameState.budget -= cost;
+          gameState.morale = Math.max(0, gameState.morale - moraleCost);
+          gameState.drone.softwareLvl++;
+          audio.beep(750, 'square', 0.1);
+          showToast(`💻 Otopilot Sv. ${gameState.drone.softwareLvl} optimize edildi!`, 'emerald');
+          updateBurkaDialogue("Kalman filtresini güncelledik, QR tarama ve iniş kararlı!");
+        }
+      } else if (part === 'battery') {
+        const cost = Math.round(520 * Math.pow(1.5, gameState.drone.batteryLvl - 1));
+        if (gameState.budget >= cost && gameState.morale >= moraleCost) {
+          gameState.budget -= cost;
+          gameState.morale = Math.max(0, gameState.morale - moraleCost);
+          gameState.drone.batteryLvl++;
+          audio.beep(900, 'square', 0.1);
+          showToast(`🔋 Batarya paketi Sv. ${gameState.drone.batteryLvl} yükseltildi!`, 'amber');
+          updateBurkaDialogue("Hücre voltaj dengesi kusursuz! Test uçuşunda enerjimiz bitmeyecek.");
+        }
+      }
+
+      gameState.drone.testFlightDone = false;
+      saveGame();
+      updateHUD();
+    }
+
+    const QUESTS = {
+      ocak: { t:'Ocakta 5 Saat Nöbet', d:'Semaver başında 5 saat nöbet tut, cep harçlığı çıkar', c:'+₺180 | -15 Moral', b:'NÖBETE GİT 🔥', col:'amber', always:1 },
+      tea: { t:'Demlikte Tavşan Kanı Çay', d:'Moral toplar ama etkisi her çayda azalır', c:'-₺60 | +5~15 Moral', b:'DEMLE ☕', col:'rose', always:1 },
+      clean: { t:'3D Yazıcı & Masa Temizliği', d:'AR-GE tecrübesi kazan', c:'+15 XP | -10 Moral', b:'TOPLA 🧹', col:'indigo', always:1 },
+      sponsor: { t:'Rektörlük / SKS Dilekçesi', d:'Reddedilebilir! Çok dilekçe = azar', c:'₺500-900 (şansa bağlı) | -15 Moral', b:'DİLEKÇE 📜', col:'emerald', p:.5 },
+      esnaf: { t:'Çukurova Esnafı Turu', d:'Kapı kapı dolaş, bazıları "haftaya gel" der', c:'₺200-450 (%60) | -10 Moral', b:'GEZ 🏪', col:'teal', p:.4 },
+      hurda: { t:'Hurdalıkta Parça Avı', d:'Ne çıkacağı belli olmaz', c:'XP / ₺ / yara bere', b:'KARIŞTIR 🔧', col:'orange', p:.5 },
+      mehmet: { t:'Mehmet Kuyucu Şov Saati', d:'Eğlenceli ama bazen ters tepiyor', c:'+20 Moral (%70)', b:'İZLE 🤡', col:'pink', p:.4 },
+      siparis: { t:'Parça Siparişi', d:'Geliştirmeler için yedek parça lazım', c:'-₺350 | +2 Parça', b:'SİPARİŞ 📦', col:'orange', always:1 },
+      uye: { t:'Üye Alım Standı', d:'Yeni üye yetenek getirir ama küsebilir', c:'Rastgele üye | -5 Moral', b:'STAND AÇ 🧑‍🔧', col:'lime', p:.35 }
+    };
+
+    function askChoice(title, text, opts) {
+      document.getElementById('quiz-title').innerText = title; 
+      document.getElementById('quiz-prog').innerText = '';
+      document.getElementById('quiz-q').innerText = text; 
+      document.getElementById('modal-quiz').classList.remove('hidden');
+      const box = document.getElementById('quiz-opts'); 
+      box.innerHTML = '';
+      opts.forEach(([t, fn]) => { 
+        const b = document.createElement('button'); 
+        b.className = 'pixel-btn w-full bg-slate-700 hover:bg-cyan-700 text-white text-sm px-3 py-2 text-left'; 
+        b.innerText = t;
+        b.onclick = () => { 
+          document.getElementById('modal-quiz').classList.add('hidden'); 
+          fn(); 
+          saveGame(); 
+          updateHUD(); 
+        }; 
+        box.appendChild(b); 
+      });
+    }
+
+    function openOcakModal() {
+      document.getElementById('modal-ocak').classList.remove('hidden');
+      document.getElementById('ocak-clock-text').innerText = '0/5';
+      document.getElementById('ocak-progress-bar').style.width = '0%';
+      document.getElementById('ocak-status-log').innerText = 'Nöbet başlamak üzere...';
+      document.getElementById('btn-start-ocak').disabled = false;
+    }
+
+    document.getElementById('btn-start-ocak').addEventListener('click', () => {
+      document.getElementById('btn-start-ocak').disabled = true;
+      let hour = 0;
+      const logs = [
+        "1. Saat: Semaveri yaktık, çay suyu kaynıyor...",
+        "2. Saat: İlk demlik doldu, atölye sakinleriyle selamlaştık.",
+        "3. Saat: Memleket ve siyaset sohbeti başladı, gözler ağırlaşıyor...",
+        "4. Saat: Barkan'ın rotasını düşündük, çay tazeledik...",
+        "5. Saat: Nöbet tamamlandı! Cep harçlığını aldık!"
+      ];
+
+      const interval = setInterval(() => {
+        hour++;
+        document.getElementById('ocak-clock-text').innerText = `${hour}/5`;
+        document.getElementById('ocak-progress-bar').style.width = `${(hour / 5) * 100}%`;
+        document.getElementById('ocak-status-log').innerText = logs[hour - 1];
+        audio.beep(400 + hour * 80, 'square', 0.08);
+
+        if (hour >= 5) {
+          clearInterval(interval);
+          setTimeout(() => {
+            document.getElementById('modal-ocak').classList.add('hidden');
+            gameState.ocakHours = (gameState.ocakHours || 0) + 5;
+            gameState.stats.ocak = (gameState.stats.ocak || 0) + 5;
+            gameState.budget += 180;
+            mor(-15);
+            spendDay();
+            audio.playSuccess();
+            showToast('🔥 5 saatlik nöbet bitti: +₺180 Harçlık, -15 Moral', 'amber');
+            badge('ocakci', '🔥 Ocak Bekçisi');
+            saveGame();
+            updateHUD();
+          }, 800);
+        }
+      }, 700);
+    });
+
+    const IG_MILESTONES = [
+      { goal: 500, rewardBudget: 500, rewardXp: 15, name: '500 Takipçi Sponsoru' },
+      { goal: 1000, rewardBudget: 1000, rewardXp: 30, name: '1000 Takipçi Sponsoru' },
+      { goal: 2500, rewardBudget: 2000, rewardXp: 50, name: '2500 Takipçi Büyük Sponsor' },
+      { goal: 5000, rewardBudget: 4000, rewardXp: 100, name: '5000 Takipçi Fenomeni' }
+    ];
+
+    function openInstagramModal() {
+      renderInstagramUI();
+      document.getElementById('modal-instagram').classList.remove('hidden');
+    }
+
+    function renderInstagramUI() {
+      const ig = gameState.instagram;
+      document.getElementById('ig-modal-followers').innerText = ig.followers;
+      document.getElementById('ig-modal-likes').innerText = ig.likes;
+      document.getElementById('ig-modal-posts').innerText = ig.postsCount;
+
+      const nextMs = IG_MILESTONES.find(m => !ig.claimedMilestones.includes(m.goal)) || IG_MILESTONES[IG_MILESTONES.length - 1];
+      const prevGoal = 0;
+      const pct = Math.min(100, Math.round(((ig.followers - prevGoal) / (nextMs.goal - prevGoal)) * 100));
+
+      document.getElementById('ig-next-goal-text').innerText = ig.claimedMilestones.includes(nextMs.goal) ? 
+        "Tüm sponsorluk hedefleri tamamlandı! 🌟" : `Hedef: ${nextMs.goal} Takipçi (+₺${nextMs.rewardBudget})`;
+      document.getElementById('ig-goal-bar').style.width = `${pct}%`;
+
+      const listEl = document.getElementById('ig-feed-list');
+      if (ig.postsHistory && ig.postsHistory.length > 0) {
+        listEl.innerHTML = '';
+        ig.postsHistory.slice(-5).reverse().forEach(p => {
+          const item = document.createElement('div');
+          item.className = 'p-2 bg-black/40 border border-slate-700 rounded flex justify-between items-center';
+          item.innerHTML = `
+            <div>
+              <div class="text-white font-bold">${p.title}</div>
+              <div class="text-[10px] text-slate-400">❤️ ${p.likes} Beğeni • 👤 +${p.followers} Takipçi</div>
+            </div>
+            <span class="text-[10px] text-pink-300">@kaanteknoloji</span>
+          `;
+          listEl.appendChild(item);
+        });
+      }
+    }
+
+    document.getElementById('btn-ig-publish').addEventListener('click', () => {
+      if (gameState.morale < 5) {
+        showToast('Paylaşım yapacak moral yok! Bir çay iç.', 'rose');
+        return;
+      }
+      mor(-5);
+      const concept = document.getElementById('ig-post-concept').value;
+      const ig = gameState.instagram;
+
+      let baseLikes = Math.floor(Math.random() * 150) + 60;
+      let newFollowers = Math.floor(Math.random() * 45) + 15;
+      let title = "Atölye Günlüğü";
+
+      if (concept === 'lehim') {
+        baseLikes += 80;
+        title = "🔥 Lehim Dumanı ve Uykusuz Geceler";
+      } else if (concept === 'barkan') {
+        newFollowers += 35;
+        title = "🚀 Barkan-X1 TEKNOFEST Semalarında!";
+      } else if (concept === 'kedi') {
+        baseLikes += 140;
+        newFollowers += 50;
+        title = "🐱 Başmühendis Kedi Lehim";
+      } else if (concept === 'cay') {
+        baseLikes += 60;
+        title = "☕ Semt Bizim, Çay Kulübün!";
+      }
+
+      ig.likes += baseLikes;
+      ig.followers += newFollowers;
+      ig.postsCount++;
+      ig.postsHistory.push({ title, likes: baseLikes, followers: newFollowers });
+
+      // Check milestones
+      IG_MILESTONES.forEach(ms => {
+        if (ig.followers >= ms.goal && !ig.claimedMilestones.includes(ms.goal)) {
+          ig.claimedMilestones.push(ms.goal);
+          gameState.budget += ms.rewardBudget;
+          gameState.xp += ms.rewardXp;
+          audio.playFanfare();
+          showToast(`🎉 Instagram Sponsorluğu: ${ms.name}! +₺${ms.rewardBudget}, +${ms.rewardXp} XP`, 'emerald');
+        }
+      });
+
+      if (ig.followers >= 1000) badge('fenomen', '📸 Viral Kulüp');
+
+      audio.playCollect();
+      showToast(`📸 Gönderi paylaşıldı: +${baseLikes} ❤️, +${newFollowers} 👤`, 'pink');
+      saveGame();
+      updateHUD();
+      renderInstagramUI();
+    });
+
+    document.getElementById('btn-open-instagram-hud').onclick = openInstagramModal;
+    document.getElementById('btn-open-instagram-box').onclick = openInstagramModal;
+    document.getElementById('btn-close-instagram').onclick = () => document.getElementById('modal-instagram').classList.add('hidden');
+
+    function playMini(kind, done) {
+      const ov = document.createElement('div'); 
+      ov.className = 'fixed inset-0 z-[70] bg-black/85 flex flex-col items-center justify-center p-4 text-center'; 
+      document.body.appendChild(ov);
+      const fin = q => { ov.remove(); done(q); };
+
+      if (kind === 'pid') {
+        const tg = [0, 0, 0].map(() => 10 + Math.random() * 80);
+        ov.innerHTML = '<div class="pixel-font text-xs text-emerald-300 mb-2">PID AYARI</div><div class="text-sm text-slate-300 font-mono mb-2">P, I, D kaydırıcılarını gizli hedefe getir. Titreşim yeşile inince KİLİTLE!</div><div class="w-64 h-4 bg-black border border-slate-600 mb-3"><div id="pid-bar" class="h-full bg-rose-500"></div></div>' + ['P', 'I', 'D'].map(l => '<label class="text-white font-mono block mb-1">' + l + ' <input type="range" min="0" max="100" value="50" class="pid w-56"></label>').join('') + '<button id="pid-ok" class="pixel-btn bg-emerald-700 text-white pixel-font text-xs px-4 py-2 mt-3">KİLİTLE</button>';
+        const ins = [...ov.querySelectorAll('.pid')];
+        const err = () => ins.reduce((a, e, i) => a + Math.abs(e.value - tg[i]), 0) / 3;
+        const upd = () => { 
+          const e = err(), b = ov.querySelector('#pid-bar'); 
+          b.style.width = Math.min(100, e * 2) + '%'; 
+          b.className = 'h-full ' + (e < 10 ? 'bg-emerald-500' : e < 24 ? 'bg-amber-500' : 'bg-rose-500'); 
+        };
+        ins.forEach(i => i.oninput = upd); 
+        upd();
+        ov.querySelector('#pid-ok').onclick = () => { 
+          const e = err(); 
+          fin(e < 10 ? 3 : e < 22 ? 2 : e < 35 ? 1 : 0); 
+        };
+      } else {
+        ov.innerHTML = '<div class="pixel-font text-xs text-amber-300 mb-2">' + (kind === 'cay' ? '☕ ÇAY DEMLEME' : '🔥 LEHİM ZAMANLAMASI') + '</div><div class="text-sm text-slate-300 font-mono mb-2">Çubuk yeşil bölgedeyken DURDUR! (3 deneme)</div><div class="relative w-72 h-6 bg-black border-2 border-slate-600"><div class="absolute h-full bg-emerald-600/70" style="left:38%;width:24%"></div><div id="tm-m" class="absolute top-0 h-full w-2 bg-white"></div></div><button id="tm-b" class="pixel-btn bg-amber-600 text-white pixel-font text-xs px-6 py-3 mt-4">DURDUR</button><div id="tm-r" class="text-white font-mono mt-2"></div>';
+        let x = 0, dir = 1, tries = 0, ok = 0; 
+        const sp = 1.6 + gameState.season * 0.15, m = ov.querySelector('#tm-m');
+        const tm = setInterval(() => { 
+          x += dir * sp; 
+          if (x > 98 || x < 0) dir *= -1; 
+          m.style.left = x + '%'; 
+        }, 16);
+        ov.querySelector('#tm-b').onclick = () => { 
+          tries++; 
+          if (x > 38 && x < 62) { 
+            ok++; 
+            audio.playCollect(); 
+          } else {
+            audio.playHit(); 
+          }
+          ov.querySelector('#tm-r').innerText = 'Deneme ' + tries + '/3 — doğru: ' + ok; 
+          if (tries >= 3) { 
+            clearInterval(tm); 
+            setTimeout(() => fin(ok), 400); 
+          } 
+        };
+      }
+    }
+
+    function rollQuests() { 
+      gameState.quests = Object.keys(QUESTS).filter(k => QUESTS[k].always || Math.random() < QUESTS[k].p); 
+    }
+
+    function renderQuests() {
+      if (!gameState.quests || !gameState.quests.length) rollQuests();
+      const el = document.getElementById('quest-list'); 
+      el.innerHTML = '';
+      gameState.quests.forEach(k => { 
+        const q = QUESTS[k]; 
+        const d = document.createElement('div');
+        d.className = 'p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between';
+        d.innerHTML = `<div><div class="text-sm font-bold text-white">${q.t}</div><div class="text-xs text-slate-400">${q.d}</div><div class="text-xs text-${q.col}-400 mt-0.5">${q.c}</div></div><button class="pixel-btn bg-${q.col}-700 text-white text-xs px-2 py-1.5" ${gameState.daysLeft <= 0 ? 'disabled' : ''}>${q.b}</button>`;
+        d.querySelector('button').onclick = () => runSideQuest(k); 
+        el.appendChild(d); 
+      });
+    }
+
+    function runSideQuest(type) {
+      if (gameState.daysLeft <= 0) return;
+      if (type === 'ocak') {
+        openOcakModal();
+        return;
+      }
+      if (type === 'tea') { 
+        if (gameState.budget < 60) { 
+          showToast('☕ Çay-şeker alacak para yok!', 'rose'); 
+          return; 
+        } 
+        playMini('cay', q => { 
+          gameState._tq = q; 
+          doQuest('tea'); 
+          spendDay(); 
+          saveGame(); 
+          updateHUD(); 
+        }); 
+        return; 
+      }
+      if (doQuest(type) === false) return;
+      spendDay(); 
+      saveGame(); 
+      updateHUD();
+    }
+
+    const mor = n => { gameState.morale = Math.max(0, Math.min(100, gameState.morale + n)); };
+
+    function doQuest(t) {
+      const g = gameState, r = Math.random();
+      if (t === 'tea') {
+        if (g.budget < 60) { showToast('☕ Çay-şeker alacak para yok!', 'rose'); return false; }
+        g.budget -= 60; 
+        const gain = Math.max(4, Math.round((16 - 2 * g.teas) * [0.4, 0.8, 1.1, 1.4][g._tq == null ? 1 : g._tq])); 
+        g.teas++; 
+        g.stats.tea++; 
+        mor(gain); 
+        audio.playCollect();
+        if (g.stats.tea >= 6) badge('cayci', '☕ Çay Tiryakisi');
+        showToast(`☕ Çay içildi: +${gain} Moral${gain <= 5 ? ' (çaydan bıktık)' : ''}`, 'rose');
+      } else if (t === 'clean') { 
+        g.xp += 15; 
+        mor(-10); 
+        audio.playCollect(); 
+        showToast('🧹 Atölye toplandı: +15 XP', 'cyan');
+      } else if (t === 'sponsor') {
+        g.petitions++; 
+        g.stats.pet++; 
+        mor(-15);
+        if (g.petitions >= 4) { 
+          g.morale = 0; 
+          g.budget = Math.max(0, g.budget - 300); 
+          g.petitions = 0; 
+          badge('azar', '😡 SKS Müdavimi'); 
+          audio.playHit();
+          npcSay('SKS Daire Başkanı', 'Siz bu hafta kaçıncı dilekçeyi veriyorsunuz?! Odamdan çıkın! (-₺300 ceza)');
+          showToast('📢 SKS Başkanı azarladı! Moral SIFIRLANDI!', 'rose');
+        } else if (Math.random() < 0.48 - g.petitions * 0.1) { 
+          const x = Math.floor(Math.random() * 400) + 550; 
+          g.budget += x; 
+          audio.playSuccess(); 
+          showToast(`📜 Dilekçe onaylandı: +₺${x}`, 'emerald');
+        } else { 
+          showToast(`📜 Dilekçe reddedildi: "eksik evrak var"! (${g.petitions}/3 uyarı)`, 'amber'); 
+          if (g.petitions === 3) npcSay('SKS Memuru', 'Bir dilekçe daha gelirse müdürle görüşeceksiniz...'); 
+        }
+      } else if (t === 'esnaf') { 
+        mor(-10); 
+        if (r < .6) { 
+          const x = 200 + Math.floor(Math.random() * 250); 
+          g.budget += x; 
+          showToast(`🏪 Esnaf destek verdi: +₺${x}`, 'emerald'); 
+        } else {
+          showToast('🏪 "Haftaya gel evladım" dediler...', 'amber'); 
+        }
+      } else if (t === 'hurda') { 
+        if (r < .4) { 
+          g.xp += 10; g.parts += 1; 
+          showToast('🔧 Sağlam ESC çıktı: +10 XP +1 Parça', 'cyan'); 
+        } else if (r < .7) { 
+          g.budget += 140; 
+          showToast('🔧 Bakır kabloyu sattık: +₺140', 'emerald'); 
+        } else { 
+          mor(-12); 
+          showToast('🔧 Elini kesti, moral -12', 'rose'); 
+        }
+      } else if (t === 'mehmet') { 
+        if (r < .7) { 
+          mor(20); 
+          npcSay('Mehmet Kuyucu', 'Bir lehim ustası bara girmiş... Gülün be, moral lazım!'); 
+          showToast('🤡 Mehmet güldürdü: +20 Moral', 'pink'); 
+        } else { 
+          g.budget = Math.max(0, g.budget - 150); 
+          mor(-5); 
+          npcSay('Mehmet Kuyucu', 'Ben dokunmadım, lehim istasyonu kendi devrildi!'); 
+          showToast('🤡 Şaka ters tepti: -₺150', 'rose'); 
+        }
+      } else if (t === 'siparis') { 
+        if (g.budget < 350) { showToast('📦 Sipariş için ₺350 yok!', 'rose'); return false; } 
+        g.budget -= 350; g.parts += 2; 
+        showToast('📦 Kargo geldi: +2 Parça', 'orange');
+      } else if (t === 'uye') { 
+        if (g.members.length >= 3) { showToast('Kadro dolu (3 üye)', 'amber'); return false; } 
+        const k = ['lehimci','yazilimci','sunumcu'][Math.floor(Math.random() * 3)]; 
+        g.members.push(k); mor(-5); 
+        showToast('🧑‍🔧 Yeni üye: ' + MEM[k], 'lime');
+      }
+      g.quests = g.quests.filter(k => k === 'tea' || k === 'clean' || k === 'ocak' || k !== t);
+    }
+
+    let roomOn = false; 
+    const rm = { 
+      x: 300, 
+      y: 160, 
+      targetX: null,
+      targetY: null,
+      keys: {}, 
+      near: null, 
+      run: false 
+    };
+
+    const ST = [
+      { x:20,  y:30,  w:110, h:50, n:'🔥 Lehim Masası', a:'lehim' },
+      { x:170, y:30,  w:110, h:50, n:'☕ Çay Ocağı',   a:'cay' },
+      { x:330, y:30,  w:110, h:50, n:'🐱 Kedi Lehim',   a:'kedi' },
+      { x:490, y:30,  w:110, h:50, n:'📋 Görev Panosu', a:'pano' },
+      { x:20,  y:230, w:110, h:50, n:'🛫 Uçuş Alanı',   a:'ucus' },
+      { x:250, y:230, w:120, h:50, n:'🏆 Şeref Köşesi', a:'muze' },
+      { x:490, y:230, w:110, h:50, n:'🚪 Çıkış',        a:'pano' }
+    ];
+
+    function startRoom() { 
+      rm.x = 300; 
+      rm.y = 160; 
+      rm.targetX = null;
+      rm.targetY = null;
+      if (!rm.run) { 
+        rm.run = true; 
+        roomLoop(); 
+      } 
+    }
+
+    function roomLoop() {
+      if (!roomOn) { rm.run = false; return; }
+      
+      const k = rm.keys; 
+      if (k.l) { rm.x -= 3; rm.targetX = null; }
+      if (k.r) { rm.x += 3; rm.targetX = null; }
+      if (k.u) { rm.y -= 3; rm.targetY = null; }
+      if (k.d) { rm.y += 3; rm.targetY = null; }
+
+      if (rm.targetX !== null && rm.targetY !== null) {
+        const dx = rm.targetX - rm.x;
+        const dy = rm.targetY - rm.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 4) {
+          rm.x += (dx / dist) * 3.5;
+          rm.y += (dy / dist) * 3.5;
+        } else {
+          rm.targetX = null;
+          rm.targetY = null;
+        }
+      }
+
+      rm.x = Math.max(10, Math.min(630, rm.x)); 
+      rm.y = Math.max(16, Math.min(300, rm.y));
+
+      const c = document.getElementById('room-canvas').getContext('2d'); 
+      c.fillStyle = '#0f172a'; 
+      c.fillRect(0, 0, 640, 320); 
+      c.fillStyle = '#1b2740'; 
+      for (let i = 0; i < 640; i += 32) c.fillRect(i, 0, 1, 320);
+      
+      c.font = '13px monospace'; 
+      rm.near = null;
+
+      ST.forEach(s => { 
+        c.fillStyle = '#334155'; 
+        c.fillRect(s.x, s.y, s.w, s.h); 
+        c.fillStyle = '#e2e8f0'; 
+        c.fillText(s.n, s.x + 4, s.y + 29); 
+        if (rm.x > s.x - 24 && rm.x < s.x + s.w + 24 && rm.y > s.y - 24 && rm.y < s.y + s.h + 24) {
+          rm.near = s; 
+          c.strokeStyle = '#00f2fe';
+          c.lineWidth = 2;
+          c.strokeRect(s.x - 2, s.y - 2, s.w + 4, s.h + 4);
+        }
+      });
+
+      if (rm.targetX !== null) {
+        c.strokeStyle = '#facc15';
+        c.strokeRect(rm.targetX - 4, rm.targetY - 4, 8, 8);
+      }
+
+      // Burka character
+      c.fillStyle = '#1e3a8a'; 
+      c.fillRect(rm.x - 8, rm.y, 16, 16); 
+      c.fillStyle = '#f5c6a5'; 
+      c.fillRect(rm.x - 6, rm.y - 12, 12, 12); 
+      c.fillStyle = '#2b1b17'; 
+      c.fillRect(rm.x - 6, rm.y - 14, 12, 4); 
+      c.fillStyle = '#00f2fe'; 
+      c.fillRect(rm.x - 5, rm.y - 7, 10, 2);
+
+      c.fillStyle = '#facc15'; 
+      c.fillText(rm.near ? '[E] veya Dokun: ' + rm.near.n : 'Yürü: Tıkla/Dokun veya WASD', 10, 312); 
+      
+      requestAnimationFrame(roomLoop);
+    }
+
+    function roomAct(s) {
+      if (!s) return; 
+      const g = gameState;
+      if (s.a === 'lehim') { 
+        if (g.lehimDay === g.daysLeft) return showToast('Bugün zaten lehim pratiği yaptın', 'amber'); 
+        playMini('lehim', q => { 
+          g.lehimDay = g.daysLeft; 
+          g.xp += q * 3; 
+          showToast('🔥 Lehim pratiği: +' + (q * 3) + ' XP', 'cyan'); 
+          saveGame(); 
+          updateHUD(); 
+        }); 
+      }
+      else if (s.a === 'cay') {
+        runSideQuest('tea');
+      }
+      else if (s.a === 'kedi') { 
+        if (g.catDay === g.daysLeft) return showToast('🐱 Lehim uyuyor, rahatsız etme', 'amber'); 
+        g.catDay = g.daysLeft; 
+        mor(10); 
+        showToast('🐱 Kedi Lehim mırladı ve dizine çıktı: +10 Moral', 'pink'); 
+        saveGame(); 
+        updateHUD(); 
+      }
+      else if (s.a === 'muze') {
+        openMuseumModal();
+      }
+      else if (s.a === 'ucus') {
+        showScreen('flight'); 
+      } else {
+        showScreen('workshop');
+      }
+    }
+
+    const RK = { KeyA: 'l', ArrowLeft: 'l', KeyD: 'r', ArrowRight: 'r', KeyW: 'u', ArrowUp: 'u', KeyS: 'd', ArrowDown: 'd' };
+    window.addEventListener('keydown', e => { 
+      if (RK[e.code]) rm.keys[RK[e.code]] = true; 
+      if (e.code === 'KeyE' && roomOn) roomAct(rm.near); 
+    });
+    window.addEventListener('keyup', e => { 
+      if (RK[e.code]) rm.keys[RK[e.code]] = false; 
+    });
+
+    const roomCanvasEl = document.getElementById('room-canvas');
+    function handleRoomPointer(e) {
+      if (!roomOn) return;
+      const rect = roomCanvasEl.getBoundingClientRect();
+      const scaleX = roomCanvasEl.width / rect.width;
+      const scaleY = roomCanvasEl.height / rect.height;
+      const clickX = ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) * scaleX;
+      const clickY = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * scaleY;
+      
+      let hitStation = null;
+      ST.forEach(s => {
+        if (clickX >= s.x && clickX <= s.x + s.w && clickY >= s.y && clickY <= s.y + s.h) {
+          hitStation = s;
+        }
+      });
+
+      if (hitStation && rm.near === hitStation) {
+        roomAct(hitStation);
+      } else {
+        rm.targetX = clickX;
+        rm.targetY = clickY;
+      }
+    }
+    roomCanvasEl.addEventListener('click', handleRoomPointer);
+    roomCanvasEl.addEventListener('touchstart', (e) => { e.preventDefault(); handleRoomPointer(e); }, { passive: false });
+
+    function bindRoomTouchBtn(id, keyName) {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); rm.keys[keyName] = true; });
+      btn.addEventListener('touchend', (e) => { e.preventDefault(); rm.keys[keyName] = false; });
+      btn.addEventListener('mousedown', () => { rm.keys[keyName] = true; });
+      btn.addEventListener('mouseup', () => { rm.keys[keyName] = false; });
+    }
+    bindRoomTouchBtn('btn-room-left', 'l');
+    bindRoomTouchBtn('btn-room-right', 'r');
+    bindRoomTouchBtn('btn-room-up', 'u');
+    bindRoomTouchBtn('btn-room-down', 'd');
+    document.getElementById('btn-room-action').addEventListener('click', () => {
+      if (rm.near) roomAct(rm.near);
+      else showToast('Bir masanın yanına yaklaşmalısın!', 'amber');
+    });
+
+    const screenWorkshop = document.getElementById('screen-workshop');
+    const screenFlight = document.getElementById('screen-flight');
+    const screenFestival = document.getElementById('screen-festival');
+    const screenCompetition = document.getElementById('screen-competition');
+
+    function showScreen(name) {
+      document.getElementById('screen-room').classList.add('hidden'); 
+      roomOn = name === 'room'; 
+      if (roomOn) { 
+        document.getElementById('screen-room').classList.remove('hidden'); 
+        startRoom(); 
+      }
+      music.setMode(name);
+      screenWorkshop.classList.add('hidden');
+      screenFlight.classList.add('hidden');
+      screenFestival.classList.add('hidden');
+      screenCompetition.classList.add('hidden');
+
+      if (name === 'workshop') {
+        screenWorkshop.classList.remove('hidden');
+      } else if (name === 'flight') {
+        screenFlight.classList.remove('hidden');
+        startFlightSimulation();
+      } else if (name === 'festival') {
+        screenFestival.classList.remove('hidden');
+      } else if (name === 'competition') {
+        screenCompetition.classList.remove('hidden');
+        startCompetitionSequence();
+      }
+    }
+
+    const flightCanvas = document.getElementById('flight-canvas');
+    const flightCtx = flightCanvas.getContext('2d');
+    let flightAnimationId = null;
+
+    const simState = {
+      drone: {
+        x: 80,
+        y: 200,
+        vx: 0,
+        vy: 0,
+        tilt: 0,
+        battery: 100
+      },
+      keys: {
+        up: false,
+        down: false,
+        left: false,
+        right: false
+      },
+      wind: 0,
+      gates: [],
+      particles: [],
+      rainDrops: [],
+      passedGates: 0,
+      combo: 1,
+      score: 0,
+      distanceTraveled: 0,
+      isFinished: false,
+      payload: {
+        active: false,
+        deployed: false,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        landed: false,
+        hitTarget: false
+      },
+      dropZone: {
+        x: 0,
+        width: 100
+      },
+      scanTarget: {
+        x: 0,
+        width: 70,
+        progress: 0,
+        scanned: false
+      }
+    };
+
+    function resizeFlightCanvas() {
+      if (!flightCanvas) return;
+      const rect = flightCanvas.parentElement.getBoundingClientRect();
+      flightCanvas.width = rect.width;
+      flightCanvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeFlightCanvas);
+
+    function startFlightSimulation() {
+      resizeFlightCanvas();
+      const night = gameState.season % 3 === 0; 
+      flightCanvas.style.filter = night ? 'brightness(.6) contrast(1.2)' : ''; 
+      if (night) showToast('🌙 Gece uçuşu! Ön projektör ışığı devrede', 'sky');
+      
+      document.getElementById('sim-message-overlay').classList.add('hidden');
+
+      const maxBatt = 100 + (gameState.drone.batteryLvl - 1) * 20;
+
+      simState.drone.x = 80;
+      simState.drone.y = flightCanvas.height / 2;
+      simState.drone.vx = 0;
+      simState.drone.vy = 0;
+      simState.drone.tilt = 0;
+      simState.drone.battery = maxBatt;
+      simState.passedGates = 0;
+      simState.combo = 1;
+      simState.score = 0;
+      simState.distanceTraveled = 0;
+      simState.particles = [];
+      simState.rainDrops = [];
+      simState.isFinished = false;
+
+      // Reset Payload
+      simState.payload = {
+        active: true,
+        deployed: false,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        landed: false,
+        hitTarget: false
+      };
+      gameState.drone.payloadSuccess = false;
+      document.getElementById('sim-payload-status').innerText = '📦 KARGO: HAZIR (BOŞLUK)';
+      document.getElementById('sim-payload-status').className = 'text-purple-300 font-bold bg-purple-950 px-1.5 py-0.5 border border-purple-600 text-xs';
+
+      // Drop Zone & QR Scan Target Setup
+      simState.dropZone = {
+        x: 2200,
+        width: 110
+      };
+
+      simState.scanTarget = {
+        x: 1200,
+        width: 70,
+        progress: 0,
+        scanned: false
+      };
+      gameState.drone.scanSuccess = false;
+      document.getElementById('sim-scan-status').innerText = '📷 QR: BEKLENİYOR';
+      document.getElementById('sim-scan-status').className = 'text-sky-300 font-bold bg-sky-950 px-1.5 py-0.5 border border-sky-600 text-xs';
+
+      if (gameState.theme === 'firtina') {
+        for (let i = 0; i < 40; i++) {
+          simState.rainDrops.push({
+            x: Math.random() * flightCanvas.width,
+            y: Math.random() * flightCanvas.height,
+            len: 10 + Math.random() * 8,
+            speed: 300 + Math.random() * 150
+          });
+        }
+      }
+
+      let windDampening = 1 - (gameState.drone.softwareLvl * 0.12);
+      if (gameState.perks.gps) windDampening *= 0.6;
+      simState.wind = (Math.random() * 1.5 - 0.75) * Math.max(0.2, windDampening) * (gameState.theme === 'firtina' ? 1.7 : 1);
+
+      const windText = document.getElementById('sim-wind-indicator');
+      if (Math.abs(simState.wind) < 0.3) {
+        windText.innerText = "RÜZGAR: HAFİF";
+        windText.className = "text-xs bg-slate-800 px-2 py-0.5 border border-emerald-600 text-emerald-300";
+      } else if (simState.wind > 0) {
+        windText.innerText = "RÜZGAR: GÜNEYDEN ➔";
+        windText.className = "text-xs bg-slate-800 px-2 py-0.5 border border-amber-600 text-amber-300";
+      } else {
+        windText.innerText = "RÜZGAR: KUZEYDEN ⬅";
+        windText.className = "text-xs bg-slate-800 px-2 py-0.5 border border-rose-600 text-rose-300";
+      }
+
+      const total = Math.min(12, 8 + Math.floor(gameState.season / 2));
+      const gap = Math.max(76, 110 - gameState.season * 3);
+      Object.assign(simState, { total, missed: 0, hull: 100, birds: [], cells: [], t: 0, gates: [] });
+      
+      for (let i = 1; i <= total; i++) {
+        const mid = Math.floor(Math.random() * (flightCanvas.height - gap - 120)) + 60;
+        simState.gates.push({ 
+          x: 120 + 390 * i, 
+          baseY: mid, 
+          topY: mid, 
+          gap, 
+          passed: false, 
+          ph: Math.random() * 6,
+          amp: (gameState.season >= 2 && i > 2) ? 20 + Math.min(30, gameState.season * 3) : 0 
+        });
+        simState.cells.push({ 
+          x: 120 + 390 * i - 195, 
+          y: 60 + Math.random() * (flightCanvas.height - 160), 
+          got: false 
+        });
+      }
+
+      if (flightAnimationId) cancelAnimationFrame(flightAnimationId);
+      lastSimTime = performance.now();
+      flightLoop();
+    }
+
+    let lastSimTime = 0;
+
+    function damage(n, msg) {
+      if (simState.isFinished) return;
+      n = Math.round(n * Math.max(0.5, 1 - gameState.drone.frameLvl * 0.06));
+      simState.hull -= n; 
+      simState.combo = 1;
+      audio.playHit(); 
+      showToast(`💥 ${msg} Gövde -${n}%`, 'rose');
+      if (simState.hull <= 0) { 
+        simState.hull = 0; 
+        finishFlight(false, 'Gövde parçalandı! Barkan düştü.'); 
+      }
+    }
+
+    function deployPayload() {
+      if (!simState.payload.active || simState.payload.deployed || simState.isFinished) return;
+      simState.payload.deployed = true;
+      simState.payload.x = simState.drone.x;
+      simState.payload.y = simState.drone.y + 12;
+      simState.payload.vx = simState.drone.vx * 0.9;
+      simState.payload.vy = 20;
+      audio.beep(550, 'square', 0.1);
+      document.getElementById('sim-payload-status').innerText = '📦 KARGO: BIRAKILDI...';
+      document.getElementById('sim-payload-status').className = 'text-amber-300 font-bold bg-amber-950 px-1.5 py-0.5 border border-amber-600 text-xs';
+      showToast('📦 Faydalı yük bırakıldı! Paraşüt açıldı.', 'purple');
+    }
+
+    function flightLoop() {
+      const now = performance.now();
+      const dt = Math.min((now - lastSimTime) / 1000, 0.1);
+      lastSimTime = now;
+
+      updateFlightPhysics(dt);
+      drawFlightCanvas();
+
+      if (!simState.isFinished) {
+        flightAnimationId = requestAnimationFrame(flightLoop);
+      }
+    }
+
+    function updateFlightPhysics(dt) {
+      const d = simState.drone;
+      const specs = calculateDroneSpecs();
+      const thrustPower = (340 + (gameState.drone.frameLvl * 25)) * (gameState.perks.esc ? 1.15 : 1);
+      const gravity = 190 + (specs.weight / 10);
+      const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
+
+      if (simState.keys.up) {
+        d.vy -= thrustPower * dt;
+        for (let i = 0; i < 2; i++) {
+          simState.particles.push({
+            x: d.x - 12 + Math.random() * 24,
+            y: d.y + 8,
+            vx: -20 + Math.random() * 40,
+            vy: 60 + Math.random() * 45,
+            life: 0.35,
+            maxLife: 0.35,
+            color: (Math.random() < 0.6) ? activeColor.flame : '#f97316'
+          });
+        }
+      }
+      if (simState.keys.down) {
+        d.vy += (thrustPower * 0.7) * dt;
+      }
+      d.vy += gravity * dt;
+
+      const hSpeed = 220 + (gameState.drone.frameLvl * 20);
+      if (simState.keys.left) {
+        d.vx = -hSpeed;
+        d.tilt = Math.max(-0.35, d.tilt - 2.5 * dt);
+      } else if (simState.keys.right) {
+        d.vx = hSpeed;
+        d.tilt = Math.min(0.35, d.tilt + 2.5 * dt);
+      } else {
+        d.vx *= 0.94;
+        d.tilt *= 0.88;
+      }
+
+      simState.t += dt;
+      const gust = Math.sin(simState.t * 0.9) * 0.5 * Math.max(0.3, 1 - gameState.drone.softwareLvl * 0.08) * (gameState.perks.gps ? 0.6 : 1);
+      d.vx += (simState.wind + gust) * 70 * dt;
+
+      d.x += d.vx * dt;
+      d.y += d.vy * dt;
+
+      if (d.y < 20) { d.y = 20; d.vy = 0; }
+      if (d.y > flightCanvas.height - 25) { 
+        d.y = flightCanvas.height - 25; 
+        d.vy = 0; 
+        damage(12, 'Yere çarptı!');
+      }
+      if (d.x < 30) d.x = 30;
+      
+      // Camera scroll
+      if (d.x > flightCanvas.width * 0.45) {
+        const excess = d.x - flightCanvas.width * 0.45;
+        d.x = flightCanvas.width * 0.45;
+        simState.distanceTraveled += excess;
+        simState.gates.forEach(g => g.x -= excess); 
+        simState.birds.forEach(b => b.x -= excess); 
+        simState.cells.forEach(c => c.x -= excess);
+        simState.dropZone.x -= excess;
+        simState.scanTarget.x -= excess;
+        if (simState.payload.deployed && !simState.payload.landed) {
+          simState.payload.x -= excess;
+        }
+      }
+
+      // Battery Drain
+      const drainRate = ((gameState.theme === 'sicak' ? 3.4 : 2.8) * (specs.weight / 800)) / (1 + (gameState.drone.batteryLvl * 0.15));
+      d.battery -= drainRate * dt;
+      if (d.battery <= 0) {
+        d.battery = 0;
+        finishFlight(false, "Batarya tükendi! Barkan acil iniş yaptı.");
+        return;
+      }
+
+      // Hover & Scan (QR Code ground target)
+      const st = simState.scanTarget;
+      if (!st.scanned && st.x > -50 && st.x < flightCanvas.width + 50) {
+        const inScanRange = Math.abs(d.x - (st.x + st.width / 2)) < 45 && d.y > (flightCanvas.height - 180);
+        if (inScanRange) {
+          st.progress += dt;
+          document.getElementById('sim-scan-status').innerText = `📷 QR: %${Math.min(100, Math.round((st.progress / 3.0) * 100))}`;
+          document.getElementById('sim-scan-status').className = 'text-amber-300 font-bold bg-amber-950 px-1.5 py-0.5 border border-amber-500 text-xs';
+          
+          if (st.progress >= 3.0) {
+            st.scanned = true;
+            gameState.drone.scanSuccess = true;
+            simState.score += 400;
+            audio.playSuccess();
+            badge('tarayici', '📷 Görüntü İşleme Ustası');
+            showToast('🎯 QR KOD TARANDI! Otonom veri indirildi (+400 Skor, +8 Jüri Puanı)', 'emerald');
+            document.getElementById('sim-scan-status').innerText = '📷 QR: TAMAMLANDI ✓';
+            document.getElementById('sim-scan-status').className = 'text-emerald-300 font-bold bg-emerald-950 px-1.5 py-0.5 border border-emerald-500 text-xs';
+          }
+        }
+      }
+
+      // Moving gates & bird spawns
+      simState.gates.forEach(g => { 
+        if (g.amp) g.topY = Math.max(20, Math.min(flightCanvas.height - g.gap - 30, g.baseY + Math.sin(simState.t * 1.4 + g.ph) * g.amp)); 
+      });
+
+      if (Math.random() < dt * (0.28 + gameState.season * 0.07)) {
+        simState.birds.push({ 
+          x: flightCanvas.width + 30, 
+          y: 40 + Math.random() * (flightCanvas.height - 100), 
+          vx: 90 + Math.random() * 80 
+        });
+      }
+
+      for (let i = simState.birds.length - 1; i >= 0; i--) {
+        const b = simState.birds[i]; 
+        b.x -= b.vx * dt;
+        if (Math.abs(b.x - d.x) < 22 && Math.abs(b.y - d.y) < 16) { 
+          simState.birds.splice(i, 1); 
+          damage(15, 'Kuş çarptı!'); 
+          if (simState.isFinished) return; 
+        }
+        else if (b.x < -40) simState.birds.splice(i, 1);
+      }
+
+      simState.cells.forEach(c => { 
+        if (!c.got && Math.abs(c.x - d.x) < 22 && Math.abs(c.y - d.y) < 22) { 
+          c.got = true; 
+          d.battery = Math.min(100 + (gameState.drone.batteryLvl - 1) * 20, d.battery + 12); 
+          simState.score += 35 * simState.combo; 
+          audio.playCollect(); 
+        } 
+      });
+
+      // Gate passing logic
+      simState.gates.forEach(g => {
+        if (!g.passed && g.x < d.x) {
+          const inRing = (d.y >= g.topY && d.y <= g.topY + g.gap);
+          if (inRing) {
+            g.passed = true;
+            simState.passedGates++;
+            simState.score += 150 * simState.combo;
+            simState.combo = Math.min(5, simState.combo + 1);
+            audio.playCollect();
+
+            for (let i = 0; i < 14; i++) {
+              simState.particles.push({
+                x: g.x,
+                y: d.y,
+                vx: (Math.random() - 0.5) * 160,
+                vy: (Math.random() - 0.5) * 160,
+                life: 0.6,
+                maxLife: 0.6,
+                color: activeColor.hex
+              });
+            }
+          } else {
+            g.passed = true;
+            simState.combo = 1;
+            audio.playHit();
+            simState.score = Math.max(0, simState.score - 40); 
+            simState.missed++; 
+            damage(20, 'Kapı direğine çarptı!');
+          }
+        }
+      });
+
+      // Payload physics
+      const p = simState.payload;
+      if (p.deployed && !p.landed) {
+        p.vy = Math.min(95, p.vy + 75 * dt);
+        p.vx *= 0.98;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+
+        if (p.y >= flightCanvas.height - 30) {
+          p.y = flightCanvas.height - 30;
+          p.landed = true;
+          
+          const dz = simState.dropZone;
+          const distToCenter = Math.abs(p.x - (dz.x + dz.width / 2));
+          if (distToCenter < dz.width / 2) {
+            p.hitTarget = true;
+            gameState.drone.payloadSuccess = true;
+            gameState.payloadDrops++;
+            simState.score += 450;
+            audio.playFanfare();
+            showToast('🎯 TAM İSABET! Faydalı yük hedef çemberinde! (+450 Skor)', 'emerald');
+            badge('nisanci', '🎯 Keskin Nişancı');
+            document.getElementById('sim-payload-status').innerText = '📦 KARGO: HEDEFTE! ✓';
+            document.getElementById('sim-payload-status').className = 'text-emerald-300 font-bold bg-emerald-950 px-1.5 py-0.5 border border-emerald-600 text-xs';
+            
+            for (let i = 0; i < 24; i++) {
+              simState.particles.push({
+                x: p.x,
+                y: p.y,
+                vx: (Math.random() - 0.5) * 180,
+                vy: -Math.random() * 150 - 40,
+                life: 0.8,
+                maxLife: 0.8,
+                color: '#22c55e'
+              });
+            }
+          } else {
+            audio.playHit();
+            showToast('⚠️ Kargo hedef çemberinin dışına düştü.', 'amber');
+            document.getElementById('sim-payload-status').innerText = '📦 KARGO: SAPTI ✕';
+            document.getElementById('sim-payload-status').className = 'text-rose-300 font-bold bg-rose-950 px-1.5 py-0.5 border border-rose-600 text-xs';
+          }
+        }
+      }
+
+      simState.rainDrops.forEach(r => {
+        r.y += r.speed * dt;
+        r.x -= 80 * dt;
+        if (r.y > flightCanvas.height) {
+          r.y = -10;
+          r.x = Math.random() * flightCanvas.width;
+        }
+      });
+
+      for (let i = simState.particles.length - 1; i >= 0; i--) {
+        const pt = simState.particles[i];
+        pt.x += pt.vx * dt;
+        pt.y += pt.vy * dt;
+        pt.life -= dt;
+        if (pt.life <= 0) simState.particles.splice(i, 1);
+      }
+
+      if (!simState.isFinished && simState.passedGates + simState.missed >= simState.total) {
+        finishFlight(simState.passedGates >= Math.ceil(simState.total * 0.65), `Parkur bitti: ${simState.passedGates}/${simState.total} kapı geçildi.`);
+      }
+
+      document.getElementById('sim-battery-text').innerText = `${Math.round(d.battery)}%`;
+      document.getElementById('sim-gate-text').innerText = `${simState.passedGates}/${simState.total} 🛡${Math.round(simState.hull)}%`;
+      document.getElementById('sim-combo-text').innerText = `x${simState.combo}`;
+      document.getElementById('sim-score-text').innerText = simState.score;
+    }
+
+    function drawFlightCanvas() {
+      const w = flightCanvas.width;
+      const h = flightCanvas.height;
+      flightCtx.clearRect(0, 0, w, h);
+
+      // Sky
+      const skyGrad = flightCtx.createLinearGradient(0, 0, 0, h);
+      skyGrad.addColorStop(0, '#09152e');
+      skyGrad.addColorStop(0.7, '#132c54');
+      skyGrad.addColorStop(1, '#1e3a5f');
+      flightCtx.fillStyle = skyGrad;
+      flightCtx.fillRect(0, 0, w, h);
+
+      // Campus Silhouette
+      flightCtx.fillStyle = '#0b1626';
+      flightCtx.beginPath();
+      flightCtx.moveTo(0, h);
+      flightCtx.lineTo(0, h - 70);
+      flightCtx.lineTo(w * 0.25, h - 90);
+      flightCtx.lineTo(w * 0.5, h - 60);
+      flightCtx.lineTo(w * 0.75, h - 85);
+      flightCtx.lineTo(w, h - 70);
+      flightCtx.lineTo(w, h);
+      flightCtx.fill();
+
+      // Ground runway
+      flightCtx.fillStyle = '#08101d';
+      flightCtx.fillRect(0, h - 25, w, 25);
+      flightCtx.fillStyle = '#1e293b';
+      flightCtx.fillRect(0, h - 25, w, 2);
+
+      // Draw QR SCAN TARGET on ground
+      const st = simState.scanTarget;
+      if (st.x > -100 && st.x < w + 100) {
+        flightCtx.fillStyle = '#0284c7';
+        flightCtx.fillRect(st.x, h - 22, st.width, 18);
+        flightCtx.strokeStyle = st.scanned ? '#22c55e' : '#38bdf8';
+        flightCtx.lineWidth = 2;
+        flightCtx.strokeRect(st.x, h - 22, st.width, 18);
+
+        // QR pixel dots pattern
+        flightCtx.fillStyle = '#ffffff';
+        for (let i = 0; i < 4; i++) {
+          flightCtx.fillRect(st.x + 8 + i * 14, h - 18, 5, 5);
+          flightCtx.fillRect(st.x + 8 + i * 14, h - 10, 5, 5);
+        }
+
+        flightCtx.font = '10px monospace';
+        flightCtx.fillStyle = '#38bdf8';
+        flightCtx.fillText('📷 QR HEDEFİ', st.x + 6, h - 28);
+
+        // Draw holographic scanning cone if drone is hovering above it
+        const d = simState.drone;
+        if (!st.scanned && Math.abs(d.x - (st.x + st.width / 2)) < 50 && d.y > (h - 180)) {
+          flightCtx.save();
+          const scanGrad = flightCtx.createLinearGradient(d.x, d.y, d.x, h - 25);
+          scanGrad.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+          scanGrad.addColorStop(1, 'rgba(56, 189, 248, 0.05)');
+          flightCtx.fillStyle = scanGrad;
+          flightCtx.beginPath();
+          flightCtx.moveTo(d.x - 4, d.y + 6);
+          flightCtx.lineTo(st.x, h - 22);
+          flightCtx.lineTo(st.x + st.width, h - 22);
+          flightCtx.lineTo(d.x + 4, d.y + 6);
+          flightCtx.fill();
+          flightCtx.restore();
+        }
+      }
+
+      // Draw DROP ZONE TARGET on ground
+      const dz = simState.dropZone;
+      if (dz.x > -150 && dz.x < w + 150) {
+        flightCtx.fillStyle = '#155e75';
+        flightCtx.fillRect(dz.x, h - 22, dz.width, 18);
+        flightCtx.strokeStyle = '#22c55e';
+        flightCtx.lineWidth = 2;
+        flightCtx.strokeRect(dz.x, h - 22, dz.width, 18);
+
+        flightCtx.strokeStyle = '#facc15';
+        flightCtx.beginPath();
+        flightCtx.arc(dz.x + dz.width / 2, h - 13, 14, 0, Math.PI * 2);
+        flightCtx.stroke();
+
+        flightCtx.fillStyle = '#ef4444';
+        flightCtx.fillRect(dz.x + dz.width / 2 - 2, h - 15, 4, 4);
+
+        flightCtx.font = '10px monospace';
+        flightCtx.fillStyle = '#22c55e';
+        flightCtx.fillText('📦 HEDEF ÇEMBERİ', dz.x + 10, h - 28);
+      }
+
+      // Draw Gates
+      simState.gates.forEach(g => {
+        if (g.x > -60 && g.x < w + 60) {
+          flightCtx.fillStyle = '#475569';
+          flightCtx.fillRect(g.x - 3, 0, 6, g.topY);
+          flightCtx.fillRect(g.x - 3, g.topY + g.gap, 6, h - (g.topY + g.gap));
+
+          flightCtx.strokeStyle = g.passed ? '#22c55e' : '#00f2fe';
+          flightCtx.lineWidth = 5;
+          flightCtx.strokeRect(g.x - 14, g.topY, 28, g.gap);
+
+          flightCtx.fillStyle = (Date.now() % 400 < 200) ? '#f59e0b' : '#ef4444';
+          flightCtx.fillRect(g.x - 5, g.topY - 6, 10, 6);
+          flightCtx.fillRect(g.x - 5, g.topY + g.gap, 10, 6);
+        }
+      });
+
+      // Battery pickups
+      simState.cells.forEach(c => { 
+        if (!c.got && c.x > -20 && c.x < w + 20) { 
+          flightCtx.fillStyle = '#facc15'; 
+          flightCtx.fillRect(c.x - 6, c.y - 8, 12, 16); 
+          flightCtx.fillStyle = '#000'; 
+          flightCtx.fillRect(c.x - 2, c.y - 4, 4, 8); 
+        } 
+      });
+
+      // Obstacle birds
+      simState.birds.forEach(b => { 
+        flightCtx.fillStyle = '#ef4444'; 
+        flightCtx.fillRect(b.x - 8, b.y - 3, 16, 6); 
+        flightCtx.fillRect(b.x - 4, b.y - ((Date.now() % 200 < 100) ? 9 : -3), 8, 6); 
+      });
+
+      // Draw Payload
+      const p = simState.payload;
+      if (p.deployed && p.x > -40 && p.x < w + 40) {
+        if (!p.landed) {
+          flightCtx.fillStyle = '#f43f5e';
+          flightCtx.beginPath();
+          flightCtx.arc(p.x, p.y - 12, 14, Math.PI, 0);
+          flightCtx.fill();
+          flightCtx.strokeStyle = '#e2e8f0';
+          flightCtx.lineWidth = 1;
+          flightCtx.beginPath();
+          flightCtx.moveTo(p.x - 14, p.y - 12);
+          flightCtx.lineTo(p.x, p.y);
+          flightCtx.moveTo(p.x + 14, p.y - 12);
+          flightCtx.lineTo(p.x, p.y);
+          flightCtx.stroke();
+        }
+        flightCtx.fillStyle = '#d97706';
+        flightCtx.fillRect(p.x - 6, p.y - 6, 12, 12);
+        flightCtx.fillStyle = '#fef08a';
+        flightCtx.fillRect(p.x - 2, p.y - 6, 4, 12);
+        flightCtx.fillRect(p.x - 6, p.y - 2, 12, 4);
+      }
+
+      // Draw Particles
+      simState.particles.forEach(pt => {
+        flightCtx.fillStyle = pt.color;
+        const size = (pt.life / pt.maxLife) * 6;
+        flightCtx.fillRect(pt.x - size / 2, pt.y - size / 2, size, size);
+      });
+
+      if (gameState.theme === 'firtina') {
+        flightCtx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
+        flightCtx.lineWidth = 1.5;
+        simState.rainDrops.forEach(r => {
+          flightCtx.beginPath();
+          flightCtx.moveTo(r.x, r.y);
+          flightCtx.lineTo(r.x - 5, r.y + r.len);
+          flightCtx.stroke();
+        });
+      }
+
+      // Draw Drone (BARKAN)
+      const d = simState.drone;
+      const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
+
+      flightCtx.save();
+      flightCtx.translate(d.x, d.y);
+      flightCtx.rotate(d.tilt);
+
+      if (gameState.season % 3 === 0) {
+        const coneGrad = flightCtx.createRadialGradient(16, 0, 4, 160, 0, 160);
+        coneGrad.addColorStop(0, 'rgba(254, 240, 138, 0.35)');
+        coneGrad.addColorStop(1, 'rgba(254, 240, 138, 0)');
+        flightCtx.fillStyle = coneGrad;
+        flightCtx.beginPath();
+        flightCtx.moveTo(14, -3);
+        flightCtx.lineTo(160, -45);
+        flightCtx.lineTo(160, 45);
+        flightCtx.lineTo(14, 3);
+        flightCtx.fill();
+      }
+
+      flightCtx.fillStyle = '#1e293b';
+      flightCtx.fillRect(-18, -4, 36, 8);
+      flightCtx.fillStyle = activeColor.accent;
+      flightCtx.fillRect(-10, -8, 20, 16);
+
+      flightCtx.fillStyle = '#e2e8f0';
+      flightCtx.fillRect(-18, -9, 4, 5);
+      flightCtx.fillRect(14, -9, 4, 5);
+
+      flightCtx.fillStyle = activeColor.flame;
+      const propOffset = (Date.now() % 60 < 30) ? 14 : 10;
+      flightCtx.fillRect(-24, -11, propOffset, 2);
+      flightCtx.fillRect(10, -11, propOffset, 2);
+
+      flightCtx.fillStyle = '#22c55e';
+      flightCtx.fillRect(8, -2, 4, 4);
+
+      if (simState.payload.active && !simState.payload.deployed) {
+        flightCtx.fillStyle = '#d97706';
+        flightCtx.fillRect(-5, 8, 10, 8);
+      }
+
+      flightCtx.restore();
+
+      if (simState.combo > 1) {
+        flightCtx.font = '14px "Press Start 2P", monospace';
+        flightCtx.fillStyle = '#facc15';
+        flightCtx.fillText(`COMBO x${simState.combo}!`, d.x - 40, Math.max(30, d.y - 30));
+      }
+    }
+
+    function finishFlight(success, msg) {
+      simState.isFinished = true;
+      gameState.drone.testFlightDone = true;
+      gameState.drone.lastFlightScore = simState.score;
+
+      if (simState.score > (gameState.highScore || 0)) {
+        gameState.highScore = simState.score;
+        badge('rekor', '⚡ Rekor Pilot');
+      }
+
+      const earnedXp = Math.round((Math.floor(simState.score / 20) + (success ? 10 : 2)) * (gameState.perks.simsrv ? 1.5 : 1));
+      gameState.xp += earnedXp;
+      spendDay();
+
+      if (success) {
+        audio.playSuccess();
+      } else {
+        audio.playHit();
+      }
+
+      saveGame();
+
+      const modal = document.getElementById('sim-message-overlay');
+      document.getElementById('sim-modal-title').innerText = success ? "TEST UÇUŞU BAŞARILI! 🚀" : "UÇUŞ SONLANDI";
+      document.getElementById('sim-modal-desc').innerText = `${msg} | Kazanılan AR-GE XP: +${earnedXp}`;
+      modal.classList.remove('hidden');
+    }
+
+    document.getElementById('btn-sim-modal-ok').addEventListener('click', () => {
+      showScreen('workshop');
+      updateHUD();
+      updateBurkaDialogue("Test uçuşu verilerini telemetriye kaydettik. Artık TEKNOFEST festivaline hazırız!");
+    });
+
+    document.getElementById('btn-abort-flight').addEventListener('click', () => {
+      if (flightAnimationId) cancelAnimationFrame(flightAnimationId);
+      showScreen('workshop');
+      updateHUD();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = true;
+      if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = true;
+      if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = true;
+      if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = true;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        deployPayload();
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = false;
+      if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = false;
+      if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = false;
+      if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = false;
+    });
+
+    function bindTouchBtn(id, keyName) {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); simState.keys[keyName] = true; });
+      btn.addEventListener('touchend', (e) => { e.preventDefault(); simState.keys[keyName] = false; });
+      btn.addEventListener('mousedown', () => { simState.keys[keyName] = true; });
+      btn.addEventListener('mouseup', () => { simState.keys[keyName] = false; });
+    }
+    bindTouchBtn('btn-touch-up', 'up');
+    bindTouchBtn('btn-touch-down', 'down');
+    bindTouchBtn('btn-touch-left', 'left');
+    bindTouchBtn('btn-touch-right', 'right');
+    document.getElementById('btn-touch-drop').addEventListener('click', deployPayload);
+
+    document.getElementById('btn-go-festival').addEventListener('click', () => {
+      showScreen('festival');
+      gameState.visitedFestivalPromo = false;
+      gameState.visitedFestivalItu = false;
+      document.getElementById('btn-visit-defense').disabled = false;
+      document.getElementById('btn-visit-itu').disabled = false;
+      updateBurkaDialogue("Festival çadırları kaynıyor! İTÜ çadırına selam verelim, savunma sanayii standından parça toplayalım.");
+    });
+
+    document.getElementById('btn-visit-defense').addEventListener('click', () => {
+      if (gameState.visitedFestivalPromo) return;
+      gameState.visitedFestivalPromo = true;
+      document.getElementById('btn-visit-defense').disabled = true;
+      gameState.parts++;
+      gameState.xp += 15;
+      audio.playCollect();
+      showToast('🎁 ASELSAN/BAYKAR standından yedek parça ve sticker alındı! (+1 Parça, +15 XP)', 'cyan');
+      saveGame();
+      updateHUD();
+    });
+
+    document.getElementById('btn-visit-itu').addEventListener('click', () => {
+      if (gameState.visitedFestivalItu) return;
+      gameState.visitedFestivalItu = true;
+      document.getElementById('btn-visit-itu').disabled = true;
+      gameState.xp += 12;
+      audio.playCollect();
+      npcSay('İTÜ Kaptanı', 'Vay ATÜ Kaan Kulübü! Gövdeniz fena durmuyor ama rüzgarda dikkat edin.');
+      showToast('🐝 İTÜ çadırıyla teknik sohbet edildi: +12 XP', 'amber');
+      saveGame();
+      updateHUD();
+    });
+
+    document.getElementById('btn-eat-kebap').addEventListener('click', () => {
+      if (gameState.budget < 120) {
+        showToast('Kebap yiyecek para kalmadı!', 'rose');
+        return;
+      }
+      gameState.budget -= 120;
+      gameState.morale = 100;
+      audio.playSuccess();
+      showToast('🍢 Adana Kebap & Şalgam gömüldü! Moral %100 fırladı!', 'rose');
+      badge('kebapci', '🌶️ Kebap Sever');
+      saveGame();
+      updateHUD();
+    });
+
+    document.getElementById('btn-proceed-jury').addEventListener('click', () => {
+      showScreen('competition');
+    });
+
+    const QS = [
+      ["PID kontrolcüde salınımı (titreşimi) azaltmak için hangi terim artırılır?", ["Türev (D)", "Sadece P", "Batarya kapasitesi"]],
+      ["LiPo bataryanın saklama (storage) voltajı hücre başına yaklaşık kaçtır?", ["3.8V", "4.2V", "3.0V"]],
+      ["Kalman filtresi ne işe yarar?", ["Sensör gürültüsünü azaltıp durumu tahmin eder", "Motoru soğutur", "Pervaneyi büyütür"]],
+      ["Karbon fiberin dron gövdesindeki en büyük avantajı nedir?", ["Hafif ve son derece sert olması", "Ucuz ve esnek olması", "Paslanmaz olması"]],
+      ["GPS'siz kapalı alanda otonom konum için hangisi kullanılır?", ["Optik Akış (Optical Flow) ve Lidar", "Termometre", "Barometre tek başına"]],
+      ["Elektronik Hız Kontrolcüsü (ESC) görevi nedir?", ["Motor hız ve yönünü fırçasız sürmek", "Video kaydetmek", "Anten boyunu uzatmak"]],
+      ["Dronda 'yaw' ekseni hareketi nedir?", ["Dikey eksende kendi etrafında dönme", "Öne arkaya eğilme", "Yukarı tırmanma"]],
+      ["4S LiPo batarya nominal kaç volttur?", ["14.8V", "11.1V", "7.4V"]]
+    ];
+
+    let quizState = null;
+
+    function startCompetitionSequence() {
+      quizState = { qs: [...QS].sort(() => Math.random() - .5).slice(0, 3), i: 0, ok: 0 };
+      document.getElementById('comp-results-card').classList.add('hidden');
+      document.getElementById('quiz-title').innerText = 'JÜRİ SORU-CEVAP'; 
+      document.getElementById('modal-quiz').classList.remove('hidden'); 
+      showQuiz();
+    }
+
+    function showQuiz() {
+      const q = quizState;
+      if (q.i >= 3) { 
+        document.getElementById('modal-quiz').classList.add('hidden'); 
+        showToast(`🎓 Jüri mülakatı: ${q.ok}/3 doğru (+${q.ok * 2} puan)`, 'cyan'); 
+        runCompetition(q.ok * 2); 
+        return; 
+      }
+      document.getElementById('quiz-prog').innerText = `(${q.i + 1}/3)`; 
+      document.getElementById('quiz-q').innerText = q.qs[q.i][0];
+      const box = document.getElementById('quiz-opts'); 
+      box.innerHTML = '';
+      q.qs[q.i][1].map((t, k) => ({ t, ok: k === 0 })).sort(() => Math.random() - .5).forEach(o => { 
+        const b = document.createElement('button');
+        b.className = 'pixel-btn w-full bg-slate-700 hover:bg-cyan-700 text-white text-sm px-3 py-2 text-left'; 
+        b.innerText = o.t;
+        b.onclick = () => { 
+          if (o.ok) { q.ok++; audio.playCollect(); } else audio.playHit(); 
+          q.i++; 
+          showQuiz(); 
+        }; 
+        box.appendChild(b); 
+      });
+    }
+
+    function runCompetition(bonus) {
+      audio.beep(300, 'square', 0.2);
+      const resultsCard = document.getElementById('comp-results-card');
+      resultsCard.classList.add('hidden');
+
+      const flightMax = 40;
+      const softMax = 35;
+      const teamMax = 25;
+
+      const flightPts = Math.min(flightMax, Math.round(
+        (gameState.drone.frameLvl * 6) + 
+        (gameState.drone.batteryLvl * 4) + 
+        (gameState.drone.testFlightDone ? 8 : 2) + 
+        Math.min(6, Math.floor(gameState.drone.lastFlightScore / 300))
+      ));
+
+      const payloadBonus = gameState.drone.payloadSuccess ? 7 : 0;
+      const scanBonus = gameState.drone.scanSuccess ? 6 : 0;
+
+      const softPts = Math.min(softMax, Math.round(
+        (gameState.drone.softwareLvl * 6) + 
+        (gameState.perks.camera ? 4 : 0) + 
+        payloadBonus +
+        scanBonus +
+        (gameState.drone.lastFlightScore > 800 ? 5 : 2)
+      ));
+
+      const teamPts = Math.min(teamMax, Math.round(
+        (gameState.morale / 100) * 14 + 
+        (gameState.perks.print3d ? 5 : 0) + 4
+      ));
+
+      const luck = Math.round((Math.random() * 8 - 4) * DIFF().luck) - (gameState.sponsor === 'risky' ? 4 : 0);
+      showToast(luck >= 2 ? `🍀 Jüri sunumunda şanslıydık: +${luck}` : luck <= -2 ? `🌧️ Jüri bazı detaylara takıldı: ${luck}` : '🎯 Jüri sunumu dengeli geçti', 'sky');
+      
+      const totalScore = Math.max(30, Math.min(100, flightPts + softPts + teamPts + bonus + luck + (hasM('sunumcu') ? 3 : 0)));
+
+      const scoreFlightEl = document.getElementById('comp-score-flight');
+      const scoreSoftEl = document.getElementById('comp-score-soft');
+      const scoreTeamEl = document.getElementById('comp-score-team');
+
+      scoreFlightEl.innerText = "...";
+      scoreSoftEl.innerText = "...";
+      scoreTeamEl.innerText = "...";
+
+      setTimeout(() => {
+        scoreFlightEl.innerText = flightPts;
+        audio.beep(520, 'square', 0.1);
+        document.getElementById('comp-feedback-flight').innerText = 
+          flightPts > 28 ? "Harika aerodinamik ve kararlı uçuş!" : "Titreşimler puan kırdı.";
+      }, 700);
+
+      setTimeout(() => {
+        scoreSoftEl.innerText = softPts;
+        audio.beep(660, 'square', 0.1);
+        document.getElementById('comp-feedback-soft').innerText = 
+          (gameState.drone.payloadSuccess && gameState.drone.scanSuccess) ? 
+          "Kargo ve QR tarama kusursuz! Tam puan!" : "Otonom algoritma başarılı.";
+      }, 1500);
+
+      setTimeout(() => {
+        scoreTeamEl.innerText = teamPts;
+        audio.beep(800, 'square', 0.1);
+        document.getElementById('comp-feedback-team').innerText = 
+          teamPts > 18 ? "Kaan Kulübü'nün sunumu ve morali takdir topladı." : "Takım yorgun görünüyordu.";
+      }, 2300);
+
+      setTimeout(() => {
+        renderLeaderboard(totalScore);
+        revealAwardAndProgress(totalScore);
+      }, 3100);
+    }
+
+    function renderLeaderboard(playerScore) {
+      const s = gameState.season;
+      const baseRivals = [
+        ["İTÜ ArıDrone Takımı", 76 + s * 2.5],
+        ["ODTÜ Rüzgar İHA",     72 + s * 2.5],
+        ["Boğaziçi Skyline",   67 + s * 2.5],
+        ["Bilkent Aerotech",   62 + s * 2.0],
+        ["Yıldız Roket-Dron",  57 + s * 2.0],
+        ["KTÜ Karadeniz UAV",  52 + s * 2.0],
+        ["Gazi Kanat Takımı",  47 + s * 1.5],
+        ["Ege Akdeniz Dron",   43 + s * 1.5],
+        ["Sabancı Hawk",       38 + s * 1.5]
+      ];
+
+      const competitors = baseRivals.map(([name, base]) => ({
+        name,
+        score: Math.min(99, Math.round(base + (Math.random() * 8 - 4) + DIFF().riv))
+      }));
+
+      competitors.push({ name: "ATÜ Kaan Teknoloji Kulübü (BİZ)", score: playerScore, isPlayer: true });
+      competitors.sort((a, b) => b.score - a.score);
+
+      window.lastRank = competitors.findIndex(c => c.isPlayer) + 1; 
+      window.lastTotalScore = playerScore;
+      window.beatItu = window.lastRank < competitors.findIndex(c => c.name.startsWith("İTÜ")) + 1;
+
+      const listEl = document.getElementById('comp-leaderboard');
+      listEl.innerHTML = '';
+
+      competitors.forEach((c, idx) => {
+        const row = document.createElement('div');
+        const isSelf = c.isPlayer;
+        row.className = `p-2 flex items-center justify-between border ${isSelf ? 'bg-cyan-950/90 border-cyan-400 text-cyan-200 font-bold scale-[1.01]' : 'bg-slate-900 border-slate-800 text-slate-300'}`;
+        
+        let medal = `${idx + 1}.`;
+        if (idx === 0) medal = '🥇 1.';
+        if (idx === 1) medal = '🥈 2.';
+        if (idx === 2) medal = '🥉 3.';
+
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="w-12 text-center">${medal}</span>
+            <span>${c.name}</span>
+          </div>
+          <span class="pixel-font text-xs">${c.score} Puan</span>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    function revealAwardAndProgress(totalScore) {
+      const g = gameState, rk = window.lastRank, card = document.getElementById('comp-results-card');
+      card.classList.remove('hidden');
+
+      const T = [
+        [1, '🏆 TEKNOFEST 1.LİK! ŞAMPİYON KULÜP!', 3500, 65, 'Adana semalarında Barkan destan yazdı! Kupa bizim!'],
+        [3, `🥈 KÜRSÜ BAŞARISI (${rk}. SIRA)`, 2200, 45, 'Kürsüde yerimizi aldık, üniversitemizi gururlandırdık!'],
+        [6, `🏅 JÜRİ ÖZEL ÖDÜLÜ (${rk}. SIRA)`, 1400, 30, 'Güçlü bir mücadeleyle ilk 6 içerisinde tamamladık!'],
+        [9, `😐 ORTA SIRALARDA BİTİRDİK (${rk}. SIRA)`, 800, 18, 'Güzel bir deneyim oldu. Gelecek sezona daha iddialıyız!'],
+        [10, '💀 SONUNCU OLDUK...', 400, 10, 'Kulüp odasında derin bir sessizlik var. Pes etmek yok!']
+      ].find(t => rk <= t[0]);
+
+      if (rk === 1) audio.playFanfare(); 
+      else if (rk <= 3) audio.playSuccess(); 
+      else audio.playHit();
+
+      if (rk === 1) { 
+        badge('sampiyon', '🏆 Şampiyon'); 
+        if (g.stats.crash === 0) badge('dusmeden', '🛡️ Hiç Düşmeden Şampiyon'); 
+      }
+      if (rk <= 3) badge('kursu', '🥈 Kürsü Fatihi');
+      if (rk === 10) badge('sonuncu', '🪦 Pes Etmeyen');
+
+      document.getElementById('comp-award-title').innerText = T[1];
+      document.getElementById('comp-award-desc').innerText = `${T[4]} (+₺${T[2]}, +${T[3]} XP) | 📊 Sezon: ${g.stats.tea} çay, ${g.stats.ocak} saat nöbet, ${g.stats.crash} kırım`;
+
+      g.trophies = g.trophies || { gold: 0, podium: 0 }; 
+      if (rk === 1) g.trophies.gold++; 
+      else if (rk <= 3) g.trophies.podium++;
+
+      let line;
+      if (window.beatItu) { 
+        g.rivalWins = (g.rivalWins || 0) + 1; 
+        line = pick(["Bu sefer şanslıydınız, haberiniz olsun!", "Adana rüzgârı sizden yana esti... şimdilik."]); 
+        if (g.rivalWins >= 3) badge('itu', '🐝 Arı Avcısı'); 
+      } else {
+        line = pick(["ArıDrone yine önde! Biraz daha çalışın, ATÜ!", "Kulüp çayı güzel de puan tablosu daha güzel!"]);
+      }
+      document.getElementById('comp-award-desc').innerText += ' | İTÜ Kaptanı Arıcı: "' + line + '"';
+
+      g.budget = Math.max(0, g.budget + T[2]); 
+      g.xp += T[3]; 
+      saveGame(); 
+      updateHUD();
+    }
+
+    function generateAndDownloadScorecard() {
+      const cvs = document.getElementById('scorecard-canvas');
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width;
+      const h = cvs.height;
+
+      // Outer background
+      ctx.fillStyle = '#0b0f19';
+      ctx.fillRect(0, 0, w, h);
+
+      // Border
+      ctx.strokeStyle = '#00f2fe';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(8, 8, w - 16, h - 16);
+
+      // Header Banner
+      ctx.fillStyle = '#1e3a8a';
+      ctx.fillRect(14, 14, w - 28, 55);
+
+      ctx.fillStyle = '#facc15';
+      ctx.font = '14px "Press Start 2P", monospace';
+      ctx.fillText('KAAN TEKNOLOJİ KULÜBÜ', 26, 40);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '11px monospace';
+      ctx.fillText('ATÜ • TEKNOFEST ADANA RESMİ KATILIM KARNESİ', 26, 58);
+
+      // Burka Portrait mini draw
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(26, 85, 80, 80);
+      ctx.fillStyle = '#f5c6a5';
+      ctx.fillRect(40, 100, 52, 45);
+      ctx.fillStyle = '#2b1b17';
+      ctx.fillRect(40, 92, 52, 16);
+      ctx.fillStyle = '#00f2fe';
+      ctx.fillRect(45, 108, 14, 4);
+      ctx.fillRect(69, 108, 14, 4);
+      ctx.fillStyle = '#1e3a8a';
+      ctx.fillRect(36, 145, 60, 20);
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '11px "Press Start 2P", monospace';
+      ctx.fillText('KAPTAN BURKA', 20, 182);
+
+      // Stats block
+      ctx.font = '16px monospace';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`Sezon: #${gameState.season} Dönem`, 130, 105);
+      ctx.fillText(`Derece: ${window.lastRank || 5}. Sıra (Puan: ${window.lastTotalScore || 70}/100)`, 130, 130);
+      ctx.fillText(`Dron: Barkan-X1 (${gameState.drone.colorTheme.toUpperCase()})`, 130, 155);
+      ctx.fillText(`Instagram: @kaanteknoloji (${gameState.instagram.followers} Takipçi)`, 130, 180);
+
+      // Divider
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(26, 205);
+      ctx.lineTo(w - 26, 205);
+      ctx.stroke();
+
+      // Lower highlights
+      ctx.font = '14px monospace';
+      ctx.fillStyle = '#facc15';
+      ctx.fillText(`🥇 Şampiyonluk: ${gameState.trophies.gold} | 🥈 Kürsü: ${gameState.trophies.podium}`, 26, 235);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`⚡ Rekor Uçuş Skoru: ${gameState.highScore || 0} pts`, 26, 260);
+      ctx.fillStyle = '#c084fc';
+      ctx.fillText(`📦 Hedefe Kargo: ${gameState.payloadDrops || 0} adet`, 26, 285);
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`☕ Kulüp Çayı: ${gameState.stats.tea} bardak | 🔥 Ocak Nöbeti: ${gameState.stats.ocak} saat`, 26, 310);
+
+      // Footer stamp
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px monospace';
+      ctx.fillText('Adana Alparslan Türkeş Bilim ve Teknoloji Üniversitesi', 26, 355);
+      ctx.fillText(`Onaylandı: ${new Date().toLocaleDateString('tr-TR')}`, w - 170, 355);
+
+      // Trigger download
+      const imgData = cvs.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `Kaan_Teknoloji_TEKNOFEST_Sezon_${gameState.season}.png`;
+      link.href = imgData;
+      link.click();
+      audio.playSuccess();
+      showToast('📥 Retro Skor Kartı PNG olarak indirildi!', 'emerald');
+    }
+
+    document.getElementById('btn-download-scorecard').onclick = generateAndDownloadScorecard;
+    document.getElementById('btn-museum-download-card').onclick = generateAndDownloadScorecard;
+
+    function advanceToNextSeasonLoop() {
+      audio.beep(440, 'square', 0.15);
+      gameState.season++;
+
+      let startBudget = Math.round((1200 + gameState.season * 250) * DIFF().bud);
+      if (gameState.perks.tubitak) {
+        startBudget = Math.round(startBudget * 1.5);
+      }
+      gameState.budget += startBudget;
+      gameState.morale = 100;
+      gameState.daysLeft = Math.max(10, 14 - Math.floor(gameState.season / 3));
+      gameState.petitions = 0; 
+      gameState.teas = 0; 
+      rollQuests(); 
+      gameState.stats = { pet: 0, tea: 0, ocak: 0, crash: 0 }; 
+      pickTheme();
+      gameState.drone.testFlightDone = false;
+      gameState.drone.payloadSuccess = false;
+      gameState.drone.scanSuccess = false;
+
+      gameState.drone.frameLvl = Math.max(1, Math.floor(gameState.drone.frameLvl * 0.7));
+      gameState.drone.softwareLvl = Math.max(1, Math.floor(gameState.drone.softwareLvl * 0.7));
+      gameState.drone.batteryLvl = Math.max(1, Math.floor(gameState.drone.batteryLvl * 0.7));
+
+      saveGame();
+      showScreen('workshop');
+      updateHUD();
+      showToast(`🔄 Sezon ${gameState.season} başladı! Bütçe eklendi.`, 'amber');
+      updateBurkaDialogue(`Yeni TEKNOFEST sezonu (${gameState.season}. Dönem) açıldı! Geçen sezonun tecrübeleriyle Barkan'ı daha yükseklere uçuracağız!`);
+    }
+
+    const modalArge = document.getElementById('modal-arge');
+    const modalMuseum = document.getElementById('modal-museum');
+
+    const PERKS = [
+      ['tubitak',   '🏛️ TÜBİTAK Başlangıç Hibesi',      'Her yeni sezona +%50 bütçe ile başla.', 40],
+      ['print3d',   '🖨️ Hızlı Prototipleme & 3D Çiftliği','Takım puanı +5, geliştirme hatası %30 azalır.', 60],
+      ['gps',       '🛰️ Hassas RTK-GPS & Lidar',        'Rüzgar savrulması %40 azalır.', 75],
+      ['aura',      '👑 Kaptan Burka Aurası',             'Geliştirmelerde moral kaybı %40 azalır.', 95],
+      ['parachute', '🪂 Kurtarma Paraşütü',              'Drone düşme/yangın riski %65 azalır.', 70],
+      ['mehmet',    '🤡 Mehmet Kuyucu Moral Şovu',        'Günlük moral kaybı yarıya iner.', 80],
+      ['camera',    '📷 Görüntü İşleme Modülü',          'Yazılım jüri puanı +4.', 65],
+      ['esc',       '⚙️ Gelişmiş ESC & Pervane',         'Uçuşta itme gücü +%15.', 80],
+      ['telemetri', '📡 Telemetri Radyosu',               'Uçuşta ESC titremesi yarıya iner.', 70],
+      ['simsrv',    '🖥️ Simülasyon Sunucusu',            'Test uçuşu XP kazancı x1.5.', 60]
+    ];
+
+    function renderPerkUI() {
+      document.getElementById('arge-available-xp').innerText = gameState.xp;
+      const el = document.getElementById('perk-list'); 
+      el.innerHTML = '';
+      PERKS.forEach(([k, n, d, c]) => { 
+        const own = gameState.perks[k]; 
+        const row = document.createElement('div');
+        row.className = 'p-2.5 bg-[#1e2842] border-2 border-slate-700 rounded flex items-center justify-between';
+        row.innerHTML = `<div><div class="text-white font-bold text-sm">${n}</div><div class="text-xs text-slate-300">${d}</div><div class="text-xs text-cyan-400 mt-0.5">Bedel: ${c} AR-GE XP</div></div><button class="pixel-btn ${own ? 'bg-slate-700 text-emerald-400' : 'bg-cyan-700 text-white'} text-xs px-3 py-1.5" ${own || gameState.xp < c ? 'disabled' : ''}>${own ? 'AÇILDI ✓' : 'AÇ (' + c + ' XP)'}</button>`;
+        row.querySelector('button').onclick = () => buyPerk(k, c); 
+        el.appendChild(row); 
+      });
+      const bl = Object.values(gameState.badges), bd = document.createElement('div'); 
+      bd.className = 'text-xs text-amber-300 pt-2 border-t border-slate-700';
+      bd.innerText = '🎖️ ROZETLER: ' + (bl.length ? bl.join(' • ') : 'henüz yok'); 
+      el.appendChild(bd);
+    }
+
+    function buyPerk(key, cost) {
+      if (gameState.xp >= cost && !gameState.perks[key]) {
+        gameState.xp -= cost; 
+        gameState.perks[key] = true; 
+        audio.playSuccess(); 
+        saveGame(); 
+        renderPerkUI(); 
+        updateHUD();
+        showToast('🧬 Kalıcı AR-GE yeteneği aktive edildi!', 'cyan');
+      }
+    }
+
+    const ALL_BADGES = [
+      { id: 'sampiyon',  name: '🏆 Şampiyon',            desc: 'TEKNOFEST 1.lik kupasını kazan' },
+      { id: 'kursu',     name: '🥈 Kürsü Fatihi',        desc: 'İlk 3 takım arasında bitir' },
+      { id: 'nisanci',   name: '🎯 Keskin Nişancı',      desc: 'Faydalı yükü hedef çemberine tam isabet bırak' },
+      { id: 'tarayici',  name: '📷 Görüntü İşleme Ustası',desc: 'QR hedef üzerinde 3 sn sabit kalıp tara' },
+      { id: 'ocakci',    name: '🔥 Ocak Bekçisi',        desc: 'Ocakta 5 saat nöbet tut' },
+      { id: 'fenomen',   name: '📸 Viral Kulüp',         desc: 'Instagram\'da 1000+ takipçiye ulaş' },
+      { id: 'rekor',     name: '⚡ Rekor Pilot',          desc: 'Test uçuşunda 1000+ skor yap' },
+      { id: 'itu',       name: '🐝 Arı Avcısı',          desc: 'İTÜ ArıDrone takımını 3 kez geride bırak' },
+      { id: 'cayci',     name: '☕ Çay Tiryakisi',        desc: 'Kulüpte 6 demlik çay tüket' },
+      { id: 'kebapci',   name: '🌶️ Kebap Sever',         desc: 'Festivalde Adana kebap & şalgam göm' },
+      { id: 'azar',      name: '😡 SKS Müdavimi',        desc: 'SKS Daire Başkanından azar işit' },
+      { id: 'dusmeden',  name: '🛡️ Kusursuz Sezon',      desc: 'Hiç düşmeden şampiyon ol' }
+    ];
+
+    function openMuseumModal() {
+      document.getElementById('museum-gold').innerText = gameState.trophies ? gameState.trophies.gold : 0;
+      document.getElementById('museum-podium').innerText = gameState.trophies ? gameState.trophies.podium : 0;
+      document.getElementById('museum-highscore').innerText = gameState.highScore || 0;
+      document.getElementById('museum-payloads').innerText = gameState.payloadDrops || 0;
+
+      document.getElementById('stat-total-tea').innerText = gameState.stats ? gameState.stats.tea : 0;
+      document.getElementById('stat-total-pet').innerText = gameState.stats ? gameState.stats.pet : 0;
+      document.getElementById('stat-total-ocak').innerText = gameState.stats ? gameState.stats.ocak : 0;
+      document.getElementById('stat-total-crash').innerText = gameState.stats ? gameState.stats.crash : 0;
+
+      const grid = document.getElementById('museum-badge-grid');
+      grid.innerHTML = '';
+      ALL_BADGES.forEach(b => {
+        const unlocked = !!gameState.badges[b.id];
+        const card = document.createElement('div');
+        card.className = `p-2 border rounded ${unlocked ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200' : 'bg-slate-900 border-slate-800 text-slate-500 opacity-60'}`;
+        card.innerHTML = `
+          <div class="font-bold flex items-center justify-between">
+            <span>${b.name}</span>
+            <span class="text-[10px]">${unlocked ? 'KAZANILDI ✓' : 'KİLİTLİ 🔒'}</span>
+          </div>
+          <div class="text-[11px] mt-0.5">${b.desc}</div>
+        `;
+        grid.appendChild(card);
+      });
+
+      modalMuseum.classList.remove('hidden');
+    }
+
+    document.getElementById('btn-open-museum').onclick = openMuseumModal;
+    document.getElementById('btn-open-museum-header').onclick = openMuseumModal;
+    document.getElementById('btn-close-museum').onclick = () => modalMuseum.classList.add('hidden');
+
+    document.getElementById('btn-open-arge').addEventListener('click', () => {
+      renderPerkUI();
+      modalArge.classList.remove('hidden');
+    });
+    document.getElementById('btn-close-arge').addEventListener('click', () => {
+      modalArge.classList.add('hidden');
+    });
+
+    document.getElementById('btn-reset-save').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      gameState = JSON.parse(JSON.stringify(defaultGameState));
+      saveGame();
+      modalArge.classList.add('hidden');
+      updateHUD();
+      showToast('Kayıt sıfırlandı!', 'rose');
+    });
+
+    document.getElementById('btn-upgrade-frame').addEventListener('click', () => upgradeDrone('frame'));
+    document.getElementById('btn-upgrade-software').addEventListener('click', () => upgradeDrone('software'));
+    document.getElementById('btn-upgrade-battery').addEventListener('click', () => upgradeDrone('battery'));
+
+    document.getElementById('btn-launch-test').addEventListener('click', () => showScreen('flight'));
+    document.getElementById('btn-next-season-loop').addEventListener('click', () => { 
+      advanceToNextSeasonLoop(); 
+    });
+
+    let ngArmed = null;
+    document.getElementById('btn-new-game').addEventListener('click', e => {
+      if (ngArmed) { 
+        clearTimeout(ngArmed); 
+        ngArmed = null; 
+        e.target.innerText = '🆕 SIFIRLA'; 
+        newGame(); 
+        return; 
+      }
+      e.target.innerText = '⚠️ EMİN MİSİN?'; 
+      ngArmed = setTimeout(() => { 
+        ngArmed = null; 
+        e.target.innerText = '🆕 SIFIRLA'; 
+      }, 3500);
+    });
+
+    document.getElementById('btn-difficulty').addEventListener('click', () => { 
+      const k = Object.keys(DIFFS); 
+      gameState.difficulty = k[(k.indexOf(gameState.difficulty) + 1) % 3]; 
+      saveGame(); 
+      updateHUD(); 
+      showToast('Zorluk: ' + DIFF().n, 'amber'); 
+    });
+
+    document.getElementById('btn-export').onclick = () => { 
+      const code = btoa(unescape(encodeURIComponent(JSON.stringify(gameState))));
+      const b = document.getElementById('save-box'); 
+      b.value = code; 
+      b.select(); 
+      try { navigator.clipboard.writeText(code); } catch (e) {} 
+      showToast('📤 Kayıt kodu kutuya yazıldı', 'cyan'); 
+    };
+
+    document.getElementById('btn-import').onclick = () => { 
+      try { 
+        const o = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('save-box').value.trim())))); 
+        if (!o || typeof o.season !== 'number') throw 0;
+        gameState = Object.assign({}, JSON.parse(JSON.stringify(defaultGameState)), o); 
+        gameState.drone = Object.assign({}, defaultGameState.drone, o.drone); 
+        gameState.perks = Object.assign({}, defaultGameState.perks, o.perks); 
+        saveGame(); 
+        updateHUD(); 
+        showToast('📥 Kayıt yüklendi', 'cyan'); 
+      } catch (e) { 
+        showToast('❌ Geçersiz kayıt kodu', 'rose'); 
+      } 
+    };
+
+    document.getElementById('btn-open-room').onclick = () => showScreen('room');
+    document.getElementById('btn-room-back').onclick = () => showScreen('workshop');
+
+    const soundBtn = document.getElementById('btn-toggle-sound');
+    soundBtn.addEventListener('click', () => {
+      audio.muted = !audio.muted;
+      soundBtn.innerText = audio.muted ? '🔇' : '🔊';
+      if (!audio.muted) audio.beep(600, 'square', 0.08);
+    });
+
+    const DIFFS = { 
+      kolay:  { n: 'KOLAY',  dis: 0.5, luck: 0.6, riv: -6, bud: 1.5 }, 
+      normal: { n: 'NORMAL', dis: 1.0, luck: 1.0, riv: 0,  bud: 1.0 }, 
+      zor:    { n: 'ZOR',    dis: 1.5, luck: 1.4, riv: 6,  bud: 0.75 } 
+    };
+    const DIFF = () => DIFFS[gameState.difficulty] || DIFFS.normal;
+    const pick = a => a[Math.floor(Math.random() * a.length)];
+
+    const THEMES = { 
+      normal: 'Normal sezon', 
+      kitlik: 'Kıtlık (bütçe -₺600)', 
+      bolluk: 'Bolluk (+₺1000)', 
+      firtina: 'Fırtına (rüzgâr güçlü)', 
+      sicak: 'Sıcak (pil çabuk biter)' 
+    };
+    const MEM = { lehimci: 'Lehimci (hata -%25)', yazilimci: 'Yazılımcı (+2 XP/gün)', sunumcu: 'Sunumcu (+3 jüri puanı)' };
+    const hasM = k => gameState.members.includes(k);
+
+    function badge(id, text) { 
+      if (gameState.badges[id]) return; 
+      gameState.badges[id] = text; 
+      showToast('🎖️ Rozet: ' + text, 'amber'); 
+    }
+
+    function pickTheme() {
+      const r = Math.random(), t = r < .3 ? 'normal' : r < .45 ? 'kitlik' : r < .6 ? 'bolluk' : r < .8 ? 'firtina' : 'sicak';
+      gameState.theme = t; 
+      if (t === 'kitlik') gameState.budget = Math.max(0, gameState.budget - 600); 
+      if (t === 'bolluk') gameState.budget += 1000;
+      showToast('🗓️ Yeni sezon teması: ' + THEMES[t], 'sky');
+    }
+
+    function newGame() {
+      const d = gameState.difficulty; 
+      localStorage.removeItem(STORAGE_KEY); 
+      gameState = JSON.parse(JSON.stringify(defaultGameState)); 
+      gameState.difficulty = d;
+      gameState.budget = Math.round(1800 * DIFF().bud); 
+      saveGame(); 
+      showScreen('workshop'); 
+      updateHUD();
+      updateBurkaDialogue('Sıfırdan başlıyoruz! Az bütçeyle büyük işler başaracağız!'); 
+      showToast('🆕 Yeni döngü başladı', 'cyan');
+    }
+
+    const music = { 
+      t: null, i: 0, ms: 300, started: false,
+      mel: [220, 262, 330, 262, 294, 349, 440, 349, 330, 392, 494, 392, 294, 262, 247, 262], 
+      bass: [110, 110, 131, 98],
+      tick() { 
+        if (audio.muted) return; 
+        audio.beep(this.mel[this.i % 16], 'square', .12, .035); 
+        if (this.i % 2 === 0) audio.beep(this.bass[(this.i >> 1) % 4], 'triangle', .3, .05); 
+        this.i++; 
+      },
+      run() { 
+        clearInterval(this.t); 
+        if (this.started) this.t = setInterval(() => this.tick(), this.ms); 
+      },
+      start() { 
+        this.started = true; 
+        this.run(); 
+      },
+      setMode(n) { 
+        this.ms = n === 'flight' ? 150 : n === 'competition' ? 200 : 300; 
+        this.run(); 
+      } 
+    };
+    window.addEventListener('pointerdown', () => music.start(), { once: true });
+
+    setInterval(() => {
+      if (!screenWorkshop.classList.contains('hidden')) {
+        updateBurkaDialogue();
+      }
+    }, 18000);
+
+    setInterval(() => {
+      renderDronePreview();
+    }, 120);
+
+    window.addEventListener('load', () => {
+      loadSave();
+      renderBurkaAvatar();
+      renderDronePreview();
+      updateHUD();
+      updateBurkaDialogue();
+      showScreen('workshop');
+    });
+  </script>
+</body>
+</html>
