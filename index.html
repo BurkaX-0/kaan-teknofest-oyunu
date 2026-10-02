@@ -6,7 +6,7 @@
   <title>Kaan Teknoloji Kulübü: TEKNOFEST Döngüsü</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -28,9 +28,7 @@
       font-family: 'VT323', monospace;
     }
 
-    .pixel-font {
-      font-family: 'Press Start 2P', cursive;
-    }
+    .pixel-font { font-family: 'Press Start 2P', cursive; }
 
     body {
       background-color: var(--pixel-bg);
@@ -90,30 +88,15 @@
       0% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-35px); }
     }
-    .float-text {
-      animation: floatUp 1.2s forwards;
-      pointer-events: none;
-    }
+    .float-text { animation: floatUp 1.2s forwards; pointer-events: none; }
 
-    @keyframes retroBlink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0.3; }
-    }
+    @keyframes retroBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.3; } }
     .retro-blink { animation: retroBlink 0.9s infinite; }
 
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    .animate-marquee {
-      display: inline-block;
-      white-space: nowrap;
-      animation: marquee 16s linear infinite;
-    }
+    @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    .animate-marquee { display: inline-block; white-space: nowrap; animation: marquee 16s linear infinite; }
 
-    .fpv-noise {
-      background: radial-gradient(circle, rgba(0,242,254,0.06) 0%, rgba(0,0,0,0.72) 100%);
-    }
+    .fpv-noise { background: radial-gradient(circle, rgba(0,242,254,0.06) 0%, rgba(0,0,0,0.72) 100%); }
   </style>
 </head>
 <body class="crt-overlay bg-[#0a0d16] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
@@ -188,15 +171,15 @@
       <div class="w-full bg-black border-2 border-red-500 h-4 mb-4 rounded overflow-hidden">
         <div id="ufuk-timer-bar" class="bg-gradient-to-r from-yellow-400 to-red-500 h-full w-full transition-all"></div>
       </div>
-      <div id="ufuk-timer-text" class="text-xs text-yellow-300 font-mono mb-5">Kalan Tepki Süresi: 6.5 sn</div>
+      <div id="ufuk-timer-text" class="text-xs text-yellow-300 font-mono mb-5">Kalan Tepki Süresi: 6.5 sn (Klavyeden [BOŞLUK] ya da Tıkla!)</div>
 
       <button id="btn-catch-ufuk" class="pixel-btn bg-yellow-500 hover:bg-yellow-400 text-black pixel-font text-sm sm:text-base px-6 py-4 w-full shadow-lg">
-        ✋ HOP DEDİK UFUK! (ENSENDEN YAKALA)
+        ✋ HOP DEDİK UFUK! [BOŞLUK]
       </button>
     </div>
   </div>
 
-  <!-- ================= YUSUF PITILI REELS KAYDIRMA OVERLAY (4 SANİYE DONMA) ================= -->
+  <!-- ================= YUSUF PITILI REELS KAYDIRMA OVERLAY (4 SANİYE) ================= -->
   <div id="yusuf-reels-overlay" class="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center p-4 hidden">
     <div class="pixel-box bg-[#121b2d] border-4 border-pink-500 max-w-sm w-full p-4 text-center">
       <div class="text-4xl mb-2">📱🤳</div>
@@ -353,7 +336,7 @@
           </div>
 
           <div class="text-[11px] text-slate-400 mt-2">
-            💡 Geliştirmeler 1 gün harcar. Ufuk Çana alarmına dikkat!
+            💡 Geliştirmeler 1 gün harcar. Klavye: PID ayarında [A]/[D] ve [BOŞLUK] kullanabilirsin!
           </div>
         </div>
 
@@ -392,7 +375,7 @@
       </div>
     </section>
 
-    <!-- ================= SCREEN 2: TEST UÇUŞU (TAM ORİJİNAL V8 FİZİĞİ) ================= -->
+    <!-- ================= SCREEN 2: TEST UÇUŞU (TAM ORİJİNAL AKICI FİZİK + PARAŞÜT FIX) ================= -->
     <section id="screen-flight" class="w-full hidden space-y-2">
       <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex flex-wrap items-center justify-between gap-2 text-sm font-mono">
         <div class="flex flex-wrap items-center gap-2.5">
@@ -445,7 +428,7 @@
         </div>
 
         <div class="absolute top-2 left-2 text-[11px] text-slate-300 bg-black/70 px-2 py-1 border border-slate-700 pointer-events-none hidden sm:block font-mono">
-          KONTROLLER: [W/S] Gaz/İn • [A/D] Yön • [BOŞLUK] Kargo Bırak • [QR Hedefinde 3 sn Sabit Kal]
+          KONTROLLER: [W/S] Gaz/İn • [A/D] Yön • [BOŞLUK] Kargo Bırak (Yere Doğru Süzülür) • [QR Hedefinde 3 sn Kal]
         </div>
       </div>
 
@@ -469,7 +452,7 @@
       <div class="w-full relative border-4 border-black bg-slate-950 overflow-hidden pixel-box" style="height: 380px;">
         <canvas id="stealth-canvas" class="w-full h-full block"></canvas>
       </div>
-      <p class="text-xs text-slate-400 font-mono text-center">Fenerden kaç, kasalara dokunarak bedava parça topla!</p>
+      <p class="text-xs text-slate-400 font-mono text-center">Fenerden kaç, kasalara dokunarak bedava parça topla! [WASD] veya Tıkla</p>
     </section>
 
     <!-- ================= SCREEN 4: TEKNOFEST FUAR ALANI & PİST ================= -->
@@ -481,7 +464,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 font-mono text-xs">
-          <!-- İTÜ Çadırı -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-amber-400 pixel-font text-[11px] mb-1">🐝 İTÜ ARIDRONE ÇADIRI</div>
@@ -493,7 +475,6 @@
             </div>
           </div>
 
-          <!-- Savunma Sanayii & Acil Pit Testi -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-cyan-400 pixel-font text-[11px] mb-1">🛡️ PİT ALANI & ASELSAN</div>
@@ -505,7 +486,6 @@
             </div>
           </div>
 
-          <!-- Kebapçı -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-rose-400 pixel-font text-[11px] mb-1">🌶️ ADANA KEBAP & ŞALGAM</div>
@@ -590,23 +570,43 @@
 
   </main>
 
-  <!-- MODAL: INSTAGRAM SAYFASI -->
+  <!-- ================= MODAL: INSTAGRAM SAYFASI & ELA VLOG ÇEKİMİ ================= -->
   <div id="modal-instagram" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
     <div class="pixel-box bg-[#181124] border-4 border-black max-w-xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b-2 border-pink-700 pb-2 mb-3">
         <div class="flex items-center gap-2">
           <span class="text-2xl">📸</span>
-          <h2 class="pixel-font text-xs text-pink-300">@kaanteknoloji</h2>
+          <div>
+            <h2 class="pixel-font text-xs text-pink-300">@kaanteknoloji</h2>
+            <p class="text-[11px] text-slate-400 font-mono">ATÜ Kaan Teknoloji Kulübü Resmi Hesabı</p>
+          </div>
         </div>
         <button id="btn-close-instagram" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
       </div>
+
       <div class="grid grid-cols-3 gap-2 mb-3 text-center font-mono">
         <div class="p-2 bg-black/40 border border-slate-700">Takipçi: <b id="ig-modal-followers" class="text-pink-300">180</b></div>
         <div class="p-2 bg-black/40 border border-slate-700">Beğeni: <b id="ig-modal-likes" class="text-amber-300">0</b></div>
         <div class="p-2 bg-black/40 border border-slate-700">Gönderi: <b id="ig-modal-posts" class="text-cyan-300">0</b></div>
       </div>
+
+      <!-- Ela Vlog Bölümü -->
+      <div class="p-3 bg-gradient-to-r from-pink-950/70 to-purple-950/70 border-2 border-pink-500 rounded mb-3 font-mono">
+        <div class="flex items-center justify-between mb-1">
+          <span class="pixel-font text-xs text-pink-300">📹 ELA İLE ATÖLYE VLOGU ÇEK</span>
+          <span class="text-[10px] text-amber-300 bg-black/50 px-1.5 py-0.5 rounded border border-amber-600">DJI Pocket 2</span>
+        </div>
+        <p class="text-xs text-slate-300 mb-2">
+          "Ela kamerasını açtı: 'Arkadaşlar lehim dumanına bakın, Burka kameraya el salla rektörlük izleyecek!'"
+        </p>
+        <button id="btn-ela-vlog" class="pixel-btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white pixel-font text-xs py-2 px-3 w-full">
+          🎬 VLOG KAYDI BAŞLAT (-10 Moral | +250 Takipçi & Bol Beğeni)
+        </button>
+      </div>
+
+      <!-- Normal Gönderi Paylaş -->
       <div class="p-3 bg-black/50 border border-slate-700 rounded mb-3 font-mono">
-        <div class="text-xs pixel-font text-amber-300 mb-2">YENİ GÖNDERİ PAYLAŞ (-5 Moral)</div>
+        <div class="text-xs pixel-font text-amber-300 mb-2">FOTOĞRAF / REELS PAYLAŞ (-5 Moral)</div>
         <select id="ig-post-concept" class="w-full bg-slate-900 border border-slate-700 text-white p-1.5 text-xs mb-2">
           <option value="lehim">🔥 "Lehim Dumanı ve Uykusuz Gece" (+Beğeni)</option>
           <option value="barkan">🚀 "Barkan-X1 TEKNOFEST Semalarında!" (+Takipçi)</option>
@@ -623,20 +623,20 @@
     <div class="pixel-box bg-[#1b1712] border-4 border-black max-w-md w-full p-4 text-center font-mono">
       <div class="text-3xl mb-1">🔥☕</div>
       <h3 class="text-base text-amber-300 font-bold mb-2">5 Saatlik Ocak Nöbeti</h3>
-      <p class="text-xs text-slate-300 mb-3">Semaver başında nöbet tut, memleket kurtar, cep harçlığı çıkar!</p>
+      <p class="text-xs text-slate-300 mb-3">Semaver başında nöbet tut, memleket kurtar, harçlık çıkar!</p>
       <div class="w-20 h-20 rounded-full border-4 border-amber-500 bg-black flex items-center justify-center text-2xl font-bold text-amber-300 pixel-font mx-auto mb-3">
         <span id="ocak-clock-text">0/5</span>
       </div>
       <div class="w-full bg-slate-900 border border-slate-700 h-3 mb-4 rounded overflow-hidden">
         <div id="ocak-progress-bar" class="bg-amber-500 h-full w-0 transition-all"></div>
       </div>
-      <button id="btn-start-ocak" class="pixel-btn bg-amber-700 text-white pixel-font text-xs px-4 py-2">NÖBETİ BAŞLAT</button>
+      <button id="btn-start-ocak" class="pixel-btn bg-amber-700 text-white pixel-font text-xs px-4 py-2">NÖBETİ BAŞLAT [BOŞLUK/ENTER]</button>
     </div>
   </div>
 
   <!-- MODAL: AR-GE AĞACI -->
   <div id="modal-arge" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 hidden">
-    <div class="pixel-box bg-[#151c2f] border-4 border-black max-w-2xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
+    <div class="pixel-box bg-[#151c2f] border-4 border-black max-w-xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b-2 border-slate-700 pb-2 mb-3">
         <h2 class="pixel-font text-xs text-cyan-300">KALICI AR-GE YETENEK AĞACI</h2>
         <button id="btn-close-arge" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
@@ -646,23 +646,59 @@
     </div>
   </div>
 
-  <!-- MODAL: MÜZE -->
+  <!-- ================= MODAL: KULÜP MÜZESİ & ŞEREF KÖŞESİ (ŞIK ESKİ V8 TASARIMI) ================= -->
   <div id="modal-museum" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
     <div class="pixel-box bg-[#151c2f] border-4 border-black max-w-2xl w-full p-4 relative max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b-2 border-amber-600 pb-2 mb-3">
-        <h2 class="pixel-font text-xs text-amber-300">🏆 ATÜ ŞEREF KÖŞESİ & MÜZE</h2>
+      <div class="flex items-center justify-between border-b-2 border-amber-600 pb-2 mb-3">
+        <div>
+          <h2 class="pixel-font text-xs sm:text-sm text-amber-300">🏆 ATÜ ŞEREF KÖŞESİ & MÜZE</h2>
+          <p class="text-xs text-slate-400 font-mono">Kaan Teknoloji Kulübü'nün tüm sezonluk başarıları ve vitrini</p>
+        </div>
         <button id="btn-close-museum" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
       </div>
-      <div class="grid grid-cols-4 gap-2 mb-3 text-center font-mono text-xs">
-        <div class="p-2 bg-[#1b253b] border">🥇 1.lik: <b id="museum-gold" class="text-amber-300">0</b></div>
-        <div class="p-2 bg-[#1b253b] border">🥈 Kürsü: <b id="museum-podium" class="text-slate-200">0</b></div>
-        <div class="p-2 bg-[#1b253b] border">⚡ Rekor: <b id="museum-highscore" class="text-cyan-300">0</b></div>
-        <div class="p-2 bg-[#1b253b] border">📦 Kargo: <b id="museum-payloads" class="text-purple-300">0</b></div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-center font-mono">
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">🥇</div>
+          <div class="text-xs text-slate-400 mt-1">1.lik Kupaları</div>
+          <div id="museum-gold" class="text-xl font-bold text-amber-300">0</div>
+        </div>
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">🥈</div>
+          <div class="text-xs text-slate-400 mt-1">Kürsü Dereceleri</div>
+          <div id="museum-podium" class="text-xl font-bold text-slate-200">0</div>
+        </div>
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">⚡</div>
+          <div class="text-xs text-slate-400 mt-1">Rekor Uçuş Skoru</div>
+          <div id="museum-highscore" class="text-xl font-bold text-cyan-300">0</div>
+        </div>
+        <div class="p-2 bg-[#1b253b] border-2 border-black pixel-box">
+          <div class="text-2xl">📦</div>
+          <div class="text-xs text-slate-400 mt-1">Kargo İsabetleri</div>
+          <div id="museum-payloads" class="text-xl font-bold text-purple-300">0</div>
+        </div>
       </div>
-      <div id="museum-badge-grid" class="grid grid-cols-2 gap-2 font-mono text-xs mb-3"></div>
-      <div class="p-2 bg-black/60 border text-[11px] font-mono text-slate-300 space-y-1">
-        <div>Toplam Çay: <b id="stat-total-tea">0</b> | SKS Dilekçe: <b id="stat-total-pet">0</b> | Ocak Nöbeti: <b id="stat-total-ocak">0</b> saat</div>
-        <div>Ufuk Yakalama: <b id="stat-total-ufuk">0</b> | Bahakan Arabası: <b id="stat-total-car">0</b> | Düşme: <b id="stat-total-crash">0</b></div>
+
+      <div class="mb-3">
+        <div class="text-xs pixel-font text-cyan-300 mb-2">KAZANILABİLİR KULÜP ROZETLERİ</div>
+        <div id="museum-badge-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs"></div>
+      </div>
+
+      <div class="p-2.5 bg-black/60 border border-slate-700 rounded text-xs font-mono text-slate-300 space-y-1 mb-3">
+        <div class="text-amber-300 font-bold mb-1">GENEL KULÜP İSTATİSTİKLERİ:</div>
+        <div>Toplam İkram Edilen Çay: <span id="stat-total-tea" class="text-white font-bold">0</span> bardak</div>
+        <div>SKS'ye Verilen Dilekçeler: <span id="stat-total-pet" class="text-white font-bold">0</span> adet</div>
+        <div>Ocakta Geçirilen Nöbet: <span id="stat-total-ocak" class="text-white font-bold">0</span> saat</div>
+        <div>Ufuk Çana Yakalama: <span id="stat-total-ufuk" class="text-white font-bold">0</span> kez</div>
+        <div>Bahakan'dan Araba Alma: <span id="stat-total-car" class="text-white font-bold">0</span> kez</div>
+        <div>Barkan Kazaları (Kırım): <span id="stat-total-crash" class="text-white font-bold">0</span> kez</div>
+      </div>
+
+      <div class="pt-2 border-t-2 border-slate-700 flex justify-end">
+        <button id="btn-museum-download-card" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white pixel-font text-xs px-4 py-2">
+          📥 RETRO SKOR KARTI İNDİR (PNG)
+        </button>
       </div>
     </div>
   </div>
@@ -673,6 +709,7 @@
       <div class="pixel-font text-xs text-amber-300 mb-2"><span id="quiz-title">JÜRİ MÜLAKATI</span> <span id="quiz-prog"></span></div>
       <p id="quiz-q" class="text-sm text-white mb-3"></p>
       <div id="quiz-opts" class="space-y-2"></div>
+      <div class="text-[11px] text-slate-400 mt-2">💡 Klavyeden [1], [2], [3] tuşlarına basarak cevap verebilirsin!</div>
     </div>
   </div>
 
@@ -758,7 +795,7 @@
     };
     window.addEventListener('pointerdown', () => music.start(), { once: true });
 
-    const STORAGE_KEY = 'kaan_teknofest_game_v12_clean';
+    const STORAGE_KEY = 'kaan_teknofest_game_v14_master';
 
     const defaultGameState = {
       season: 1,
@@ -928,7 +965,7 @@
           mor(-15); 
           gameState.budget = Math.max(0, gameState.budget - 200); 
           audio.playHit(); 
-          showToast('🤡 Mehmet takla atarken osiloskobu devirdi: -15 Moral, -₺200 Masraf!', 'rose'); 
+          showToast('🤡 Mehmet takla atarken masayı devirdi: -15 Moral, -₺200 Masraf!', 'rose'); 
         }
         saveGame(); 
         updateHUD(); 
@@ -963,12 +1000,12 @@
 
       let timeLeft = 6.5;
       bar.style.width = '100%';
-      txt.innerText = `Kalan Tepki Süresi: ${timeLeft.toFixed(1)} sn`;
+      txt.innerText = `Kalan Tepki Süresi: ${timeLeft.toFixed(1)} sn (Klavyeden [BOŞLUK] ya da Tıkla!)`;
 
       ufukTimerInterval = setInterval(() => {
         timeLeft -= 0.1;
         bar.style.width = `${Math.max(0, (timeLeft / 6.5) * 100)}%`;
-        txt.innerText = `Kalan Tepki Süresi: ${Math.max(0, timeLeft).toFixed(1)} sn`;
+        txt.innerText = `Kalan Tepki Süresi: ${Math.max(0, timeLeft).toFixed(1)} sn (Klavyeden [BOŞLUK] ya da Tıkla!)`;
       }, 100);
 
       ufukSneakTimeout = setTimeout(() => {
@@ -992,7 +1029,7 @@
       }, 6500);
     }
 
-    document.getElementById('btn-catch-ufuk').addEventListener('click', () => {
+    function catchUfukAction() {
       if (ufukStealActive) {
         clearTimeout(ufukSneakTimeout);
         clearInterval(ufukTimerInterval);
@@ -1009,7 +1046,8 @@
         updateHUD();
         saveGame();
       }
-    });
+    }
+    document.getElementById('btn-catch-ufuk').addEventListener('click', catchUfukAction);
 
     setInterval(() => {
       if (Math.random() < 0.65) triggerUfukSneak();
@@ -1037,19 +1075,20 @@
       updateHUD();
     }
 
-    /* --- PİST ACİL PİT KALİBRASYON TESTİ --- */
+    /* --- PİST ACİL PİT TESTİ --- */
+    let currentPitLockFn = null;
     function runPitGame() {
       const ov = document.createElement('div');
       ov.className = 'fixed inset-0 z-[75] bg-black/85 flex flex-col items-center justify-center p-4 text-center';
       ov.innerHTML = `
         <div class="pixel-box bg-[#1b253b] border-4 border-emerald-500 max-w-sm w-full p-4 font-mono">
           <div class="pixel-font text-xs text-emerald-400 mb-2">⚙️ PİST ACİL KALİBRASYON TESTİ</div>
-          <p class="text-xs text-slate-300 mb-3">İbre yeşil frekans bandındayken 'KİLİTLE' tuşuna bas! (3 Deneme)</p>
+          <p class="text-xs text-slate-300 mb-3">İbre yeşil frekanstayken [BOŞLUK] veya butona bas! (3 Deneme)</p>
           <div class="relative w-full h-6 bg-black border-2 border-slate-600 mb-3">
             <div class="absolute h-full bg-emerald-600/70" style="left:38%;width:24%"></div>
             <div id="pit-marker" class="absolute top-0 h-full w-2 bg-white"></div>
           </div>
-          <button id="btn-pit-lock" class="pixel-btn bg-emerald-700 text-white pixel-font text-xs p-3 w-full">KİLİTLE</button>
+          <button id="btn-pit-lock" class="pixel-btn bg-emerald-700 text-white pixel-font text-xs p-3 w-full">KİLİTLE [BOŞLUK]</button>
           <div id="pit-status" class="text-xs text-white mt-2">Deneme: 0/3</div>
         </div>
       `;
@@ -1063,13 +1102,14 @@
         m.style.left = x + '%';
       }, 16);
 
-      ov.querySelector('#btn-pit-lock').onclick = () => {
+      const doLock = () => {
         tries++;
         if (x > 38 && x < 62) { success++; audio.playCollect(); }
         else { audio.playHit(); }
         ov.querySelector('#pit-status').innerText = `Deneme: ${tries}/3 — Başarılı: ${success}`;
         if (tries >= 3) {
           clearInterval(loop);
+          currentPitLockFn = null;
           setTimeout(() => {
             ov.remove();
             if (success >= 2) {
@@ -1077,15 +1117,18 @@
               gameState.xp += 25;
               mor(15);
               audio.playSuccess();
-              showToast('⚙️ Pit testi kusursuz! Jüri uçuş ve performans puanına dev bonus!', 'emerald');
+              showToast('⚙️ Pit testi kusursuz! Jüri puanına dev bonus!', 'emerald');
             } else {
-              showToast('⚠️ Kalibrasyon hafif titredi.', 'amber');
+              showToast('⚠️️ Kalibrasyon tamamlandı.', 'amber');
             }
             saveGame();
             updateHUD();
           }, 400);
         }
       };
+
+      currentPitLockFn = doLock;
+      ov.querySelector('#btn-pit-lock').onclick = doLock;
     }
     document.getElementById('btn-run-pit-game').onclick = runPitGame;
 
@@ -1112,6 +1155,7 @@
       "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak!",
       "Çukurova'nın sıcağında ESC'ler kavrulmasın diye hava kanalı açtık, işte ATÜ mühendisliği!",
       "Bahakan'dan araba anahtarını kapabilirsek sanayiden motorları ucuza kapatırız!",
+      "Ela vlog kamerasıyla geldi, arkadaşlar düzgün durun rektörlük izliyor!",
       "Ufuk Çana multimetreyi montuna sokmadan otopilot PID kalibrasyonunu bitirelim.",
       "FPV gözlüğü takıp uçurunca Barkan adeta Adana semalarında şahin gibi süzülüyor!"
     ];
@@ -1334,7 +1378,8 @@
       document.getElementById('btn-start-ocak').disabled = false;
     }
 
-    document.getElementById('btn-start-ocak').addEventListener('click', () => {
+    function startOcakAction() {
+      if (document.getElementById('btn-start-ocak').disabled) return;
       document.getElementById('btn-start-ocak').disabled = true;
       let hr = 0;
       const interval = setInterval(() => {
@@ -1361,7 +1406,8 @@
           }, 600);
         }
       }, 600);
-    });
+    }
+    document.getElementById('btn-start-ocak').addEventListener('click', startOcakAction);
 
     const IG_MILESTONES = [
       { goal: 500, rewardBudget: 500, rewardXp: 15, name: '500 Takipçi Sponsoru' },
@@ -1379,6 +1425,41 @@
       document.getElementById('ig-modal-likes').innerText = ig.likes;
       document.getElementById('ig-modal-posts').innerText = ig.postsCount;
     }
+
+    /* --- ELA İLE ATÖLYE VLOGU ÇEKİMİ --- */
+    document.getElementById('btn-ela-vlog').addEventListener('click', () => {
+      if (gameState.morale < 10) {
+        showToast('Vlog çekecek moral kalmadı! Önce bir çay için.', 'rose');
+        return;
+      }
+      mor(-10);
+      const ig = gameState.instagram;
+      const newFollowers = Math.floor(Math.random() * 120) + 200;
+      const newLikes = Math.floor(Math.random() * 400) + 600;
+
+      ig.followers += newFollowers;
+      ig.likes += newLikes;
+      ig.postsCount++;
+      ig.postsHistory.push({ title: '📹 ELA İLE ATÖLYE GÜNLÜĞÜ (VLOG)', likes: newLikes, followers: newFollowers });
+
+      audio.playFanfare();
+      badge('vlogcu', '📹 Fenomen Ela');
+      npcSay('Ela (Medya)', 'Vlog montajı bitti, TikTok ve Reels keşfete düştü! Yorumlar Kaan Kulübü tezahüratıyla dolu!');
+      showToast(`📹 Ela'nın vlogu viral oldu! +${newFollowers} Takipçi, +${newLikes} Beğeni!`, 'pink');
+
+      IG_MILESTONES.forEach(ms => {
+        if (ig.followers >= ms.goal && !ig.claimedMilestones.includes(ms.goal)) {
+          ig.claimedMilestones.push(ms.goal);
+          gameState.budget += ms.rewardBudget;
+          gameState.xp += ms.rewardXp;
+          showToast(`🎉 Instagram Sponsorluğu: ${ms.name}! +₺${ms.rewardBudget}`, 'emerald');
+        }
+      });
+
+      saveGame();
+      updateHUD();
+      renderInstagramUI();
+    });
 
     document.getElementById('btn-ig-publish').addEventListener('click', () => {
       if (gameState.morale < 5) {
@@ -1416,35 +1497,116 @@
     document.getElementById('btn-open-instagram-box').onclick = openInstagramModal;
     document.getElementById('btn-close-instagram').onclick = () => document.getElementById('modal-instagram').classList.add('hidden');
 
+    /* --- MİNİ OYUNLAR VE TAM KLAVYE KONTROLLERİ --- */
+    let currentMiniKeyHandler = null;
+
     function playMini(kind, done) {
       const ov = document.createElement('div');
       ov.className = 'fixed inset-0 z-[70] bg-black/85 flex flex-col items-center justify-center p-4 text-center';
       document.body.appendChild(ov);
-      const fin = q => { ov.remove(); done(q); };
+
+      const cleanup = (q) => {
+        if (currentMiniKeyHandler) {
+          window.removeEventListener('keydown', currentMiniKeyHandler);
+          currentMiniKeyHandler = null;
+        }
+        ov.remove();
+        done(q);
+      };
 
       if (kind === 'pid') {
         const tg = [0, 0, 0].map(() => 10 + Math.random() * 80);
-        ov.innerHTML = '<div class="pixel-font text-xs text-emerald-300 mb-2">PID AYARI</div><div class="text-xs text-slate-300 font-mono mb-2">Kaydırıcıları hedefe getir. Titreşim yeşile inince KİLİTLE!</div><div class="w-56 h-3 bg-black border border-slate-600 mb-3"><div id="pid-bar" class="h-full bg-rose-500"></div></div>' + ['P', 'I', 'D'].map(l => '<label class="text-white font-mono block mb-1 text-xs">' + l + ' <input type="range" min="0" max="100" value="50" class="pid w-48"></label>').join('') + '<button id="pid-ok" class="pixel-btn bg-emerald-700 text-white pixel-font text-xs px-4 py-2 mt-2">KİLİTLE</button>';
-        const ins = [...ov.querySelectorAll('.pid')];
-        const err = () => ins.reduce((a, e, i) => a + Math.abs(e.value - tg[i]), 0) / 3;
+        let selectedIdx = 0;
+        ov.innerHTML = `
+          <div class="pixel-box bg-[#1b253b] border-4 border-emerald-500 max-w-sm w-full p-4 font-mono">
+            <div class="pixel-font text-xs text-emerald-300 mb-2">PID AYARI</div>
+            <div class="text-[11px] text-slate-300 mb-2">Klavye: [W]/[S] ile seç, [A]/[D] ile ayarla. Yeşil olunca [BOŞLUK] ile KİLİTLE!</div>
+            <div class="w-full h-3 bg-black border border-slate-600 mb-3"><div id="pid-bar" class="h-full bg-rose-500"></div></div>
+            <div id="pid-controls" class="space-y-1.5 text-xs text-white">
+              ${['P', 'I', 'D'].map((l, i) => `
+                <div class="pid-row p-1 rounded ${i === 0 ? 'bg-slate-700/80 border border-cyan-400' : ''}">
+                  ${l}: <input type="range" min="0" max="100" value="50" class="pid-slider w-44 align-middle">
+                </div>
+              `).join('')}
+            </div>
+            <button id="pid-ok" class="pixel-btn bg-emerald-700 text-white pixel-font text-xs px-4 py-2 mt-3 w-full">KİLİTLE [BOŞLUK]</button>
+          </div>
+        `;
+
+        const sliders = [...ov.querySelectorAll('.pid-slider')];
+        const rows = [...ov.querySelectorAll('.pid-row')];
+
+        const err = () => sliders.reduce((a, e, i) => a + Math.abs(e.value - tg[i]), 0) / 3;
         const upd = () => {
           const e = err(), b = ov.querySelector('#pid-bar');
           b.style.width = Math.min(100, e * 2) + '%';
           b.className = 'h-full ' + (e < 12 ? 'bg-emerald-500' : e < 25 ? 'bg-amber-500' : 'bg-rose-500');
         };
-        ins.forEach(i => i.oninput = upd); upd();
-        ov.querySelector('#pid-ok').onclick = () => { const e = err(); fin(e < 12 ? 3 : e < 25 ? 2 : e < 38 ? 1 : 0); };
+        sliders.forEach(s => s.oninput = upd);
+        upd();
+
+        const doLock = () => {
+          const e = err();
+          cleanup(e < 12 ? 3 : e < 25 ? 2 : e < 38 ? 1 : 0);
+        };
+        ov.querySelector('#pid-ok').onclick = doLock;
+
+        currentMiniKeyHandler = (e) => {
+          if (e.code === 'KeyW' || e.code === 'ArrowUp') {
+            selectedIdx = (selectedIdx + 2) % 3;
+            rows.forEach((r, i) => r.className = `pid-row p-1 rounded ${i === selectedIdx ? 'bg-slate-700/80 border border-cyan-400' : ''}`);
+          } else if (e.code === 'KeyS' || e.code === 'ArrowDown') {
+            selectedIdx = (selectedIdx + 1) % 3;
+            rows.forEach((r, i) => r.className = `pid-row p-1 rounded ${i === selectedIdx ? 'bg-slate-700/80 border border-cyan-400' : ''}`);
+          } else if (e.code === 'KeyA' || e.code === 'ArrowLeft') {
+            sliders[selectedIdx].value = Math.max(0, parseInt(sliders[selectedIdx].value) - 5);
+            upd();
+          } else if (e.code === 'KeyD' || e.code === 'ArrowRight') {
+            sliders[selectedIdx].value = Math.min(100, parseInt(sliders[selectedIdx].value) + 5);
+            upd();
+          } else if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            doLock();
+          }
+        };
+        window.addEventListener('keydown', currentMiniKeyHandler);
+
       } else {
-        ov.innerHTML = '<div class="pixel-font text-xs text-amber-300 mb-2">🔥 LEHİM ZAMANLAMASI</div><div class="text-xs text-slate-300 font-mono mb-2">Çubuk yeşil bölgedeyken DURDUR! (3 deneme)</div><div class="relative w-64 h-5 bg-black border-2 border-slate-600"><div class="absolute h-full bg-emerald-600/70" style="left:38%;width:24%"></div><div id="tm-m" class="absolute top-0 h-full w-2 bg-white"></div></div><button id="tm-b" class="pixel-btn bg-amber-600 text-white pixel-font text-xs px-5 py-2.5 mt-3">DURDUR</button><div id="tm-r" class="text-white font-mono text-xs mt-2"></div>';
+        // Lehim Zamanlaması
+        ov.innerHTML = `
+          <div class="pixel-box bg-[#1b253b] border-4 border-amber-500 max-w-sm w-full p-4 font-mono">
+            <div class="pixel-font text-xs text-amber-300 mb-2">🔥 LEHİM ZAMANLAMASI</div>
+            <div class="text-xs text-slate-300 mb-2">Çubuk yeşil alandayken DURDUR! Klavye: [BOŞLUK]</div>
+            <div class="relative w-64 h-5 bg-black border-2 border-slate-600 mx-auto">
+              <div class="absolute h-full bg-emerald-600/70" style="left:38%;width:24%"></div>
+              <div id="tm-m" class="absolute top-0 h-full w-2 bg-white"></div>
+            </div>
+            <button id="tm-b" class="pixel-btn bg-amber-600 text-white pixel-font text-xs px-5 py-2.5 mt-3 w-full">DURDUR [BOŞLUK]</button>
+            <div id="tm-r" class="text-white text-xs mt-2">Deneme 0/3</div>
+          </div>
+        `;
         let x = 0, dir = 1, tries = 0, ok = 0;
         const m = ov.querySelector('#tm-m');
         const tm = setInterval(() => { x += dir * 2.0; if (x > 98 || x < 0) dir *= -1; m.style.left = x + '%'; }, 16);
-        ov.querySelector('#tm-b').onclick = () => {
+
+        const doStop = () => {
           tries++;
           if (x > 38 && x < 62) { ok++; audio.playCollect(); } else { audio.playHit(); }
           ov.querySelector('#tm-r').innerText = `Deneme ${tries}/3 — Doğru: ${ok}`;
-          if (tries >= 3) { clearInterval(tm); setTimeout(() => fin(ok), 400); }
+          if (tries >= 3) {
+            clearInterval(tm);
+            setTimeout(() => cleanup(ok), 400);
+          }
         };
+        ov.querySelector('#tm-b').onclick = doStop;
+
+        currentMiniKeyHandler = (e) => {
+          if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            doStop();
+          }
+        };
+        window.addEventListener('keydown', currentMiniKeyHandler);
       }
     }
 
@@ -1514,13 +1676,15 @@
     const stealthState = {
       player: { x: 40, y: 190, r: 10, speed: 3.2, targetX: 40, targetY: 190 },
       guard: { x: 300, y: 190, dir: 1, angle: 0, range: 120, fov: Math.PI / 3.4 },
-      crates: [{ x: 180, y: 70, looted: false }, { x: 440, y: 100, looted: false }, { x: 360, y: 300, looted: false }]
+      crates: [{ x: 180, y: 70, looted: false }, { x: 440, y: 100, looted: false }, { x: 360, y: 300, looted: false }],
+      keys: {}
     };
 
     function startStealth() {
       stealthCanvas.width = stealthCanvas.parentElement.clientWidth;
       stealthCanvas.height = 380;
       stealthState.player.x = 40; stealthState.player.y = 190;
+      stealthState.player.targetX = 40; stealthState.player.targetY = 190;
       stealthState.crates.forEach(c => c.looted = false);
       loopStealth();
     }
@@ -1528,6 +1692,11 @@
     function loopStealth() {
       const w = stealthCanvas.width, h = stealthCanvas.height;
       const p = stealthState.player, g = stealthState.guard;
+
+      if (stealthState.keys.ArrowLeft || stealthState.keys.KeyA) { p.x -= p.speed; p.targetX = p.x; }
+      if (stealthState.keys.ArrowRight || stealthState.keys.KeyD) { p.x += p.speed; p.targetX = p.x; }
+      if (stealthState.keys.ArrowUp || stealthState.keys.KeyW) { p.y -= p.speed; p.targetY = p.y; }
+      if (stealthState.keys.ArrowDown || stealthState.keys.KeyS) { p.y += p.speed; p.targetY = p.y; }
 
       const dx = p.targetX - p.x, dy = p.targetY - p.y;
       const dist = Math.hypot(dx, dy);
@@ -1552,9 +1721,7 @@
       stealthCtx.fillStyle = 'rgba(250, 204, 21, 0.22)';
       stealthCtx.beginPath(); stealthCtx.moveTo(g.x, g.y);
       stealthCtx.arc(g.x, g.y, g.range, g.angle - g.fov / 2, g.angle + g.fov / 2);
-      stealthCtx.closePath();
-      stealthCtx.fill();
-      stealthCtx.restore();
+      stealthCtx.fill(); stealthCtx.restore();
 
       stealthCtx.fillStyle = '#e11d48'; stealthCtx.beginPath(); stealthCtx.arc(g.x, g.y, 11, 0, Math.PI * 2); stealthCtx.fill();
       stealthCtx.fillStyle = '#00f2fe'; stealthCtx.beginPath(); stealthCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2); stealthCtx.fill();
@@ -1579,6 +1746,8 @@
       stealthState.player.targetX = (e.clientX - rect.left) * (stealthCanvas.width / rect.width);
       stealthState.player.targetY = (e.clientY - rect.top) * (stealthCanvas.height / rect.height);
     });
+    window.addEventListener('keydown', e => stealthState.keys[e.code] = true);
+    window.addEventListener('keyup', e => stealthState.keys[e.code] = false);
 
     document.getElementById('btn-abort-stealth').onclick = () => {
       cancelAnimationFrame(stealthAnimId);
@@ -1691,7 +1860,7 @@
       else if (name === 'stealth') screenStealth.classList.remove('hidden');
     }
 
-    /* --- UÇUŞ SİMÜLASYONU FİZİĞİ (V8 TAM MOTOR) --- */
+    /* --- UÇUŞ SİMÜLASYONU FİZİĞİ (BAĞIMSIZ PARAŞÜT KARGO + AKICI V8 MOTORU) --- */
     const flightCanvas = document.getElementById('flight-canvas');
     const flightCtx = flightCanvas.getContext('2d');
     let flightAnimationId = null;
@@ -1703,25 +1872,16 @@
       wind: 0, gates: [], particles: [], rainDrops: [], birds: [], cells: [],
       passedGates: 0, combo: 1, score: 0, missed: 0, hull: 100, t: 0, total: 8,
       payload: { active: false, deployed: false, x: 0, y: 0, vx: 0, vy: 0, landed: false, hitTarget: false },
-      dropZone: { x: 0, width: 100 },
-      scanTarget: { x: 0, width: 70, progress: 0, scanned: false }
+      dropZone: { x: 2200, width: 110 },
+      scanTarget: { x: 1200, width: 70, progress: 0, scanned: false }
     };
 
     function resizeFlightCanvas() {
       if (!flightCanvas) return;
-      const rect = flightCanvas.parentElement.getBoundingClientRect();
-      flightCanvas.width = rect.width;
-      flightCanvas.height = rect.height;
+      flightCanvas.width = flightCanvas.parentElement.clientWidth;
+      flightCanvas.height = flightCanvas.parentElement.clientHeight;
     }
     window.addEventListener('resize', resizeFlightCanvas);
-
-    function toggleFpvMode() {
-      simState.isFpv = !simState.isFpv;
-      document.getElementById('fpv-overlay-ui').classList.toggle('hidden', !simState.isFpv);
-      if (simState.isFpv) showToast('👓 FPV Kokpit Gözlüğü Aktif! (+%25 Skor Bonusu)', 'purple');
-    }
-    document.getElementById('btn-toggle-fpv').onclick = toggleFpvMode;
-    document.getElementById('btn-touch-fpv').onclick = toggleFpvMode;
 
     function startFlightSimulation() {
       resizeFlightCanvas();
@@ -1749,6 +1909,7 @@
       simState.rainDrops = [];
       simState.isFinished = false;
 
+      // Kargo Hazırlığı
       simState.payload = { active: true, deployed: false, x: 0, y: 0, vx: 0, vy: 0, landed: false, hitTarget: false };
       gameState.drone.payloadSuccess = false;
       document.getElementById('sim-payload-status').innerText = '📦 KARGO: HAZIR (BOŞLUK)';
@@ -1810,16 +1971,17 @@
       }
     }
 
+    /* --- KARGO BIRAKMA (DRONDAN TAM BAĞIMSIZ HAVA DİRENCİ) --- */
     function deployPayload() {
       if (!simState.payload.active || simState.payload.deployed || simState.isFinished) return;
       simState.payload.deployed = true;
       simState.payload.x = simState.drone.x;
       simState.payload.y = simState.drone.y + 12;
-      simState.payload.vx = simState.drone.vx * 0.9;
-      simState.payload.vy = 20;
+      simState.payload.vx = 0; // Drondan kopar kopmaz ileri itki sıfırlanır!
+      simState.payload.vy = 25; // Paraşüt açılır, yavaşça yerçekimine teslim olur
       audio.beep(550, 'square', 0.1);
       document.getElementById('sim-payload-status').innerText = '📦 KARGO: BIRAKILDI...';
-      showToast('📦 Faydalı yük bırakıldı! Paraşüt açıldı.', 'purple');
+      showToast('📦 Faydalı yük serbest bırakıldı! Paraşüt açıldı.', 'purple');
     }
 
     function flightLoop() {
@@ -1865,7 +2027,7 @@
       if (d.y > flightCanvas.height - 25) { d.y = flightCanvas.height - 25; d.vy = 0; damage(12, 'Yere çarptı!'); }
       if (d.x < 30) d.x = 30;
 
-      // Kamera kayması (Dünya akışı)
+      // Kamera Kayması: Dron ilerledikçe dünya ve bırakılan kargo zemine sabit geriye kayar
       if (d.x > flightCanvas.width * 0.45) {
         const excess = d.x - flightCanvas.width * 0.45;
         d.x = flightCanvas.width * 0.45;
@@ -1874,7 +2036,9 @@
         simState.cells.forEach(c => c.x -= excess);
         simState.dropZone.x -= excess;
         simState.scanTarget.x -= excess;
-        if (simState.payload.deployed && !simState.payload.landed) simState.payload.x -= excess;
+        if (simState.payload.deployed && !simState.payload.landed) {
+          simState.payload.x -= excess; // Kargo dronla ilerlemez, zemine sabit kalır!
+        }
       }
 
       const drainRate = ((gameState.theme === 'sicak' ? 3.4 : 2.8) * (specs.weight / 800)) / (1 + (gameState.drone.batteryLvl * 0.15));
@@ -1945,12 +2109,17 @@
         }
       });
 
-      // Kargo fiziği
+      // Kargo Bağımsız Süzülüş Fiziği
       const p = simState.payload;
       if (p.deployed && !p.landed) {
-        p.vy = Math.min(95, p.vy + 75 * dt); p.vx *= 0.98; p.x += p.vx * dt; p.y += p.vy * dt;
+        p.vy = Math.min(85, p.vy + 55 * dt); // Paraşütle tatlı iniş
+        p.vx *= 0.5; // Dronun hızından anında kopuş
+        p.x += (p.vx + simState.wind * 10) * dt; // Yalnızca hafif rüzgar sapması
+        p.y += p.vy * dt;
+
         if (p.y >= flightCanvas.height - 30) {
-          p.y = flightCanvas.height - 30; p.landed = true;
+          p.y = flightCanvas.height - 30;
+          p.landed = true;
           if (Math.abs(p.x - (simState.dropZone.x + simState.dropZone.width / 2)) < simState.dropZone.width / 2) {
             p.hitTarget = true; gameState.drone.payloadSuccess = true; gameState.payloadDrops++; simState.score += 450;
             audio.playFanfare(); showToast('🎯 TAM İSABET! Faydalı yük hedef çemberinde! (+450 Skor)', 'emerald');
@@ -2036,10 +2205,28 @@
         flightCtx.fillStyle = '#ef4444'; flightCtx.fillRect(b.x - 8, b.y - 3, 16, 6);
       });
 
-      // Kargo
+      // Kargo & Paraşüt Görseli
       const p = simState.payload;
       if (p.deployed && p.x > -40 && p.x < w + 40) {
-        flightCtx.fillStyle = '#d97706'; flightCtx.fillRect(p.x - 6, p.y - 6, 12, 12);
+        if (!p.landed) {
+          // Açık Paraşüt
+          flightCtx.fillStyle = '#f43f5e';
+          flightCtx.beginPath();
+          flightCtx.arc(p.x, p.y - 12, 14, Math.PI, 0);
+          flightCtx.fill();
+          flightCtx.strokeStyle = '#e2e8f0';
+          flightCtx.lineWidth = 1;
+          flightCtx.beginPath();
+          flightCtx.moveTo(p.x - 14, p.y - 12);
+          flightCtx.lineTo(p.x, p.y);
+          flightCtx.moveTo(p.x + 14, p.y - 12);
+          flightCtx.lineTo(p.x, p.y);
+          flightCtx.stroke();
+        }
+        flightCtx.fillStyle = '#d97706';
+        flightCtx.fillRect(p.x - 6, p.y - 6, 12, 12);
+        flightCtx.fillStyle = '#fef08a';
+        flightCtx.fillRect(p.x - 2, p.y - 6, 4, 12);
       }
 
       // Parçacıklar
@@ -2092,14 +2279,42 @@
     document.getElementById('btn-sim-modal-ok').onclick = () => { showScreen('workshop'); updateHUD(); };
     document.getElementById('btn-abort-flight').onclick = () => { cancelAnimationFrame(flightAnimationId); showScreen('workshop'); updateHUD(); };
 
+    /* --- GLOBAL KLAVYE DİNLEYİCİSİ (UÇUŞ, QUIZ, MODALLAR) --- */
     window.addEventListener('keydown', e => {
+      // Ufuk Çana Yakalama
+      if (ufukStealActive && (e.code === 'Space' || e.code === 'Enter')) {
+        e.preventDefault();
+        catchUfukAction();
+        return;
+      }
+      // Ocak Nöbeti Başlatma
+      if (!document.getElementById('modal-ocak').classList.contains('hidden') && (e.code === 'Space' || e.code === 'Enter')) {
+        e.preventDefault();
+        startOcakAction();
+        return;
+      }
+      // Pit Testi Kilitleme
+      if (currentPitLockFn && (e.code === 'Space' || e.code === 'Enter')) {
+        e.preventDefault();
+        currentPitLockFn();
+        return;
+      }
+      // Jüri Quiz Seçimleri [1], [2], [3]
+      if (!document.getElementById('modal-quiz').classList.contains('hidden')) {
+        const btns = document.querySelectorAll('#quiz-opts button');
+        if (e.key === '1' && btns[0]) btns[0].click();
+        if (e.key === '2' && btns[1]) btns[1].click();
+        if (e.key === '3' && btns[2]) btns[2].click();
+      }
+      // Uçuş Kontrolleri
       if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = true;
       if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = true;
       if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = true;
       if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = true;
-      if (e.code === 'Space') { e.preventDefault(); deployPayload(); }
-      if (e.code === 'KeyC') toggleFpvMode();
+      if (e.code === 'Space' && !screenFlight.classList.contains('hidden')) { e.preventDefault(); deployPayload(); }
+      if (e.code === 'KeyC' && !screenFlight.classList.contains('hidden')) toggleFpvMode();
     });
+
     window.addEventListener('keyup', e => {
       if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = false;
       if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = false;
@@ -2175,10 +2390,10 @@
       document.getElementById('quiz-prog').innerText = `(${q.i + 1}/3)`;
       document.getElementById('quiz-q').innerText = q.qs[q.i][0];
       const box = document.getElementById('quiz-opts'); box.innerHTML = '';
-      q.qs[q.i][1].map((t, k) => ({ t, ok: k === 0 })).sort(() => Math.random() - .5).forEach(o => {
+      q.qs[q.i][1].map((t, k) => ({ t, ok: k === 0 })).sort(() => Math.random() - .5).forEach((o, optIdx) => {
         const b = document.createElement('button');
         b.className = 'pixel-btn w-full bg-slate-700 hover:bg-cyan-700 text-white text-xs px-3 py-2 text-left';
-        b.innerText = o.t;
+        b.innerText = `[${optIdx + 1}] ${o.t}`;
         b.onclick = () => { if (o.ok) { q.ok++; audio.playCollect(); } else audio.playHit(); q.i++; showQuiz(); };
         box.appendChild(b);
       });
@@ -2282,7 +2497,7 @@
     }
 
     /* --- PNG SKOR KARTI İNDİRME --- */
-    document.getElementById('btn-download-scorecard').onclick = () => {
+    function generateAndDownloadScorecard() {
       const cvs = document.getElementById('scorecard-canvas');
       const ctx = cvs.getContext('2d');
       ctx.fillStyle = '#0b0f19'; ctx.fillRect(0, 0, 600, 380);
@@ -2305,12 +2520,14 @@
       a.href = cvs.toDataURL();
       a.click();
       showToast('📥 Skor kartı PNG olarak indirildi!', 'emerald');
-    };
+    }
+    document.getElementById('btn-download-scorecard').onclick = generateAndDownloadScorecard;
+    document.getElementById('btn-museum-download-card').onclick = generateAndDownloadScorecard;
 
     /* --- ARGE & MÜZE --- */
     const PERKS = [
       ['tubitak', '🏛️ TÜBİTAK Başlangıç Hibesi', 'Her yeni sezona +%50 bütçe ile başla.', 40],
-      ['print3d', '🖨️️ 3D Yazıcı Çiftliği', 'Takım puanı +5, hata payı %30 azalır.', 60],
+      ['print3d', '🖨️ 3D Yazıcı Çiftliği', 'Takım puanı +5, hata payı %30 azalır.', 60],
       ['gps', '🛰️ RTK-GPS Modülü', 'Rüzgar ve serap sapması %40 azalır.', 75],
       ['aura', '👑 Burka Aurası', 'Moral harcamaları %40 azalır.', 95]
     ];
@@ -2333,6 +2550,18 @@
       });
     }
 
+    const ALL_BADGES = [
+      { id: 'sampiyon',       name: '🏆 Şampiyon',            desc: 'TEKNOFEST 1.lik kupasını kazan' },
+      { id: 'kursu',          name: '🥈 Kürsü Fatihi',        desc: 'İlk 3 takım arasında bitir' },
+      { id: 'nisanci',        name: '🎯 Keskin Nişancı',      desc: 'Faydalı yükü hedef çemberine tam isabet bırak' },
+      { id: 'tarayici',       name: '📷 Görüntü İşleme Ustası',desc: 'QR hedef üzerinde 3 sn sabit kalıp tara' },
+      { id: 'vlogcu',         name: '📹 Fenomen Ela',         desc: 'Ela ile viral atölye vlogu çek' },
+      { id: 'ufukcu',         name: '✋ Ufuk Avcısı',          desc: 'Ufuk Çana\'yı alet çalarken ensesinden yakala' },
+      { id: 'araba_ustasi',   name: '🚗 Bahakan\'ın Arabası', desc: 'Bahakan\'dan arabayı başarıyla ödünç al' },
+      { id: 'dans_ustasi',    name: '🤡 Mehmet Şov Şampiyonu',desc: 'Mehmet Kuyucu\'nun canlı dansından büyük moral kap' },
+      { id: 'ocakci',         name: '🔥 Ocak Bekçisi',        desc: 'Ocakta 5 saat nöbet tut' }
+    ];
+
     function badge(id, text) {
       if (gameState.badges[id]) return;
       gameState.badges[id] = text;
@@ -2352,12 +2581,22 @@
       document.getElementById('stat-total-car').innerText = gameState.stats.car || 0;
       document.getElementById('stat-total-crash').innerText = gameState.stats.crash;
 
-      const grid = document.getElementById('museum-badge-grid'); grid.innerHTML = '';
-      Object.values(gameState.badges).forEach(b => {
-        const d = document.createElement('div');
-        d.className = 'p-1.5 bg-slate-800 border text-center text-amber-300';
-        d.innerText = b; grid.appendChild(d);
+      const grid = document.getElementById('museum-badge-grid'); 
+      grid.innerHTML = '';
+      ALL_BADGES.forEach(b => {
+        const unlocked = !!gameState.badges[b.id];
+        const card = document.createElement('div');
+        card.className = `p-2 border rounded ${unlocked ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200' : 'bg-slate-900 border-slate-800 text-slate-500 opacity-60'}`;
+        card.innerHTML = `
+          <div class="font-bold flex items-center justify-between">
+            <span>${b.name}</span>
+            <span class="text-[10px]">${unlocked ? 'KAZANILDI ✓' : 'KİLİTLİ 🔒'}</span>
+          </div>
+          <div class="text-[11px] mt-0.5">${b.desc}</div>
+        `;
+        grid.appendChild(card);
       });
+
       document.getElementById('modal-museum').classList.remove('hidden');
     }
 
