@@ -45,7 +45,7 @@
       display: block;
       position: fixed;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.03));
       z-index: 999;
       background-size: 100% 3px, 6px 100%;
       pointer-events: none;
@@ -340,29 +340,14 @@
           </div>
         </div>
 
-        <!-- Görevler Panosu & ÖNE ÇIKAN SOSYAL MEDYA KARTI -->
+        <!-- Görevler Panosu -->
         <div class="pixel-box bg-[#131b2e] p-3 border-4 border-black flex flex-col justify-between">
           <div>
-            <!-- YENİ BELİRGİN INSTAGRAM & MEDYA MASASI BANNERI -->
-            <div class="mb-3 p-2.5 bg-gradient-to-r from-pink-950 via-purple-950 to-indigo-950 border-2 border-pink-500 rounded pixel-box flex items-center justify-between gap-2 shadow-lg">
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span class="text-base animate-bounce">📸</span>
-                  <span class="pixel-font text-[11px] text-pink-300">@kaanteknoloji</span>
-                  <span id="ig-banner-followers" class="text-[10px] bg-black/70 px-1.5 py-0.5 rounded text-amber-300 font-mono">180 Takipçi</span>
-                </div>
-                <p class="text-[10px] text-slate-300 font-mono mt-0.5">Ela ile vlog çek, reels at, sponsor topla!</p>
-              </div>
-              <button id="btn-open-instagram-prominent" class="pixel-btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white pixel-font text-[10px] px-2.5 py-2 whitespace-nowrap retro-blink">
-                PAYLAŞIM YAP 📱
-              </button>
-            </div>
-
             <div class="flex items-center justify-between border-b-2 border-slate-700 pb-2 mb-2">
               <h2 class="pixel-font text-xs text-purple-300">KULÜP GÖREV PANOSU</h2>
-              <span class="text-[10px] text-slate-400 font-mono">Günlük Görevler</span>
+              <button id="btn-open-instagram-box" class="pixel-btn bg-gradient-to-r from-pink-700 to-purple-700 text-white text-[10px] px-2 py-0.5 pixel-font">📸 IG</button>
             </div>
-            <div id="quest-list" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
+            <div id="quest-list" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
           </div>
 
           <div class="mt-3 flex gap-2">
@@ -1134,7 +1119,7 @@
               audio.playSuccess();
               showToast('⚙️ Pit testi kusursuz! Jüri puanına dev bonus!', 'emerald');
             } else {
-              showToast('⚠️ Kalibrasyon tamamlandı.', 'amber');
+              showToast('⚠️️ Kalibrasyon tamamlandı.', 'amber');
             }
             saveGame();
             updateHUD();
@@ -1166,62 +1151,19 @@
       renderDronePreview();
     }
 
-    /* --- GENİŞLETİLMİŞ ZENGİN DİYALOG HAVUZU --- */
     const burkaQuotes = [
       "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak!",
       "Çukurova'nın sıcağında ESC'ler kavrulmasın diye hava kanalı açtık, işte ATÜ mühendisliği!",
-      "Masadan 10 numara alyan anahtarı eksilmiş... Ufuk montunu giyip kapıya yönelmeden önce herkes ceplerini kontrol etsin!",
-      "Ufuk Çana az önce 'kanka bu havya ucu fazlalık mıydı' diye sordu. Gözünüzü masadan ayırmayın!",
-      "Multimetreyi masaya çift taraflı bantla yapıştırdım. Ufuk'un kleptomani krizine karşı bilimsel önlem aldık.",
-      "Barkan'ın yedek pervanelerini saydım, 3 tane eksik. Ufuk yine 'ödünç aldım' demeden önce yakalamamız lazım!",
-      "Sanayiden acil karbon plaka almamız lazım ama Bahakan yine 'peder arabayı vermez, baskı balata bitti' modunda...",
-      "Bahakan arabayı verirse sanayiye 10 dakikada uçarız; vermezse 45 derece Adana sıcağında Barajyolu dolmuşu bekleyeceğiz.",
-      "Bahakan'ın arabasının benzin ışığı yanıp sönüyor ama yine de dolmuşa binmekten iyidir, gidip bir anahtar dileneyim.",
-      "Ela yine DJI kamerayı yüzüme dayadı, 'Kaptan lehim yaparken havalı bir şey söyle rektörlük izleyecek' diyor...",
-      "Instagram'daki son reels 50 bin izlenmiş! Rektör hoca beğenirse bu sene atölyeye klima taktırabiliriz.",
-      "Ela arkada atölye kavgamızı vlog'a çekiyor, 'Doğal içerik tutar' diyor. Bari saçımı tarasaydım.",
-      "Çukurova'nın neminde ESC lehimlemek ekstrem spor sayılmalı; terimiz devreye damlarsa kısa devre yaparız!",
-      "Ocakta demlenen çay zift kıvamına gelmiş ama otonom kodun derlenmesi için bu kafein şart.",
-      "Kedi Lehim 3D yazıcının sıcak tablasında uyuyakalmış, filament basamıyoruz... Mühendisliğe kedi molası verildi.",
-      "Yusuf Pıtılı yine drift reels'larına daldı, 4 saniyedir donduk kaldık. Kendine gel Yusuf, TEKNOFEST kapıda!",
-      "PID katsayılarıyla iki saattir dans ediyorum; Barkan havada asılı kalırken milim titremeyecek, jüri mest olacak!",
-      "İTÜ Arı takımı festivalde 'Alman karbonu' diye caka satadursun, ATÜ mühendisliği Adana rüzgarında konuşur!",
-      "Faydalı yük mekanizmasını test ettik; hedef çemberine acil yardım paketini tam ortadan indireceğiz!",
-      "Bu gece atölyede sabahlayacağız. Sabah çorbasını kim ısmarlıyorsa otonom rotayı ona yazdırıyorum!",
+      "Bahakan'dan araba anahtarını kapabilirsek sanayiden motorları ucuza kapatırız!",
+      "Ela vlog kamerasıyla geldi, arkadaşlar düzgün durun rektörlük izliyor!",
+      "Ufuk Çana multimetreyi montuna sokmadan otopilot PID kalibrasyonunu bitirelim.",
       "FPV gözlüğü takıp uçurunca Barkan adeta Adana semalarında şahin gibi süzülüyor!"
     ];
 
-    const NPCQ = [
-      ["Görkem Kemal (Başkan)", "Arkadaşlar, Instagram'da rektörlüğü etiketlemeyi unutmayın, bütçe onayını oradan takip ediyorlar!"],
-      ["Bahakan", "Kanka arabayı vereyim de bagaja LiPo pil koymayın, geçen gün duman tütüyordu peder beni keser!"],
-      ["Ela (Medya)", "Arkadaşlar lehim dumanını biraz sağa üfleyin, ışık ters geliyor vlogun sinematik havası bozuldu!"],
-      ["Ela (Medya)", "Burka kameraya iki kelime bir şey söyle, rektör bey son postu beğenmiş acil içerik lazım!"],
-      ["Mehmet Kuyucu", "Kaptan moralin bozulmasın, ben jüriye iki fıkra anlatırım, Barkan uçmasa bile derece alırız!"],
-      ["Mehmet Kuyucu", "Dron düşerse 'planlı iniş' diyeceğiz, jüri de inanır. Ben konuşurum!"],
-      ["Ufuk Çana", "Kanka valla montumun astarı delinmiş, alet çantası kendi kendine cebime kaymış..."],
-      ["Ufuk Çana", "Kanka o tornavida seti fazlalıktı ya, ben ödünç almıştım sadece..."]
-    ];
-
-    function npcSay(name, text) { 
-      updateBurkaDialogue(text); 
-      document.getElementById('speaker-name').innerText = name.toUpperCase() + ' DİYOR Kİ:'; 
-    }
-
     function updateBurkaDialogue(customText = null) {
       const el = document.getElementById('burka-dialogue');
-      if (customText) {
-        document.getElementById('speaker-name').innerText = 'BURKA DİYOR Kİ:';
-        el.innerText = `"${customText}"`;
-      } else {
-        if (Math.random() < 0.35) {
-          const n = NPCQ[Math.floor(Math.random() * NPCQ.length)];
-          document.getElementById('speaker-name').innerText = n[0].toUpperCase() + ' DİYOR Kİ:';
-          el.innerText = `"${n[1]}"`;
-        } else {
-          document.getElementById('speaker-name').innerText = 'BURKA DİYOR Kİ:';
-          el.innerText = `"${burkaQuotes[Math.floor(Math.random() * burkaQuotes.length)]}"`;
-        }
-      }
+      document.getElementById('speaker-name').innerText = 'BURKA DİYOR Kİ:';
+      el.innerText = `"${customText || burkaQuotes[Math.floor(Math.random() * burkaQuotes.length)]}"`;
     }
 
     function renderBurkaAvatar() {
@@ -1279,7 +1221,6 @@
       document.getElementById('hud-caffeine').innerText = `${Math.round(gameState.caffeine)}%`;
       document.getElementById('hud-xp').innerText = gameState.xp;
       document.getElementById('hud-followers').innerText = gameState.instagram.followers;
-      document.getElementById('ig-banner-followers').innerText = `${gameState.instagram.followers} Takipçi`;
       document.getElementById('hud-days').innerText = Math.max(0, gameState.daysLeft);
       document.getElementById('hud-parts').innerText = gameState.parts;
       document.getElementById('btn-difficulty').innerText = 'ZORLUK: ' + DIFF().n;
@@ -1398,17 +1339,1307 @@
       updateHUD();
     }
 
-    document.getElementById('btn-open-instagram-prominent').onclick = openInstagramModal;
+    const QUESTS = {
+      bahakan: { t:'Bahakan\'dan Araba Dilen', d:'Sanayiye gitmek için anahtar iste', c:'%50 Verir (+Parça/₺) | %50 Dolmuş Çilesi', b:'ANAHTAR İSTE 🚗', col:'teal', always:1 },
+      mehmet:  { t:'Mehmet Kuyucu Şov Saati', d:'Canlı retro dans gösterisi (8 sn)', c:'%50 Büyük Moral/₺ | %50 Sakarlık', b:'DANSI BAŞLAT 🤡', col:'pink', always:1 },
+      ocak:    { t:'Ocakta 5 Saat Nöbet', d:'Semaver başında nöbet tut, harçlık çıkar', c:'+₺180 | -15 Moral | +40% Kafein', b:'NÖBETE GİT 🔥', col:'amber', always:1 },
+      stealth: { t:'Kampüs Hurdalığına Sız', d:'Gece bekçiye yakalanmadan parça kap', c:'+Parça / +XP / Rektörlük Riski', b:'SIZ (GECE) 🌙', col:'emerald', always:1 },
+      tea:     { t:'Demlikte Tavşan Kanı Çay', d:'Moral toplar, kafein tazeler', c:'-₺60 | +Moral | +20% Kafein', b:'DEMLE ☕', col:'rose', always:1 },
+      clean:   { t:'3D Yazıcı & Masa Temizliği', d:'AR-GE tecrübesi kazan', c:'+15 XP | -10 Moral', b:'TOPLA 🧹', col:'indigo', always:1 },
+      sponsor: { t:'Rektörlük / SKS Dilekçesi', d:'Reddedilebilir! Çok dilekçe = azar', c:'₺500-900 (şansa bağlı) | -15 Moral', b:'DİLEKÇE 📜', col:'teal', p:.5 },
+      siparis: { t:'Parça Siparişi', d:'Geliştirmeler için yedek parça lazım', c:'-₺350 | +2 Parça', b:'SİPARİŞ 📦', col:'orange', always:1 }
+    };
 
-    setInterval(() => {
-      if (!screenWorkshop.classList.contains('hidden')) {
-        updateBurkaDialogue();
+    function askChoice(title, text, opts) {
+      document.getElementById('quiz-title').innerText = title;
+      document.getElementById('quiz-prog').innerText = '';
+      document.getElementById('quiz-q').innerText = text;
+      document.getElementById('modal-quiz').classList.remove('hidden');
+      const box = document.getElementById('quiz-opts');
+      box.innerHTML = '';
+      opts.forEach(([t, fn]) => {
+        const b = document.createElement('button');
+        b.className = 'pixel-btn w-full bg-slate-700 hover:bg-cyan-700 text-white text-xs sm:text-sm px-3 py-2 text-left';
+        b.innerText = t;
+        b.onclick = () => {
+          document.getElementById('modal-quiz').classList.add('hidden');
+          fn();
+          saveGame();
+          updateHUD();
+        };
+        box.appendChild(b);
+      });
+    }
+
+    function openOcakModal() {
+      document.getElementById('modal-ocak').classList.remove('hidden');
+      document.getElementById('ocak-clock-text').innerText = '0/5';
+      document.getElementById('ocak-progress-bar').style.width = '0%';
+      document.getElementById('btn-start-ocak').disabled = false;
+    }
+
+    function startOcakAction() {
+      if (document.getElementById('btn-start-ocak').disabled) return;
+      document.getElementById('btn-start-ocak').disabled = true;
+      let hr = 0;
+      const interval = setInterval(() => {
+        hr++;
+        document.getElementById('ocak-clock-text').innerText = `${hr}/5`;
+        document.getElementById('ocak-progress-bar').style.width = `${(hr / 5) * 100}%`;
+        audio.beep(350 + hr * 60, 'square', 0.08);
+
+        if (hr >= 5) {
+          clearInterval(interval);
+          setTimeout(() => {
+            document.getElementById('modal-ocak').classList.add('hidden');
+            gameState.ocakHours = (gameState.ocakHours || 0) + 5;
+            gameState.stats.ocak = (gameState.stats.ocak || 0) + 5;
+            gameState.budget += 180;
+            gameState.caffeine = Math.min(100, gameState.caffeine + 40);
+            mor(-15);
+            spendDay();
+            audio.playSuccess();
+            badge('ocakci', '🔥 Ocak Bekçisi');
+            showToast('🔥 5 saatlik nöbet bitti: +₺180 Harçlık, -15 Moral, +40% Kafein', 'amber');
+            saveGame();
+            updateHUD();
+          }, 600);
+        }
+      }, 600);
+    }
+    document.getElementById('btn-start-ocak').addEventListener('click', startOcakAction);
+
+    const IG_MILESTONES = [
+      { goal: 500, rewardBudget: 500, rewardXp: 15, name: '500 Takipçi Sponsoru' },
+      { goal: 1000, rewardBudget: 1000, rewardXp: 30, name: '1000 Takipçi Sponsoru' }
+    ];
+
+    function openInstagramModal() {
+      renderInstagramUI();
+      document.getElementById('modal-instagram').classList.remove('hidden');
+    }
+
+    function renderInstagramUI() {
+      const ig = gameState.instagram;
+      document.getElementById('ig-modal-followers').innerText = ig.followers;
+      document.getElementById('ig-modal-likes').innerText = ig.likes;
+      document.getElementById('ig-modal-posts').innerText = ig.postsCount;
+    }
+
+    /* --- ELA İLE ATÖLYE VLOGU ÇEKİMİ --- */
+    document.getElementById('btn-ela-vlog').addEventListener('click', () => {
+      if (gameState.morale < 10) {
+        showToast('Vlog çekecek moral kalmadı! Önce bir çay için.', 'rose');
+        return;
       }
-    }, 16000);
+      mor(-10);
+      const ig = gameState.instagram;
+      const newFollowers = Math.floor(Math.random() * 120) + 200;
+      const newLikes = Math.floor(Math.random() * 400) + 600;
 
-    setInterval(() => {
-      renderDronePreview();
-    }, 120);
+      ig.followers += newFollowers;
+      ig.likes += newLikes;
+      ig.postsCount++;
+      ig.postsHistory.push({ title: '📹 ELA İLE ATÖLYE GÜNLÜĞÜ (VLOG)', likes: newLikes, followers: newFollowers });
+
+      audio.playFanfare();
+      badge('vlogcu', '📹 Fenomen Ela');
+      npcSay('Ela (Medya)', 'Vlog montajı bitti, TikTok ve Reels keşfete düştü! Yorumlar Kaan Kulübü tezahüratıyla dolu!');
+      showToast(`📹 Ela'nın vlogu viral oldu! +${newFollowers} Takipçi, +${newLikes} Beğeni!`, 'pink');
+
+      IG_MILESTONES.forEach(ms => {
+        if (ig.followers >= ms.goal && !ig.claimedMilestones.includes(ms.goal)) {
+          ig.claimedMilestones.push(ms.goal);
+          gameState.budget += ms.rewardBudget;
+          gameState.xp += ms.rewardXp;
+          showToast(`🎉 Instagram Sponsorluğu: ${ms.name}! +₺${ms.rewardBudget}`, 'emerald');
+        }
+      });
+
+      saveGame();
+      updateHUD();
+      renderInstagramUI();
+    });
+
+    document.getElementById('btn-ig-publish').addEventListener('click', () => {
+      if (gameState.morale < 5) {
+        showToast('Paylaşım yapacak moral yok!', 'rose');
+        return;
+      }
+      mor(-5);
+      const concept = document.getElementById('ig-post-concept').value;
+      const ig = gameState.instagram;
+      let baseLikes = Math.floor(Math.random() * 120) + 70;
+      let newFollowers = Math.floor(Math.random() * 40) + 20;
+
+      ig.likes += baseLikes;
+      ig.followers += newFollowers;
+      ig.postsCount++;
+
+      IG_MILESTONES.forEach(ms => {
+        if (ig.followers >= ms.goal && !ig.claimedMilestones.includes(ms.goal)) {
+          ig.claimedMilestones.push(ms.goal);
+          gameState.budget += ms.rewardBudget;
+          gameState.xp += ms.rewardXp;
+          audio.playFanfare();
+          showToast(`🎉 Instagram Sponsorluğu: ${ms.name}! +₺${ms.rewardBudget}`, 'emerald');
+        }
+      });
+
+      audio.playCollect();
+      showToast(`📸 Paylaşıldı: +${baseLikes} ❤️, +${newFollowers} 👤`, 'pink');
+      saveGame();
+      updateHUD();
+      renderInstagramUI();
+    });
+
+    document.getElementById('btn-open-instagram-hud').onclick = openInstagramModal;
+    document.getElementById('btn-open-instagram-box').onclick = openInstagramModal;
+    document.getElementById('btn-close-instagram').onclick = () => document.getElementById('modal-instagram').classList.add('hidden');
+
+    /* --- MİNİ OYUNLAR VE TAM KLAVYE KONTROLLERİ --- */
+    let currentMiniKeyHandler = null;
+
+    function playMini(kind, done) {
+      const ov = document.createElement('div');
+      ov.className = 'fixed inset-0 z-[70] bg-black/85 flex flex-col items-center justify-center p-4 text-center';
+      document.body.appendChild(ov);
+
+      const cleanup = (q) => {
+        if (currentMiniKeyHandler) {
+          window.removeEventListener('keydown', currentMiniKeyHandler);
+          currentMiniKeyHandler = null;
+        }
+        ov.remove();
+        done(q);
+      };
+
+      if (kind === 'pid') {
+        const tg = [0, 0, 0].map(() => 10 + Math.random() * 80);
+        let selectedIdx = 0;
+        ov.innerHTML = `
+          <div class="pixel-box bg-[#1b253b] border-4 border-emerald-500 max-w-sm w-full p-4 font-mono">
+            <div class="pixel-font text-xs text-emerald-300 mb-2">PID AYARI</div>
+            <div class="text-[11px] text-slate-300 mb-2">Klavye: [W]/[S] ile seç, [A]/[D] ile ayarla. Yeşil olunca [BOŞLUK] ile KİLİTLE!</div>
+            <div class="w-full h-3 bg-black border border-slate-600 mb-3"><div id="pid-bar" class="h-full bg-rose-500"></div></div>
+            <div id="pid-controls" class="space-y-1.5 text-xs text-white">
+              ${['P', 'I', 'D'].map((l, i) => `
+                <div class="pid-row p-1 rounded ${i === 0 ? 'bg-slate-700/80 border border-cyan-400' : ''}">
+                  ${l}: <input type="range" min="0" max="100" value="50" class="pid-slider w-44 align-middle">
+                </div>
+              `).join('')}
+            </div>
+            <button id="pid-ok" class="pixel-btn bg-emerald-700 text-white pixel-font text-xs px-4 py-2 mt-3 w-full">KİLİTLE [BOŞLUK]</button>
+          </div>
+        `;
+
+        const sliders = [...ov.querySelectorAll('.pid-slider')];
+        const rows = [...ov.querySelectorAll('.pid-row')];
+
+        const err = () => sliders.reduce((a, e, i) => a + Math.abs(e.value - tg[i]), 0) / 3;
+        const upd = () => {
+          const e = err(), b = ov.querySelector('#pid-bar');
+          b.style.width = Math.min(100, e * 2) + '%';
+          b.className = 'h-full ' + (e < 12 ? 'bg-emerald-500' : e < 25 ? 'bg-amber-500' : 'bg-rose-500');
+        };
+        sliders.forEach(s => s.oninput = upd);
+        upd();
+
+        const doLock = () => {
+          const e = err();
+          cleanup(e < 12 ? 3 : e < 25 ? 2 : e < 38 ? 1 : 0);
+        };
+        ov.querySelector('#pid-ok').onclick = doLock;
+
+        currentMiniKeyHandler = (e) => {
+          if (e.code === 'KeyW' || e.code === 'ArrowUp') {
+            selectedIdx = (selectedIdx + 2) % 3;
+            rows.forEach((r, i) => r.className = `pid-row p-1 rounded ${i === selectedIdx ? 'bg-slate-700/80 border border-cyan-400' : ''}`);
+          } else if (e.code === 'KeyS' || e.code === 'ArrowDown') {
+            selectedIdx = (selectedIdx + 1) % 3;
+            rows.forEach((r, i) => r.className = `pid-row p-1 rounded ${i === selectedIdx ? 'bg-slate-700/80 border border-cyan-400' : ''}`);
+          } else if (e.code === 'KeyA' || e.code === 'ArrowLeft') {
+            sliders[selectedIdx].value = Math.max(0, parseInt(sliders[selectedIdx].value) - 5);
+            upd();
+          } else if (e.code === 'KeyD' || e.code === 'ArrowRight') {
+            sliders[selectedIdx].value = Math.min(100, parseInt(sliders[selectedIdx].value) + 5);
+            upd();
+          } else if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            doLock();
+          }
+        };
+        window.addEventListener('keydown', currentMiniKeyHandler);
+
+      } else {
+        // Lehim Zamanlaması
+        ov.innerHTML = `
+          <div class="pixel-box bg-[#1b253b] border-4 border-amber-500 max-w-sm w-full p-4 font-mono">
+            <div class="pixel-font text-xs text-amber-300 mb-2">🔥 LEHİM ZAMANLAMASI</div>
+            <div class="text-xs text-slate-300 mb-2">Çubuk yeşil alandayken DURDUR! Klavye: [BOŞLUK]</div>
+            <div class="relative w-64 h-5 bg-black border-2 border-slate-600 mx-auto">
+              <div class="absolute h-full bg-emerald-600/70" style="left:38%;width:24%"></div>
+              <div id="tm-m" class="absolute top-0 h-full w-2 bg-white"></div>
+            </div>
+            <button id="tm-b" class="pixel-btn bg-amber-600 text-white pixel-font text-xs px-5 py-2.5 mt-3 w-full">DURDUR [BOŞLUK]</button>
+            <div id="tm-r" class="text-white text-xs mt-2">Deneme 0/3</div>
+          </div>
+        `;
+        let x = 0, dir = 1, tries = 0, ok = 0;
+        const m = ov.querySelector('#tm-m');
+        const tm = setInterval(() => { x += dir * 2.0; if (x > 98 || x < 0) dir *= -1; m.style.left = x + '%'; }, 16);
+
+        const doStop = () => {
+          tries++;
+          if (x > 38 && x < 62) { ok++; audio.playCollect(); } else { audio.playHit(); }
+          ov.querySelector('#tm-r').innerText = `Deneme ${tries}/3 — Doğru: ${ok}`;
+          if (tries >= 3) {
+            clearInterval(tm);
+            setTimeout(() => cleanup(ok), 400);
+          }
+        };
+        ov.querySelector('#tm-b').onclick = doStop;
+
+        currentMiniKeyHandler = (e) => {
+          if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            doStop();
+          }
+        };
+        window.addEventListener('keydown', currentMiniKeyHandler);
+      }
+    }
+
+    function rollQuests() {
+      gameState.quests = Object.keys(QUESTS).filter(k => QUESTS[k].always || Math.random() < QUESTS[k].p);
+    }
+
+    function renderQuests() {
+      if (!gameState.quests || !gameState.quests.length) rollQuests();
+      const el = document.getElementById('quest-list');
+      el.innerHTML = '';
+      gameState.quests.forEach(k => {
+        const q = QUESTS[k];
+        const d = document.createElement('div');
+        d.className = 'p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between text-xs';
+        d.innerHTML = `<div><div class="font-bold text-white">${q.t}</div><div class="text-[10px] text-slate-400">${q.d}</div><div class="text-[11px] text-${q.col}-400">${q.c}</div></div><button class="pixel-btn bg-${q.col}-700 text-white text-[11px] px-2 py-1">${q.b}</button>`;
+        d.querySelector('button').onclick = () => runSideQuest(k);
+        el.appendChild(d);
+      });
+    }
+
+    function runSideQuest(type) {
+      if (gameState.daysLeft <= 0) return;
+      if (type === 'bahakan') { askBahakanCar(); return; }
+      if (type === 'mehmet') { mehmetDance(); return; }
+      if (type === 'ocak') { openOcakModal(); return; }
+      if (type === 'stealth') { showScreen('stealth'); startStealth(); return; }
+      if (type === 'tea') {
+        if (gameState.budget < 60) { showToast('Çay parası yok!', 'rose'); return; }
+        playMini('cay', q => {
+          gameState.budget -= 60;
+          gameState.teas++;
+          gameState.stats.tea++;
+          gameState.caffeine = Math.min(100, gameState.caffeine + 20);
+          mor(15);
+          spendDay();
+          audio.playCollect();
+          showToast('☕ Çay içildi: +15 Moral, +20% Kafein', 'rose');
+          saveGame();
+          updateHUD();
+        });
+        return;
+      }
+      if (type === 'clean') { gameState.xp += 15; mor(-10); audio.playCollect(); showToast('🧹 Atölye toplandı: +15 XP', 'cyan'); }
+      if (type === 'sponsor') {
+        mor(-15);
+        if (Math.random() < 0.5) { const x = Math.floor(Math.random() * 300) + 500; gameState.budget += x; audio.playSuccess(); showToast(`📜 Dilekçe onaylandı: +₺${x}`, 'emerald'); }
+        else { showToast('📜 "Ödenek kalmadı" dediler!', 'amber'); }
+      }
+      if (type === 'siparis') {
+        if (gameState.budget < 350) { showToast('Sipariş için ₺350 yok!', 'rose'); return; }
+        gameState.budget -= 350; gameState.parts += 2; showToast('📦 2 adet yedek parça geldi!', 'orange');
+      }
+      spendDay();
+      saveGame();
+      updateHUD();
+    }
+
+    const mor = n => { gameState.morale = Math.max(0, Math.min(100, gameState.morale + n)); };
+
+    /* --- STEALTH HURDALIK --- */
+    const screenStealth = document.getElementById('screen-stealth');
+    const stealthCanvas = document.getElementById('stealth-canvas');
+    const stealthCtx = stealthCanvas.getContext('2d');
+    let stealthAnimId = null;
+
+    const stealthState = {
+      player: { x: 40, y: 190, r: 10, speed: 3.2, targetX: 40, targetY: 190 },
+      guard: { x: 300, y: 190, dir: 1, angle: 0, range: 120, fov: Math.PI / 3.4 },
+      crates: [{ x: 180, y: 70, looted: false }, { x: 440, y: 100, looted: false }, { x: 360, y: 300, looted: false }],
+      keys: {}
+    };
+
+    function startStealth() {
+      stealthCanvas.width = stealthCanvas.parentElement.clientWidth;
+      stealthCanvas.height = 380;
+      stealthState.player.x = 40; stealthState.player.y = 190;
+      stealthState.player.targetX = 40; stealthState.player.targetY = 190;
+      stealthState.crates.forEach(c => c.looted = false);
+      loopStealth();
+    }
+
+    function loopStealth() {
+      const w = stealthCanvas.width, h = stealthCanvas.height;
+      const p = stealthState.player, g = stealthState.guard;
+
+      if (stealthState.keys.ArrowLeft || stealthState.keys.KeyA) { p.x -= p.speed; p.targetX = p.x; }
+      if (stealthState.keys.ArrowRight || stealthState.keys.KeyD) { p.x += p.speed; p.targetX = p.x; }
+      if (stealthState.keys.ArrowUp || stealthState.keys.KeyW) { p.y -= p.speed; p.targetY = p.y; }
+      if (stealthState.keys.ArrowDown || stealthState.keys.KeyS) { p.y += p.speed; p.targetY = p.y; }
+
+      const dx = p.targetX - p.x, dy = p.targetY - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist > 4) { p.x += (dx / dist) * p.speed; p.y += (dy / dist) * p.speed; }
+
+      g.x += g.dir * 1.8;
+      if (g.x > w - 110) { g.dir = -1; g.angle = Math.PI; }
+      if (g.x < 130) { g.dir = 1; g.angle = 0; }
+
+      stealthCtx.fillStyle = '#0a0f1d'; stealthCtx.fillRect(0, 0, w, h);
+
+      stealthState.crates.forEach(c => {
+        stealthCtx.fillStyle = c.looted ? '#475569' : '#10b981';
+        stealthCtx.fillRect(c.x - 12, c.y - 12, 24, 24);
+        if (Math.hypot(p.x - c.x, p.y - c.y) < 24 && !c.looted) {
+          c.looted = true; gameState.parts++; gameState.xp += 15; audio.playCollect();
+          showToast('📦 Parça kurtarıldı! (+1 Parça, +15 XP)', 'emerald');
+        }
+      });
+
+      stealthCtx.save();
+      stealthCtx.fillStyle = 'rgba(250, 204, 21, 0.22)';
+      stealthCtx.beginPath(); stealthCtx.moveTo(g.x, g.y);
+      stealthCtx.arc(g.x, g.y, g.range, g.angle - g.fov / 2, g.angle + g.fov / 2);
+      stealthCtx.fill(); stealthCtx.restore();
+
+      stealthCtx.fillStyle = '#e11d48'; stealthCtx.beginPath(); stealthCtx.arc(g.x, g.y, 11, 0, Math.PI * 2); stealthCtx.fill();
+      stealthCtx.fillStyle = '#00f2fe'; stealthCtx.beginPath(); stealthCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2); stealthCtx.fill();
+
+      const pDist = Math.hypot(p.x - g.x, p.y - g.y);
+      const pAngle = Math.atan2(p.y - g.y, p.x - g.x);
+      let angleDiff = Math.abs(pAngle - g.angle);
+      if (angleDiff > Math.PI) angleDiff = 2 * Math.PI - angleDiff;
+
+      if (pDist < g.range && angleDiff < g.fov / 2) {
+        cancelAnimationFrame(stealthAnimId);
+        audio.playHit();
+        gameState.budget = Math.max(0, gameState.budget - 300);
+        showToast('🚨 YAKALANDIN! Rektörlükten tutanak ve -₺300 ceza!', 'rose');
+        spendDay(); showScreen('workshop'); updateHUD(); return;
+      }
+      stealthAnimId = requestAnimationFrame(loopStealth);
+    }
+
+    stealthCanvas.addEventListener('pointerdown', e => {
+      const rect = stealthCanvas.getBoundingClientRect();
+      stealthState.player.targetX = (e.clientX - rect.left) * (stealthCanvas.width / rect.width);
+      stealthState.player.targetY = (e.clientY - rect.top) * (stealthCanvas.height / rect.height);
+    });
+    window.addEventListener('keydown', e => stealthState.keys[e.code] = true);
+    window.addEventListener('keyup', e => stealthState.keys[e.code] = false);
+
+    document.getElementById('btn-abort-stealth').onclick = () => {
+      cancelAnimationFrame(stealthAnimId);
+      spendDay(); showScreen('workshop'); updateHUD();
+    };
+
+    /* --- ATÖLYE GEZİNTİSİ (ROOM) --- */
+    let roomOn = false;
+    const rm = { x: 300, y: 160, targetX: null, targetY: null, keys: {}, near: null, run: false };
+    const ST = [
+      { x:20,  y:30,  w:110, h:50, n:'🔥 Lehim Masası', a:'lehim' },
+      { x:170, y:30,  w:110, h:50, n:'☕ Çay Ocağı',   a:'cay' },
+      { x:330, y:30,  w:110, h:50, n:'🐱 Kedi Lehim',   a:'kedi' },
+      { x:490, y:30,  w:110, h:50, n:'🚗 Bahakan Masası', a:'bahakan' },
+      { x:20,  y:230, w:110, h:50, n:'🛫 Uçuş Alanı',   a:'ucus' },
+      { x:250, y:230, w:120, h:50, n:'🏆 Şeref Köşesi', a:'muze' },
+      { x:490, y:230, w:110, h:50, n:'🚪 Çıkış',        a:'pano' }
+    ];
+
+    function startRoom() { rm.x = 300; rm.y = 160; rm.targetX = null; rm.targetY = null; if (!rm.run) { rm.run = true; roomLoop(); } }
+
+    function roomLoop() {
+      if (!roomOn) { rm.run = false; return; }
+      if (rm.keys.l) rm.x -= 3; if (rm.keys.r) rm.x += 3;
+      if (rm.keys.u) rm.y -= 3; if (rm.keys.d) rm.y += 3;
+
+      if (rm.targetX !== null) {
+        const dx = rm.targetX - rm.x, dy = rm.targetY - rm.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 4) { rm.x += (dx / dist) * 3.5; rm.y += (dy / dist) * 3.5; }
+        else { rm.targetX = null; rm.targetY = null; }
+      }
+
+      rm.x = Math.max(10, Math.min(630, rm.x)); rm.y = Math.max(16, Math.min(300, rm.y));
+      const c = document.getElementById('room-canvas').getContext('2d');
+      c.fillStyle = '#0f172a'; c.fillRect(0, 0, 640, 320);
+
+      rm.near = null;
+      ST.forEach(s => {
+        c.fillStyle = '#334155'; c.fillRect(s.x, s.y, s.w, s.h);
+        c.fillStyle = '#e2e8f0'; c.font = '12px monospace'; c.fillText(s.n, s.x + 4, s.y + 28);
+        if (rm.x > s.x - 20 && rm.x < s.x + s.w + 20 && rm.y > s.y - 20 && rm.y < s.y + s.h + 20) {
+          rm.near = s; c.strokeStyle = '#00f2fe'; c.lineWidth = 2; c.strokeRect(s.x - 2, s.y - 2, s.w + 4, s.h + 4);
+        }
+      });
+
+      c.fillStyle = '#1e3a8a'; c.fillRect(rm.x - 8, rm.y, 16, 16);
+      c.fillStyle = '#f5c6a5'; c.fillRect(rm.x - 6, rm.y - 12, 12, 12);
+      c.fillStyle = '#00f2fe'; c.fillRect(rm.x - 5, rm.y - 7, 10, 2);
+
+      c.fillStyle = '#facc15'; c.fillText(rm.near ? '[E] veya Dokun: ' + rm.near.n : 'Yürü: Tıkla/WASD', 10, 312);
+      requestAnimationFrame(roomLoop);
+    }
+
+    function roomAct(s) {
+      if (!s) return;
+      if (s.a === 'lehim') runSideQuest('clean');
+      else if (s.a === 'cay') runSideQuest('tea');
+      else if (s.a === 'kedi') { mor(10); showToast('🐱 Kedi Lehim mırladı: +10 Moral', 'pink'); saveGame(); updateHUD(); }
+      else if (s.a === 'bahakan') runSideQuest('bahakan');
+      else if (s.a === 'muze') openMuseumModal();
+      else if (s.a === 'ucus') showScreen('flight');
+      else showScreen('workshop');
+    }
+
+    const RK = { KeyA: 'l', ArrowLeft: 'l', KeyD: 'r', ArrowRight: 'r', KeyW: 'u', ArrowUp: 'u', KeyS: 'd', ArrowDown: 'd' };
+    window.addEventListener('keydown', e => { if (RK[e.code]) rm.keys[RK[e.code]] = true; if (e.code === 'KeyE' && roomOn) roomAct(rm.near); });
+    window.addEventListener('keyup', e => { if (RK[e.code]) rm.keys[RK[e.code]] = false; });
+
+    document.getElementById('room-canvas').addEventListener('pointerdown', e => {
+      const rect = document.getElementById('room-canvas').getBoundingClientRect();
+      const clickX = (e.clientX - rect.left) * (640 / rect.width);
+      const clickY = (e.clientY - rect.top) * (320 / rect.height);
+      const hit = ST.find(s => clickX >= s.x && clickX <= s.x + s.w && clickY >= s.y && clickY <= s.y + s.h);
+      if (hit && rm.near === hit) roomAct(hit);
+      else { rm.targetX = clickX; rm.targetY = clickY; }
+    });
+
+    function bindRoomTouch(id, k) {
+      const b = document.getElementById(id);
+      b.addEventListener('pointerdown', e => { e.preventDefault(); rm.keys[k] = true; });
+      b.addEventListener('pointerup', e => { e.preventDefault(); rm.keys[k] = false; });
+    }
+    bindRoomTouch('btn-room-left', 'l'); bindRoomTouch('btn-room-right', 'r');
+    bindRoomTouch('btn-room-up', 'u'); bindRoomTouch('btn-room-down', 'd');
+    document.getElementById('btn-room-action').onclick = () => { if (rm.near) roomAct(rm.near); };
+
+    /* --- EKRAN GEÇİŞLERİ --- */
+    const screenWorkshop = document.getElementById('screen-workshop');
+    const screenFlight = document.getElementById('screen-flight');
+    const screenFestival = document.getElementById('screen-festival');
+    const screenCompetition = document.getElementById('screen-competition');
+
+    function showScreen(name) {
+      if (window.music) music.setMode(name);
+      document.getElementById('screen-room').classList.add('hidden');
+      screenStealth.classList.add('hidden');
+      roomOn = name === 'room';
+      if (roomOn) { document.getElementById('screen-room').classList.remove('hidden'); startRoom(); }
+
+      screenWorkshop.classList.add('hidden');
+      screenFlight.classList.add('hidden');
+      screenFestival.classList.add('hidden');
+      screenCompetition.classList.add('hidden');
+
+      if (name === 'workshop') screenWorkshop.classList.remove('hidden');
+      else if (name === 'flight') { screenFlight.classList.remove('hidden'); startFlightSimulation(); }
+      else if (name === 'festival') screenFestival.classList.remove('hidden');
+      else if (name === 'competition') { screenCompetition.classList.remove('hidden'); startCompetitionSequence(); }
+      else if (name === 'stealth') screenStealth.classList.remove('hidden');
+    }
+
+    /* --- UÇUŞ SİMÜLASYONU FİZİĞİ (BAĞIMSIZ PARAŞÜT KARGO + AKICI V8 MOTORU) --- */
+    const flightCanvas = document.getElementById('flight-canvas');
+    const flightCtx = flightCanvas.getContext('2d');
+    let flightAnimationId = null;
+
+    const simState = {
+      isFpv: false,
+      drone: { x: 80, y: 200, vx: 0, vy: 0, tilt: 0, battery: 100 },
+      keys: { up: false, down: false, left: false, right: false },
+      wind: 0, gates: [], particles: [], rainDrops: [], birds: [], cells: [],
+      passedGates: 0, combo: 1, score: 0, missed: 0, hull: 100, t: 0, total: 8,
+      payload: { active: false, deployed: false, x: 0, y: 0, vx: 0, vy: 0, landed: false, hitTarget: false },
+      dropZone: { x: 2200, width: 110 },
+      scanTarget: { x: 1200, width: 70, progress: 0, scanned: false }
+    };
+
+    function resizeFlightCanvas() {
+      if (!flightCanvas) return;
+      flightCanvas.width = flightCanvas.parentElement.clientWidth;
+      flightCanvas.height = flightCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeFlightCanvas);
+
+    function startFlightSimulation() {
+      resizeFlightCanvas();
+      const night = gameState.season % 3 === 0;
+      flightCanvas.style.filter = night ? 'brightness(.6) contrast(1.2)' : '';
+
+      document.getElementById('sim-message-overlay').classList.add('hidden');
+      simState.isFpv = false;
+      document.getElementById('fpv-overlay-ui').classList.add('hidden');
+
+      const maxBatt = 100 + (gameState.drone.batteryLvl - 1) * 20;
+      simState.drone.x = 80;
+      simState.drone.y = flightCanvas.height / 2;
+      simState.drone.vx = 0;
+      simState.drone.vy = 0;
+      simState.drone.tilt = 0;
+      simState.drone.battery = maxBatt;
+      simState.passedGates = 0;
+      simState.combo = 1;
+      simState.score = 0;
+      simState.missed = 0;
+      simState.hull = 100;
+      simState.t = 0;
+      simState.particles = [];
+      simState.rainDrops = [];
+      simState.isFinished = false;
+
+      // Kargo Hazırlığı
+      simState.payload = { active: true, deployed: false, x: 0, y: 0, vx: 0, vy: 0, landed: false, hitTarget: false };
+      gameState.drone.payloadSuccess = false;
+      document.getElementById('sim-payload-status').innerText = '📦 KARGO: HAZIR (BOŞLUK)';
+
+      simState.dropZone = { x: 2200, width: 110 };
+      simState.scanTarget = { x: 1200, width: 70, progress: 0, scanned: false };
+      gameState.drone.scanSuccess = false;
+      document.getElementById('sim-scan-status').innerText = '📷 QR: BEKLENİYOR';
+
+      if (gameState.theme === 'firtina') {
+        for (let i = 0; i < 40; i++) {
+          simState.rainDrops.push({ x: Math.random() * flightCanvas.width, y: Math.random() * flightCanvas.height, len: 10 + Math.random() * 8, speed: 300 + Math.random() * 150 });
+        }
+      }
+
+      let windDampening = 1 - (gameState.drone.softwareLvl * 0.12);
+      if (gameState.perks.gps) windDampening *= 0.6;
+      simState.wind = (Math.random() * 1.5 - 0.75) * Math.max(0.2, windDampening) * (gameState.theme === 'firtina' ? 1.7 : 1);
+
+      const total = Math.min(12, 8 + Math.floor(gameState.season / 2));
+      const gap = Math.max(76, 110 - gameState.season * 3);
+      simState.total = total;
+      simState.gates = [];
+      simState.birds = [];
+      simState.cells = [];
+
+      const hasHallucination = gameState.caffeine > 55;
+      for (let i = 1; i <= total; i++) {
+        const mid = Math.floor(Math.random() * (flightCanvas.height - gap - 120)) + 60;
+        simState.gates.push({
+          x: 120 + 390 * i,
+          baseY: mid,
+          topY: mid,
+          gap,
+          passed: false,
+          ph: Math.random() * 6,
+          isGhost: hasHallucination && Math.random() < 0.35 && gameState.drone.softwareLvl < 3,
+          amp: (gameState.season >= 2 && i > 2) ? 20 + Math.min(30, gameState.season * 3) : 0
+        });
+        simState.cells.push({ x: 120 + 390 * i - 195, y: 60 + Math.random() * (flightCanvas.height - 160), got: false });
+      }
+
+      if (flightAnimationId) cancelAnimationFrame(flightAnimationId);
+      lastSimTime = performance.now();
+      flightLoop();
+    }
+
+    let lastSimTime = 0;
+    function damage(n, msg) {
+      if (simState.isFinished) return;
+      n = Math.round(n * Math.max(0.5, 1 - gameState.drone.frameLvl * 0.06));
+      simState.hull -= n;
+      simState.combo = 1;
+      audio.playHit();
+      showToast(`💥 ${msg} Gövde -${n}%`, 'rose');
+      if (simState.hull <= 0) {
+        simState.hull = 0;
+        finishFlight(false, 'Gövde parçalandı! Barkan düştü.');
+      }
+    }
+
+    /* --- KARGO BIRAKMA (DRONDAN TAM BAĞIMSIZ HAVA DİRENCİ) --- */
+    function deployPayload() {
+      if (!simState.payload.active || simState.payload.deployed || simState.isFinished) return;
+      simState.payload.deployed = true;
+      simState.payload.x = simState.drone.x;
+      simState.payload.y = simState.drone.y + 12;
+      simState.payload.vx = 0; // Drondan kopar kopmaz ileri itki sıfırlanır!
+      simState.payload.vy = 25; // Paraşüt açılır, yavaşça yerçekimine teslim olur
+      audio.beep(550, 'square', 0.1);
+      document.getElementById('sim-payload-status').innerText = '📦 KARGO: BIRAKILDI...';
+      showToast('📦 Faydalı yük serbest bırakıldı! Paraşüt açıldı.', 'purple');
+    }
+
+    function flightLoop() {
+      const now = performance.now();
+      const dt = Math.min((now - lastSimTime) / 1000, 0.1);
+      lastSimTime = now;
+      updateFlightPhysics(dt);
+      drawFlightCanvas();
+      if (!simState.isFinished) flightAnimationId = requestAnimationFrame(flightLoop);
+    }
+
+    function updateFlightPhysics(dt) {
+      const d = simState.drone;
+      const specs = calculateDroneSpecs();
+      const thrustPower = (340 + (gameState.drone.frameLvl * 25)) * (gameState.perks.esc ? 1.15 : 1);
+      const gravity = 190 + (specs.weight / 10);
+      const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
+
+      if (simState.keys.up) {
+        d.vy -= thrustPower * dt;
+        for (let i = 0; i < 2; i++) {
+          simState.particles.push({
+            x: d.x - 12 + Math.random() * 24, y: d.y + 8,
+            vx: -20 + Math.random() * 40, vy: 60 + Math.random() * 45,
+            life: 0.35, maxLife: 0.35, color: activeColor.flame
+          });
+        }
+      }
+      if (simState.keys.down) d.vy += (thrustPower * 0.7) * dt;
+      d.vy += gravity * dt;
+
+      const hSpeed = 220 + (gameState.drone.frameLvl * 20);
+      if (simState.keys.left) { d.vx = -hSpeed; d.tilt = Math.max(-0.35, d.tilt - 2.5 * dt); }
+      else if (simState.keys.right) { d.vx = hSpeed; d.tilt = Math.min(0.35, d.tilt + 2.5 * dt); }
+      else { d.vx *= 0.94; d.tilt *= 0.88; }
+
+      simState.t += dt;
+      const gust = Math.sin(simState.t * 0.9) * 0.5 * Math.max(0.3, 1 - gameState.drone.softwareLvl * 0.08) * (gameState.perks.gps ? 0.6 : 1);
+      d.vx += (simState.wind + gust) * 70 * dt;
+      d.x += d.vx * dt; d.y += d.vy * dt;
+
+      if (d.y < 20) { d.y = 20; d.vy = 0; }
+      if (d.y > flightCanvas.height - 25) { d.y = flightCanvas.height - 25; d.vy = 0; damage(12, 'Yere çarptı!'); }
+      if (d.x < 30) d.x = 30;
+
+      // Kamera Kayması: Dron ilerledikçe dünya ve bırakılan kargo zemine sabit geriye kayar
+      if (d.x > flightCanvas.width * 0.45) {
+        const excess = d.x - flightCanvas.width * 0.45;
+        d.x = flightCanvas.width * 0.45;
+        simState.gates.forEach(g => g.x -= excess);
+        simState.birds.forEach(b => b.x -= excess);
+        simState.cells.forEach(c => c.x -= excess);
+        simState.dropZone.x -= excess;
+        simState.scanTarget.x -= excess;
+        if (simState.payload.deployed && !simState.payload.landed) {
+          simState.payload.x -= excess; // Kargo dronla ilerlemez, zemine sabit kalır!
+        }
+      }
+
+      const drainRate = ((gameState.theme === 'sicak' ? 3.4 : 2.8) * (specs.weight / 800)) / (1 + (gameState.drone.batteryLvl * 0.15));
+      d.battery -= drainRate * dt;
+      if (d.battery <= 0) { d.battery = 0; finishFlight(false, "Batarya tükendi! Barkan acil iniş yaptı."); return; }
+
+      // QR Tarama
+      const st = simState.scanTarget;
+      if (!st.scanned && st.x > -50 && st.x < flightCanvas.width + 50) {
+        if (Math.abs(d.x - (st.x + st.width / 2)) < 45 && d.y > (flightCanvas.height - 180)) {
+          st.progress += dt;
+          document.getElementById('sim-scan-status').innerText = `📷 QR: %${Math.min(100, Math.round((st.progress / 3.0) * 100))}`;
+          if (st.progress >= 3.0) {
+            st.scanned = true; gameState.drone.scanSuccess = true; simState.score += 400; audio.playSuccess();
+            document.getElementById('sim-scan-status').innerText = '📷 QR: TAMAMLANDI ✓';
+            showToast('🎯 QR KOD TARANDI! (+400 Skor, +8 Jüri Puanı)', 'emerald');
+          }
+        }
+      }
+
+      // Kapı sallanması ve kuşlar
+      simState.gates.forEach(g => {
+        if (g.amp) g.topY = Math.max(20, Math.min(flightCanvas.height - g.gap - 30, g.baseY + Math.sin(simState.t * 1.4 + g.ph) * g.amp));
+      });
+
+      if (Math.random() < dt * (0.28 + gameState.season * 0.07)) {
+        simState.birds.push({ x: flightCanvas.width + 30, y: 40 + Math.random() * (flightCanvas.height - 100), vx: 90 + Math.random() * 80 });
+      }
+
+      for (let i = simState.birds.length - 1; i >= 0; i--) {
+        const b = simState.birds[i]; b.x -= b.vx * dt;
+        if (Math.abs(b.x - d.x) < 22 && Math.abs(b.y - d.y) < 16) {
+          simState.birds.splice(i, 1); damage(15, 'Kuş çarptı!'); if (simState.isFinished) return;
+        } else if (b.x < -40) simState.birds.splice(i, 1);
+      }
+
+      simState.cells.forEach(c => {
+        if (!c.got && Math.abs(c.x - d.x) < 22 && Math.abs(c.y - d.y) < 22) {
+          c.got = true; d.battery = Math.min(100 + (gameState.drone.batteryLvl - 1) * 20, d.battery + 12);
+          simState.score += 35 * simState.combo; audio.playCollect();
+        }
+      });
+
+      // Kapı kontrolü
+      simState.gates.forEach(g => {
+        if (!g.passed && g.x < d.x) {
+          g.passed = true;
+          if (g.isGhost) {
+            audio.playHit(); showToast('👻 Hayalet kapı! Kafein serabı!', 'purple');
+          } else {
+            if (d.y >= g.topY && d.y <= g.topY + g.gap) {
+              simState.passedGates++;
+              let baseGateScore = 150 * (simState.isFpv ? 1.25 : 1);
+              simState.score += Math.round(baseGateScore * simState.combo);
+              simState.combo = Math.min(5, simState.combo + 1);
+              audio.playCollect();
+              for (let i = 0; i < 14; i++) {
+                simState.particles.push({
+                  x: g.x, y: d.y, vx: (Math.random() - 0.5) * 160, vy: (Math.random() - 0.5) * 160,
+                  life: 0.6, maxLife: 0.6, color: activeColor.hex
+                });
+              }
+            } else {
+              simState.combo = 1; audio.playHit(); simState.score = Math.max(0, simState.score - 40);
+              simState.missed++; damage(20, 'Kapı direğine çarptı!');
+            }
+          }
+        }
+      });
+
+      // Kargo Bağımsız Süzülüş Fiziği
+      const p = simState.payload;
+      if (p.deployed && !p.landed) {
+        p.vy = Math.min(85, p.vy + 55 * dt); // Paraşütle tatlı iniş
+        p.vx *= 0.5; // Dronun hızından anında kopuş
+        p.x += (p.vx + simState.wind * 10) * dt; // Yalnızca hafif rüzgar sapması
+        p.y += p.vy * dt;
+
+        if (p.y >= flightCanvas.height - 30) {
+          p.y = flightCanvas.height - 30;
+          p.landed = true;
+          if (Math.abs(p.x - (simState.dropZone.x + simState.dropZone.width / 2)) < simState.dropZone.width / 2) {
+            p.hitTarget = true; gameState.drone.payloadSuccess = true; gameState.payloadDrops++; simState.score += 450;
+            audio.playFanfare(); showToast('🎯 TAM İSABET! Faydalı yük hedef çemberinde! (+450 Skor)', 'emerald');
+            document.getElementById('sim-payload-status').innerText = '📦 KARGO: HEDEFTE! ✓';
+          } else {
+            audio.playHit(); document.getElementById('sim-payload-status').innerText = '📦 KARGO: SAPTI ✕';
+          }
+        }
+      }
+
+      if (gameState.theme === 'firtina') {
+        simState.rainDrops.forEach(r => {
+          r.y += r.speed * dt; r.x -= 80 * dt;
+          if (r.y > flightCanvas.height) { r.y = -10; r.x = Math.random() * flightCanvas.width; }
+        });
+      }
+
+      for (let i = simState.particles.length - 1; i >= 0; i--) {
+        const pt = simState.particles[i]; pt.x += pt.vx * dt; pt.y += pt.vy * dt; pt.life -= dt;
+        if (pt.life <= 0) simState.particles.splice(i, 1);
+      }
+
+      if (!simState.isFinished && simState.passedGates + simState.missed >= simState.total) {
+        finishFlight(simState.passedGates >= Math.ceil(simState.total * 0.65), `Parkur bitti: ${simState.passedGates}/${simState.total} kapı geçildi.`);
+      }
+
+      document.getElementById('sim-battery-text').innerText = `${Math.round(d.battery)}%`;
+      document.getElementById('sim-gate-text').innerText = `${simState.passedGates}/${simState.total} 🛡${Math.round(simState.hull)}%`;
+      document.getElementById('sim-combo-text').innerText = `x${simState.combo}`;
+      document.getElementById('sim-score-text').innerText = simState.score;
+    }
+
+    function drawFlightCanvas() {
+      const w = flightCanvas.width, h = flightCanvas.height;
+      flightCtx.clearRect(0, 0, w, h);
+
+      const skyGrad = flightCtx.createLinearGradient(0, 0, 0, h);
+      skyGrad.addColorStop(0, '#09152e'); skyGrad.addColorStop(0.7, '#132c54'); skyGrad.addColorStop(1, '#1e3a5f');
+      flightCtx.fillStyle = skyGrad; flightCtx.fillRect(0, 0, w, h);
+
+      flightCtx.fillStyle = '#0b1626';
+      flightCtx.beginPath(); flightCtx.moveTo(0, h); flightCtx.lineTo(0, h - 70); flightCtx.lineTo(w * 0.25, h - 90);
+      flightCtx.lineTo(w * 0.5, h - 60); flightCtx.lineTo(w * 0.75, h - 85); flightCtx.lineTo(w, h - 70); flightCtx.lineTo(w, h); flightCtx.fill();
+
+      flightCtx.fillStyle = '#08101d'; flightCtx.fillRect(0, h - 25, w, 25);
+      flightCtx.fillStyle = '#1e293b'; flightCtx.fillRect(0, h - 25, w, 2);
+
+      // QR Target
+      const st = simState.scanTarget;
+      if (st.x > -100 && st.x < w + 100) {
+        flightCtx.fillStyle = '#0284c7'; flightCtx.fillRect(st.x, h - 22, st.width, 18);
+        flightCtx.strokeStyle = st.scanned ? '#22c55e' : '#38bdf8'; flightCtx.lineWidth = 2; flightCtx.strokeRect(st.x, h - 22, st.width, 18);
+        flightCtx.font = '10px monospace'; flightCtx.fillStyle = '#38bdf8'; flightCtx.fillText('📷 QR HEDEFİ', st.x + 6, h - 28);
+      }
+
+      // Drop Zone
+      const dz = simState.dropZone;
+      if (dz.x > -150 && dz.x < w + 150) {
+        flightCtx.fillStyle = '#155e75'; flightCtx.fillRect(dz.x, h - 22, dz.width, 18);
+        flightCtx.strokeStyle = '#22c55e'; flightCtx.lineWidth = 2; flightCtx.strokeRect(dz.x, h - 22, dz.width, 18);
+        flightCtx.font = '10px monospace'; flightCtx.fillStyle = '#22c55e'; flightCtx.fillText('📦 HEDEF ÇEMBERİ', dz.x + 10, h - 28);
+      }
+
+      // Kapılar
+      simState.gates.forEach(g => {
+        if (g.x > -60 && g.x < w + 60) {
+          flightCtx.fillStyle = '#475569';
+          flightCtx.fillRect(g.x - 3, 0, 6, g.topY);
+          flightCtx.fillRect(g.x - 3, g.topY + g.gap, 6, h - (g.topY + g.gap));
+          flightCtx.strokeStyle = g.isGhost ? 'rgba(0, 242, 254, 0.35)' : (g.passed ? '#22c55e' : '#00f2fe');
+          flightCtx.lineWidth = 5;
+          flightCtx.strokeRect(g.x - 14, g.topY, 28, g.gap);
+        }
+      });
+
+      // Piller & Kuşlar
+      simState.cells.forEach(c => {
+        if (!c.got && c.x > -20 && c.x < w + 20) {
+          flightCtx.fillStyle = '#facc15'; flightCtx.fillRect(c.x - 6, c.y - 8, 12, 16);
+        }
+      });
+      simState.birds.forEach(b => {
+        flightCtx.fillStyle = '#ef4444'; flightCtx.fillRect(b.x - 8, b.y - 3, 16, 6);
+      });
+
+      // Kargo & Paraşüt Görseli
+      const p = simState.payload;
+      if (p.deployed && p.x > -40 && p.x < w + 40) {
+        if (!p.landed) {
+          // Açık Paraşüt
+          flightCtx.fillStyle = '#f43f5e';
+          flightCtx.beginPath();
+          flightCtx.arc(p.x, p.y - 12, 14, Math.PI, 0);
+          flightCtx.fill();
+          flightCtx.strokeStyle = '#e2e8f0';
+          flightCtx.lineWidth = 1;
+          flightCtx.beginPath();
+          flightCtx.moveTo(p.x - 14, p.y - 12);
+          flightCtx.lineTo(p.x, p.y);
+          flightCtx.moveTo(p.x + 14, p.y - 12);
+          flightCtx.lineTo(p.x, p.y);
+          flightCtx.stroke();
+        }
+        flightCtx.fillStyle = '#d97706';
+        flightCtx.fillRect(p.x - 6, p.y - 6, 12, 12);
+        flightCtx.fillStyle = '#fef08a';
+        flightCtx.fillRect(p.x - 2, p.y - 6, 4, 12);
+      }
+
+      // Parçacıklar
+      simState.particles.forEach(pt => {
+        flightCtx.fillStyle = pt.color;
+        const size = (pt.life / pt.maxLife) * 6;
+        flightCtx.fillRect(pt.x - size / 2, pt.y - size / 2, size, size);
+      });
+
+      // Drone (BARKAN)
+      const d = simState.drone;
+      const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
+      if (!simState.isFpv) {
+        flightCtx.save();
+        flightCtx.translate(d.x, d.y);
+        flightCtx.rotate(d.tilt);
+        flightCtx.fillStyle = '#1e293b'; flightCtx.fillRect(-18, -4, 36, 8);
+        flightCtx.fillStyle = activeColor.accent; flightCtx.fillRect(-10, -8, 20, 16);
+        flightCtx.fillStyle = '#e2e8f0'; flightCtx.fillRect(-18, -9, 4, 5); flightCtx.fillRect(14, -9, 4, 5);
+        flightCtx.fillStyle = activeColor.flame;
+        const propOffset = (Date.now() % 60 < 30) ? 14 : 10;
+        flightCtx.fillRect(-24, -11, propOffset, 2); flightCtx.fillRect(10, -11, propOffset, 2);
+        flightCtx.restore();
+      }
+
+      if (simState.combo > 1) {
+        flightCtx.font = '14px "Press Start 2P", monospace';
+        flightCtx.fillStyle = '#facc15';
+        flightCtx.fillText(`COMBO x${simState.combo}!`, d.x - 40, Math.max(30, d.y - 30));
+      }
+    }
+
+    function finishFlight(success, msg) {
+      simState.isFinished = true;
+      gameState.drone.testFlightDone = true;
+      gameState.drone.lastFlightScore = simState.score;
+      if (simState.score > (gameState.highScore || 0)) gameState.highScore = simState.score;
+
+      const earnedXp = Math.floor(simState.score / 20) + (success ? 20 : 5);
+      gameState.xp += earnedXp;
+      spendDay();
+      if (success) audio.playSuccess(); else audio.playHit();
+      saveGame();
+
+      document.getElementById('sim-modal-title').innerText = success ? "TEST UÇUŞU BAŞARILI! 🚀" : "UÇUŞ TAMAMLANDI";
+      document.getElementById('sim-modal-desc').innerText = `${msg} | Kazanılan AR-GE XP: +${earnedXp}`;
+      document.getElementById('sim-message-overlay').classList.remove('hidden');
+    }
+
+    document.getElementById('btn-sim-modal-ok').onclick = () => { showScreen('workshop'); updateHUD(); };
+    document.getElementById('btn-abort-flight').onclick = () => { cancelAnimationFrame(flightAnimationId); showScreen('workshop'); updateHUD(); };
+
+    /* --- GLOBAL KLAVYE DİNLEYİCİSİ (UÇUŞ, QUIZ, MODALLAR) --- */
+    window.addEventListener('keydown', e => {
+      // Ufuk Çana Yakalama
+      if (ufukStealActive && (e.code === 'Space' || e.code === 'Enter')) {
+        e.preventDefault();
+        catchUfukAction();
+        return;
+      }
+      // Ocak Nöbeti Başlatma
+      if (!document.getElementById('modal-ocak').classList.contains('hidden') && (e.code === 'Space' || e.code === 'Enter')) {
+        e.preventDefault();
+        startOcakAction();
+        return;
+      }
+      // Pit Testi Kilitleme
+      if (currentPitLockFn && (e.code === 'Space' || e.code === 'Enter')) {
+        e.preventDefault();
+        currentPitLockFn();
+        return;
+      }
+      // Jüri Quiz Seçimleri [1], [2], [3]
+      if (!document.getElementById('modal-quiz').classList.contains('hidden')) {
+        const btns = document.querySelectorAll('#quiz-opts button');
+        if (e.key === '1' && btns[0]) btns[0].click();
+        if (e.key === '2' && btns[1]) btns[1].click();
+        if (e.key === '3' && btns[2]) btns[2].click();
+      }
+      // Uçuş Kontrolleri
+      if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = true;
+      if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = true;
+      if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = true;
+      if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = true;
+      if (e.code === 'Space' && !screenFlight.classList.contains('hidden')) { e.preventDefault(); deployPayload(); }
+      if (e.code === 'KeyC' && !screenFlight.classList.contains('hidden')) toggleFpvMode();
+    });
+
+    window.addEventListener('keyup', e => {
+      if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = false;
+      if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = false;
+      if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = false;
+      if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = false;
+    });
+
+    function bindFlightTouch(id, k) {
+      const b = document.getElementById(id);
+      b.addEventListener('pointerdown', e => { e.preventDefault(); simState.keys[k] = true; });
+      b.addEventListener('pointerup', e => { e.preventDefault(); simState.keys[k] = false; });
+    }
+    bindFlightTouch('btn-touch-left', 'left'); bindFlightTouch('btn-touch-right', 'right');
+    bindFlightTouch('btn-touch-up', 'up'); bindFlightTouch('btn-touch-down', 'down');
+    document.getElementById('btn-touch-drop').onclick = deployPayload;
+
+    /* --- FESTİVAL EKRANI AKSİYONLARI --- */
+    document.getElementById('btn-go-festival').onclick = () => showScreen('festival');
+    document.getElementById('btn-visit-defense').onclick = (e) => {
+      gameState.parts++; gameState.xp += 15; audio.playCollect();
+      e.target.disabled = true; e.target.innerText = 'ALINDI ✓';
+      showToast('🎁 ASELSAN standından parça alındı! (+1 Parça, +15 XP)', 'cyan');
+      saveGame(); updateHUD();
+    };
+    document.getElementById('btn-visit-itu').onclick = (e) => {
+      gameState.xp += 12; audio.playCollect();
+      e.target.disabled = true;
+      showToast('🐝 İTÜ çadırıyla teknik istişare: +12 XP', 'amber');
+      saveGame(); updateHUD();
+    };
+    document.getElementById('btn-ufuk-spy').onclick = (e) => {
+      e.target.disabled = true;
+      if (Math.random() < 0.6) {
+        gameState.parts++; gameState.xp += 25; audio.playSuccess();
+        showToast('🕵️ Ufuk İTÜ çadırından karbon pervane aşırdı! (+1 Parça)', 'emerald');
+      } else {
+        gameState.budget = Math.max(0, gameState.budget - 350); audio.playHit();
+        showToast('🚨 Ufuk yakalandı! ₺350 kefalet ödendi!', 'rose');
+      }
+      saveGame(); updateHUD();
+    };
+    document.getElementById('btn-eat-kebap').onclick = () => {
+      if (gameState.budget < 120) { showToast('Kebap parası yok!', 'rose'); return; }
+      gameState.budget -= 120; gameState.morale = 100; audio.playSuccess();
+      showToast('🍢 Adana Kebap & Şalgam! Moral %100 fırladı!', 'rose');
+      saveGame(); updateHUD();
+    };
+    document.getElementById('btn-proceed-jury').onclick = () => showScreen('competition');
+
+    /* --- JÜRİ & TEKNOFEST FİNALLERİ --- */
+    const QS = [
+      ["PID kontrolcüde salınımı (titreşimi) azaltmak için hangi terim artırılır?", ["Türev (D)", "Sadece P", "Batarya"]],
+      ["LiPo bataryanın saklama (storage) voltajı hücre başına kaçtır?", ["3.8V", "4.2V", "3.0V"]],
+      ["Kalman filtresi ne işe yarar?", ["Sensör gürültüsünü azaltıp durumu tahmin eder", "Motoru soğutur", "Pervaneyi büyütür"]],
+      ["Karbon fiberin gövdedeki en büyük avantajı nedir?", ["Hafif ve sert olması", "Ucuz olması", "Paslanmaz olması"]]
+    ];
+    let quizState = null;
+
+    function startCompetitionSequence() {
+      quizState = { qs: [...QS].sort(() => Math.random() - .5).slice(0, 3), i: 0, ok: 0 };
+      document.getElementById('comp-results-card').classList.add('hidden');
+      document.getElementById('modal-quiz').classList.remove('hidden');
+      showQuiz();
+    }
+
+    function showQuiz() {
+      const q = quizState;
+      if (q.i >= 3) {
+        document.getElementById('modal-quiz').classList.add('hidden');
+        runCompetition(q.ok * 2);
+        return;
+      }
+      document.getElementById('quiz-prog').innerText = `(${q.i + 1}/3)`;
+      document.getElementById('quiz-q').innerText = q.qs[q.i][0];
+      const box = document.getElementById('quiz-opts'); box.innerHTML = '';
+      q.qs[q.i][1].map((t, k) => ({ t, ok: k === 0 })).sort(() => Math.random() - .5).forEach((o, optIdx) => {
+        const b = document.createElement('button');
+        b.className = 'pixel-btn w-full bg-slate-700 hover:bg-cyan-700 text-white text-xs px-3 py-2 text-left';
+        b.innerText = `[${optIdx + 1}] ${o.t}`;
+        b.onclick = () => { if (o.ok) { q.ok++; audio.playCollect(); } else audio.playHit(); q.i++; showQuiz(); };
+        box.appendChild(b);
+      });
+    }
+
+    function runCompetition(bonus) {
+      const flightPts = Math.min(40, Math.round(gameState.drone.frameLvl * 6 + (gameState.pitTuned ? 6 : 0) + 12));
+      const softPts = Math.min(35, Math.round(gameState.drone.softwareLvl * 6 + (gameState.drone.payloadSuccess ? 7 : 0) + (gameState.drone.scanSuccess ? 6 : 0) + 8));
+      const teamPts = Math.min(25, Math.round((gameState.morale / 100) * 15 + 6));
+      const totalScore = Math.min(100, flightPts + softPts + teamPts + bonus);
+
+      setTimeout(() => { document.getElementById('comp-score-flight').innerText = flightPts; }, 500);
+      setTimeout(() => { document.getElementById('comp-score-soft').innerText = softPts; }, 1000);
+      setTimeout(() => { document.getElementById('comp-score-team').innerText = teamPts; }, 1500);
+
+      setTimeout(() => {
+        renderLeaderboard(totalScore);
+        revealAwardAndProgress(totalScore);
+      }, 2000);
+    }
+
+    function renderLeaderboard(playerScore) {
+      const baseRivals = [
+        ["İTÜ ArıDrone", 78], ["ODTÜ Rüzgar İHA", 74], ["Boğaziçi Skyline", 69],
+        ["Bilkent Aerotech", 63], ["Yıldız Roket-Dron", 58], ["KTÜ Karadeniz", 52],
+        ["Gazi Kanat", 46], ["Ege Akdeniz", 41], ["Sabancı Hawk", 36]
+      ];
+      const comps = baseRivals.map(([name, base]) => ({ name, score: Math.round(base + gameState.season * 2 + Math.random() * 6 - 3) }));
+      comps.push({ name: "ATÜ Kaan Teknoloji (BİZ)", score: playerScore, isPlayer: true });
+      comps.sort((a, b) => b.score - a.score);
+
+      window.lastRank = comps.findIndex(c => c.isPlayer) + 1;
+      window.lastTotalScore = playerScore;
+
+      const listEl = document.getElementById('comp-leaderboard'); listEl.innerHTML = '';
+      comps.forEach((c, idx) => {
+        const row = document.createElement('div');
+        row.className = `p-1.5 flex items-center justify-between border ${c.isPlayer ? 'bg-cyan-950 border-cyan-400 text-cyan-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-300'}`;
+        row.innerHTML = `<span>${idx + 1}. ${c.name}</span><span class="pixel-font text-xs">${c.score} Puan</span>`;
+        listEl.appendChild(row);
+      });
+    }
+
+    function revealAwardAndProgress(totalScore) {
+      const rk = window.lastRank;
+      const card = document.getElementById('comp-results-card');
+      card.classList.remove('hidden');
+
+      let prize = rk === 1 ? 3500 : rk <= 3 ? 2200 : rk <= 6 ? 1400 : 800;
+      let xpGain = rk === 1 ? 65 : rk <= 3 ? 45 : 25;
+
+      document.getElementById('comp-award-title').innerText = rk === 1 ? "🏆 1.LİK ŞAMPİYONLUK KUPASI!" : `🥈 ${rk}. SIRA KÜRSÜ DERECESİ`;
+      document.getElementById('comp-award-desc').innerText = `TEKNOFEST Adana tamamlandı! (+₺${prize}, +${xpGain} XP)`;
+
+      const specialAwardsContainer = document.getElementById('comp-special-awards');
+      specialAwardsContainer.innerHTML = '';
+
+      if (Math.random() < (0.35 + gameState.drone.frameLvl * 0.05)) {
+        prize += 750; xpGain += 20;
+        const b = document.createElement('div');
+        b.className = 'p-2 bg-purple-900/80 border-2 border-purple-400 pixel-box text-center text-xs text-purple-200 font-bold';
+        b.innerHTML = '🎨 TEKNOFEST JÜRİSİ: "EN İYİ TASARIM ÖDÜLÜ" KAZANILDI! (+₺750, +20 XP)';
+        specialAwardsContainer.appendChild(b);
+      }
+
+      if (Math.random() < (0.35 + (gameState.drone.payloadSuccess ? 0.15 : 0))) {
+        prize += 1000; xpGain += 25;
+        const b = document.createElement('div');
+        b.className = 'p-2 bg-emerald-900/80 border-2 border-emerald-400 pixel-box text-center text-xs text-emerald-200 font-bold';
+        b.innerHTML = '⚡ TEKNOFEST JÜRİSİ: "EN İYİ PERFORMANS ÖDÜLÜ" KAZANILDI! (+₺1,000, +25 XP)';
+        specialAwardsContainer.appendChild(b);
+      }
+
+      gameState.budget += prize;
+      gameState.xp += xpGain;
+      gameState.trophies = gameState.trophies || { gold: 0, podium: 0 };
+      if (rk === 1) gameState.trophies.gold++; else if (rk <= 3) gameState.trophies.podium++;
+
+      saveGame();
+      updateHUD();
+    }
+
+    document.getElementById('btn-next-season-loop').onclick = () => {
+      mehmetDance(() => {
+        advanceToNextSeason();
+      });
+    };
+
+    function advanceToNextSeason() {
+      gameState.season++;
+      gameState.daysLeft = 14;
+      gameState.budget += 1400;
+      gameState.pitTuned = false;
+      gameState.visitedFestivalPromo = false;
+      gameState.visitedFestivalItu = false;
+      gameState.drone.testFlightDone = false;
+      saveGame();
+      showScreen('workshop');
+      updateHUD();
+      showToast(`🔄 Sezon #${gameState.season} başladı! Bütçe aktarıldı.`, 'amber');
+    }
+
+    /* --- PNG SKOR KARTI İNDİRME --- */
+    function generateAndDownloadScorecard() {
+      const cvs = document.getElementById('scorecard-canvas');
+      const ctx = cvs.getContext('2d');
+      ctx.fillStyle = '#0b0f19'; ctx.fillRect(0, 0, 600, 380);
+      ctx.strokeStyle = '#00f2fe'; ctx.lineWidth = 6; ctx.strokeRect(8, 8, 584, 364);
+
+      ctx.fillStyle = '#facc15'; ctx.font = '14px "Press Start 2P", monospace';
+      ctx.fillText('KAAN TEKNOLOJI KULUBU', 30, 45);
+      ctx.fillStyle = '#38bdf8'; ctx.font = '11px monospace';
+      ctx.fillText('ATÜ • TEKNOFEST ADANA RESMI KARNE', 30, 65);
+
+      ctx.fillStyle = '#ffffff'; ctx.font = '16px monospace';
+      ctx.fillText(`Kaptan: Burka Karakış`, 30, 115);
+      ctx.fillText(`Sezon: #${gameState.season} | Sıra: ${window.lastRank || 1}. (Skor: ${window.lastTotalScore || 80}/100)`, 30, 145);
+      ctx.fillText(`Dron: BARKAN-X1 (TWR: ${calculateDroneSpecs().twr}x)`, 30, 175);
+      ctx.fillText(`Instagram: @kaanteknoloji (${gameState.instagram.followers} Takipçi)`, 30, 205);
+      ctx.fillText(`Şampiyonluk: ${gameState.trophies.gold} | Kürsü: ${gameState.trophies.podium}`, 30, 235);
+
+      const a = document.createElement('a');
+      a.download = `Kaan_Teknoloji_Sezon_${gameState.season}_Karne.png`;
+      a.href = cvs.toDataURL();
+      a.click();
+      showToast('📥 Skor kartı PNG olarak indirildi!', 'emerald');
+    }
+    document.getElementById('btn-download-scorecard').onclick = generateAndDownloadScorecard;
+    document.getElementById('btn-museum-download-card').onclick = generateAndDownloadScorecard;
+
+    /* --- ARGE & MÜZE --- */
+    const PERKS = [
+      ['tubitak', '🏛️ TÜBİTAK Başlangıç Hibesi', 'Her yeni sezona +%50 bütçe ile başla.', 40],
+      ['print3d', '🖨️ 3D Yazıcı Çiftliği', 'Takım puanı +5, hata payı %30 azalır.', 60],
+      ['gps', '🛰️ RTK-GPS Modülü', 'Rüzgar ve serap sapması %40 azalır.', 75],
+      ['aura', '👑 Burka Aurası', 'Moral harcamaları %40 azalır.', 95]
+    ];
+
+    function renderPerkUI() {
+      document.getElementById('arge-available-xp').innerText = gameState.xp;
+      const el = document.getElementById('perk-list'); el.innerHTML = '';
+      PERKS.forEach(([k, n, d, c]) => {
+        const own = gameState.perks[k];
+        const row = document.createElement('div');
+        row.className = 'p-2 bg-[#1e2842] border rounded flex justify-between items-center';
+        row.innerHTML = `<div><div class="font-bold text-white">${n}</div><div class="text-[10px] text-slate-300">${d}</div><div class="text-[11px] text-cyan-400">${c} XP</div></div><button class="pixel-btn ${own ? 'bg-slate-700 text-emerald-400' : 'bg-cyan-700 text-white'} text-xs px-2 py-1" ${own || gameState.xp < c ? 'disabled' : ''}>${own ? 'AÇIK ✓' : 'AÇ'}</button>`;
+        row.querySelector('button').onclick = () => {
+          if (gameState.xp >= c && !gameState.perks[k]) {
+            gameState.xp -= c; gameState.perks[k] = true; audio.playSuccess();
+            saveGame(); renderPerkUI(); updateHUD(); showToast('🧬 Yetenek açıldı!', 'cyan');
+          }
+        };
+        el.appendChild(row);
+      });
+    }
+
+    const ALL_BADGES = [
+      { id: 'sampiyon',       name: '🏆 Şampiyon',            desc: 'TEKNOFEST 1.lik kupasını kazan' },
+      { id: 'kursu',          name: '🥈 Kürsü Fatihi',        desc: 'İlk 3 takım arasında bitir' },
+      { id: 'nisanci',        name: '🎯 Keskin Nişancı',      desc: 'Faydalı yükü hedef çemberine tam isabet bırak' },
+      { id: 'tarayici',       name: '📷 Görüntü İşleme Ustası',desc: 'QR hedef üzerinde 3 sn sabit kalıp tara' },
+      { id: 'vlogcu',         name: '📹 Fenomen Ela',         desc: 'Ela ile viral atölye vlogu çek' },
+      { id: 'ufukcu',         name: '✋ Ufuk Avcısı',          desc: 'Ufuk Çana\'yı alet çalarken ensesinden yakala' },
+      { id: 'araba_ustasi',   name: '🚗 Bahakan\'ın Arabası', desc: 'Bahakan\'dan arabayı başarıyla ödünç al' },
+      { id: 'dans_ustasi',    name: '🤡 Mehmet Şov Şampiyonu',desc: 'Mehmet Kuyucu\'nun canlı dansından büyük moral kap' },
+      { id: 'ocakci',         name: '🔥 Ocak Bekçisi',        desc: 'Ocakta 5 saat nöbet tut' }
+    ];
+
+    function badge(id, text) {
+      if (gameState.badges[id]) return;
+      gameState.badges[id] = text;
+      showToast('🎖️ Yeni Rozet: ' + text, 'amber');
+    }
+
+    function openMuseumModal() {
+      document.getElementById('museum-gold').innerText = gameState.trophies.gold;
+      document.getElementById('museum-podium').innerText = gameState.trophies.podium;
+      document.getElementById('museum-highscore').innerText = gameState.highScore;
+      document.getElementById('museum-payloads').innerText = gameState.payloadDrops;
+
+      document.getElementById('stat-total-tea').innerText = gameState.stats.tea;
+      document.getElementById('stat-total-pet').innerText = gameState.stats.pet;
+      document.getElementById('stat-total-ocak').innerText = gameState.stats.ocak;
+      document.getElementById('stat-total-ufuk').innerText = gameState.stats.ufuk || 0;
+      document.getElementById('stat-total-car').innerText = gameState.stats.car || 0;
+      document.getElementById('stat-total-crash').innerText = gameState.stats.crash;
+
+      const grid = document.getElementById('museum-badge-grid'); 
+      grid.innerHTML = '';
+      ALL_BADGES.forEach(b => {
+        const unlocked = !!gameState.badges[b.id];
+        const card = document.createElement('div');
+        card.className = `p-2 border rounded ${unlocked ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200' : 'bg-slate-900 border-slate-800 text-slate-500 opacity-60'}`;
+        card.innerHTML = `
+          <div class="font-bold flex items-center justify-between">
+            <span>${b.name}</span>
+            <span class="text-[10px]">${unlocked ? 'KAZANILDI ✓' : 'KİLİTLİ 🔒'}</span>
+          </div>
+          <div class="text-[11px] mt-0.5">${b.desc}</div>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.getElementById('modal-museum').classList.remove('hidden');
+    }
+
+    document.getElementById('btn-open-museum').onclick = openMuseumModal;
+    document.getElementById('btn-open-museum-header').onclick = openMuseumModal;
+    document.getElementById('btn-close-museum').onclick = () => document.getElementById('modal-museum').classList.add('hidden');
+
+    document.getElementById('btn-open-arge').onclick = () => { renderPerkUI(); document.getElementById('modal-arge').classList.remove('hidden'); };
+    document.getElementById('btn-close-arge').onclick = () => document.getElementById('modal-arge').classList.add('hidden');
+
+    document.getElementById('btn-upgrade-frame').onclick = () => upgradeDrone('frame');
+    document.getElementById('btn-upgrade-software').onclick = () => upgradeDrone('software');
+    document.getElementById('btn-upgrade-battery').onclick = () => upgradeDrone('battery');
+    document.getElementById('btn-launch-test').onclick = () => showScreen('flight');
+    document.getElementById('btn-open-room').onclick = () => showScreen('room');
+    document.getElementById('btn-room-back').onclick = () => showScreen('workshop');
+
+    const soundBtn = document.getElementById('btn-toggle-sound');
+    soundBtn.onclick = () => {
+      audio.muted = !audio.muted;
+      soundBtn.innerText = audio.muted ? '🔇' : '🔊';
+      if (audio.muted) {
+        clearInterval(music.t);
+      } else {
+        music.run();
+        audio.beep(600, 'square', 0.08);
+      }
+    };
+
+    const DIFFS = {
+      kolay:  { n: 'KOLAY',  dis: 0.5, luck: 0.6, riv: -6, bud: 1.5 },
+      normal: { n: 'NORMAL', dis: 1.0, luck: 1.0, riv: 0,  bud: 1.0 },
+      zor:    { n: 'ZOR',    dis: 1.5, luck: 1.4, riv: 6,  bud: 0.75 }
+    };
+    const DIFF = () => DIFFS[gameState.difficulty] || DIFFS.normal;
+
+    document.getElementById('btn-difficulty').onclick = () => {
+      const k = Object.keys(DIFFS);
+      gameState.difficulty = k[(k.indexOf(gameState.difficulty) + 1) % 3];
+      saveGame(); updateHUD(); showToast('Zorluk: ' + DIFF().n, 'amber');
+    };
+
+    setInterval(() => renderDronePreview(), 120);
 
     window.addEventListener('load', () => {
       loadSave();
