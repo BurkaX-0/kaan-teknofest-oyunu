@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Kaan Teknoloji Kulübü: TEKNOFEST Döngüsü</title>
+  <title>Kaan Teknoloji Kulübü: TEKNOFEST Döngüsü - Mega Sürüm</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,14 +49,13 @@
       display: block;
       position: fixed;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.03));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       z-index: 999;
       background-size: 100% 3px, 6px 100%;
       pointer-events: none;
       opacity: 0.55;
     }
 
-    /* Pixel Art Borders */
     .pixel-box {
       border: 4px solid #000;
       box-shadow: inset -4px -4px 0px 0px rgba(0, 0, 0, 0.5), inset 4px 4px 0px 0px rgba(255, 255, 255, 0.15), 4px 4px 0px 0px #000;
@@ -123,7 +122,6 @@
       animation: marquee 16s linear infinite;
     }
 
-    /* FPV CRT Noise */
     .fpv-noise {
       background: radial-gradient(circle, rgba(0,242,254,0.06) 0%, rgba(0,0,0,0.72) 100%);
     }
@@ -131,42 +129,38 @@
 </head>
 <body class="crt-overlay bg-[#0a0d16] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
+  <!-- ================= ÜST HUD BİLGİ ÇUBUĞU ================= -->
   <header class="w-full bg-[#111728] border-b-4 border-black px-3 py-2 z-20 shadow-md">
     <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <!-- Title & Club Identity -->
+      <!-- Başlık & Kulüp -->
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-cyan-600 border-2 border-black flex items-center justify-center font-bold text-lg pixel-box text-white">
           ⚡
         </div>
         <div>
           <h1 class="pixel-font text-xs sm:text-sm text-cyan-300 tracking-wider">KAAN TEKNOLOJİ KULÜBÜ</h1>
-          <p class="text-xs sm:text-sm text-amber-400 font-mono tracking-wide">ATÜ • TEKNOFEST DÖNGÜSÜ (ROGUE-LITE)</p>
+          <p class="text-xs sm:text-sm text-amber-400 font-mono tracking-wide">ATÜ • TEKNOFEST DÖNGÜSÜ (MEGA EDİTİON)</p>
         </div>
       </div>
 
-      <!-- Resource Display -->
+      <!-- Kaynak Göstergeleri -->
       <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-sm sm:text-base">
-        <!-- Loop Counter -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
           <span class="text-amber-400 text-xs pixel-font">DÖNGÜ:</span>
           <span id="hud-season" class="text-amber-300 font-bold text-lg">1</span>
         </div>
-        <!-- Kalan Gün -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
           <span class="text-sky-400 text-xs pixel-font">GÜN:</span>
           <span id="hud-days" class="text-sky-300 font-bold text-lg">14</span>
         </div>
-        <!-- Yedek Parça -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
           <span class="text-orange-400 text-xs pixel-font">PARÇA:</span>
           <span id="hud-parts" class="text-orange-300 font-bold text-lg">2</span>
         </div>
-        <!-- Bütçe -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
           <span class="text-emerald-400 text-xs pixel-font">BÜTÇE:</span>
           <span id="hud-budget" class="text-emerald-300 font-bold text-lg">₺1,800</span>
         </div>
-        <!-- Moral -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
           <span class="text-rose-400 text-xs pixel-font">MORAL:</span>
           <div class="w-12 bg-black border border-slate-600 h-2.5 relative overflow-hidden inline-block align-middle">
@@ -174,17 +168,14 @@
           </div>
           <span id="hud-morale-val" class="text-rose-300 text-xs font-bold">100%</span>
         </div>
-        <!-- Kafein Göstergesi -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black" title="Çok çay ve nöbet halüsinasyona yol açar!">
           <span class="text-yellow-400 text-xs pixel-font">☕ KAFEİN:</span>
           <span id="hud-caffeine" class="text-yellow-300 font-bold text-sm">0%</span>
         </div>
-        <!-- Instagram Takipçi -->
         <button id="btn-open-instagram-hud" class="pixel-box bg-gradient-to-r from-pink-900 to-purple-900 hover:from-pink-800 hover:to-purple-800 px-2 py-0.5 flex items-center gap-1 border-2 border-black cursor-pointer" title="Kulüp Instagram Hesabı">
           <span class="text-pink-300 text-xs pixel-font">📸 IG:</span>
           <span id="hud-followers" class="text-pink-200 font-bold text-lg">180</span>
         </button>
-        <!-- AR-GE XP -->
         <div class="pixel-box bg-[#1b253b] px-2 py-0.5 flex items-center gap-1 border-2 border-black">
           <span class="text-cyan-400 text-xs pixel-font">XP:</span>
           <span id="hud-xp" class="text-cyan-300 font-bold text-lg">0</span>
@@ -224,26 +215,23 @@
       <!-- Burka Dialogue & Club Atmosphere Box -->
       <div class="pixel-box bg-[#131b2e] p-3 sm:p-4 border-4 border-black relative">
         <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-          <!-- Burka Animated Pixel Avatar -->
           <div class="flex flex-col items-center flex-shrink-0">
             <canvas id="avatar-canvas" width="64" height="64" class="pixel-box bg-slate-900 border-2 border-black w-20 h-20 shadow-inner"></canvas>
             <span class="pixel-font text-[10px] text-cyan-300 mt-1">KAPTAN BURKA</span>
             <span class="text-xs text-slate-400 font-mono">Takım Lideri</span>
           </div>
-          <!-- Speech Bubble -->
           <div class="flex-1 bg-[#1c2742] p-3 rounded pixel-box border-2 border-slate-700 relative w-full">
             <div class="text-amber-300 text-xs pixel-font mb-1 flex items-center justify-between">
               <span id="speaker-name">BURKA DİYOR Kİ:</span>
               <span class="text-[10px] text-slate-400">ATÜ Atölye Masası #01</span>
             </div>
             <p id="burka-dialogue" class="text-lg text-slate-100 leading-snug font-mono min-h-[48px]">
-              "Ufuk Çana tornavidaları cebine atmadan pervaneleri sıkalım! Çukurova semalarında Barkan'ı kimse tutamayacak."
+              "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak!"
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Room Decor Bar -->
       <div id="room-decor" class="pixel-box bg-[#101726] p-2 border-4 border-black text-base text-center font-mono text-slate-300"></div>
 
       <!-- Workshop Grid: Drone Specs, Engineering & Quests -->
@@ -257,7 +245,6 @@
               <span class="text-xs text-amber-400 font-mono">AR-GE Versiyonu</span>
             </div>
             
-            <!-- Drone Pixel Render Preview Canvas -->
             <div class="w-full h-32 bg-slate-950 border-2 border-black flex items-center justify-center relative overflow-hidden pixel-box mb-2">
               <canvas id="drone-preview-canvas" width="128" height="96" class="w-32 h-24"></canvas>
               <div class="absolute bottom-1 right-2 text-[10px] text-cyan-400 font-mono">ATÜ İHA LAB</div>
@@ -278,13 +265,11 @@
               </div>
             </div>
 
-            <!-- Modular Physics Specs (TWR & Weight) -->
             <div class="mb-2 p-1.5 bg-black/50 border border-slate-700 text-xs font-mono grid grid-cols-2 gap-2 text-slate-300">
               <div>Toplam Ağırlık: <b id="stat-weight" class="text-cyan-300">850g</b></div>
               <div>İtki/Ağırlık (TWR): <b id="stat-twr" class="text-emerald-300">2.1x</b></div>
             </div>
 
-            <!-- Stats List -->
             <div class="space-y-1.5 text-sm font-mono">
               <div>
                 <div class="flex justify-between text-xs">
@@ -330,7 +315,6 @@
             <h2 class="pixel-font text-xs text-amber-300 border-b-2 border-slate-700 pb-2 mb-3">DONANIM & YAZILIM AR-GE</h2>
             <div class="space-y-2">
               
-              <!-- Upgrade 1: Frame -->
               <div class="p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between">
                 <div>
                   <div class="text-sm font-bold text-white">Karbon Gövde & Fırçasız Motor</div>
@@ -342,7 +326,6 @@
                 </button>
               </div>
 
-              <!-- Upgrade 2: Software -->
               <div class="p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between">
                 <div>
                   <div class="text-sm font-bold text-white">Otopilot PID & Sensör Füzyonu</div>
@@ -354,7 +337,6 @@
                 </button>
               </div>
 
-              <!-- Upgrade 3: Battery -->
               <div class="p-2 bg-[#1c2742] border-2 border-slate-700 rounded flex items-center justify-between">
                 <div>
                   <div class="text-sm font-bold text-white">LiPo 4S Batarya Paketi & BMS</div>
@@ -370,7 +352,7 @@
           </div>
 
           <div class="text-[11px] text-slate-400 mt-2">
-            💡 Her mühendislik işlemi 1 gün harcar. Gözünüz masadaki Ufuk'ta olsun!
+            💡 Her işlem 1 gün harcar. Geliştirme öncesi mini-oyun arıza şansını düşürür!
           </div>
         </div>
 
@@ -387,7 +369,6 @@
             </div>
           </div>
 
-          <!-- Bottom Action Links -->
           <div class="mt-3 flex gap-2">
             <button id="btn-open-arge" class="flex-1 pixel-btn bg-cyan-900 hover:bg-cyan-800 text-cyan-200 text-xs py-2">
               🧬 KALICI AR-GE
@@ -404,7 +385,7 @@
       <div class="pixel-box bg-[#1b253b] p-3 border-4 border-black flex flex-col sm:flex-row items-center justify-between gap-3">
         <div class="text-center sm:text-left">
           <span class="pixel-font text-xs text-amber-300 block mb-0.5">HAZIRLIK TAMAMLANDI MI?</span>
-          <span class="text-sm text-slate-300">Simülasyon uçuşunda kapıları geç, QR tara ve kargoyu bırak; ardından TEKNOFEST festivaline geç!</span>
+          <span class="text-sm text-slate-300">Simülasyon uçuşunda kapıları geç, QR tara ve kargoyu bırak; ardından TEKNOFEST festivaline git!</span>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button id="btn-open-room" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white text-sm pixel-font px-4 py-2.5">🚪 ATÖLYEDE GEZ</button>
@@ -422,7 +403,6 @@
     <!-- SCREEN 2: TEST UÇUŞU SİMÜLASYONU (CANVAS) -->
     <!-- ========================================== -->
     <section id="screen-flight" class="w-full hidden space-y-2">
-      <!-- Flight Header Telemetry -->
       <div class="pixel-box bg-[#101726] p-2 border-4 border-black flex flex-wrap items-center justify-between gap-2 text-sm font-mono">
         <div class="flex flex-wrap items-center gap-2.5">
           <span class="pixel-font text-xs text-cyan-300">BARKAN HUD</span>
@@ -434,7 +414,6 @@
           <span id="sim-payload-status" class="text-purple-300 font-bold bg-purple-950 px-1.5 py-0.5 border border-purple-600 text-xs">📦 KARGO: HAZIR</span>
         </div>
         <div class="flex items-center gap-2">
-          <!-- FPV Gözlük Mod Butonu -->
           <button id="btn-toggle-fpv" class="pixel-btn bg-purple-800 hover:bg-purple-700 text-white text-xs px-2 py-1" title="Kokpit İçi FPV Gözlük Modu">
             👓 FPV GÖZLÜK (C)
           </button>
@@ -448,11 +427,10 @@
         </div>
       </div>
 
-      <!-- Flight Simulation Canvas Area -->
       <div class="w-full relative border-4 border-black bg-slate-950 overflow-hidden pixel-box" style="height: 440px;">
         <canvas id="flight-canvas" class="w-full h-full block"></canvas>
 
-        <!-- FPV Static & OSD Overlay -->
+        <!-- FPV Overlay -->
         <div id="fpv-overlay-ui" class="absolute inset-0 pointer-events-none hidden fpv-noise p-3 flex flex-col justify-between">
           <div class="flex justify-between text-xs text-green-400 font-mono">
             <span>VOLT: 15.6V | RSSI: 99%</span>
@@ -469,14 +447,13 @@
           </div>
         </div>
 
-        <!-- Canlı Telsiz & TEKNOFEST Spikeri Ticker Bar -->
+        <!-- Spiker Ticker Bar -->
         <div class="absolute bottom-0 left-0 right-0 bg-black/85 border-t border-cyan-800 px-3 py-1 text-xs text-cyan-300 font-mono overflow-hidden pointer-events-none">
           <div id="sim-announcer-text" class="animate-marquee">
-            🎙️ SPİKER: "Adana semalarında Barkan rüzgarı esiyor! Kaptan Burka kapılara doğru alçalıyor! Tribünler ayakta!"
+            🎙️ SPİKER: "Adana semalarında Barkan rüzgarı esiyor! Kaptan Burka kapılara doğru alçalıyor!"
           </div>
         </div>
         
-        <!-- On-canvas dynamic notifications -->
         <div id="sim-message-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 hidden z-10 p-4 text-center">
           <h2 id="sim-modal-title" class="pixel-font text-xl text-amber-400 mb-2">UÇUŞ TAMAMLANDI!</h2>
           <p id="sim-modal-desc" class="text-lg text-slate-200 font-mono mb-4">Kapılar geçildi, QR tarandı, veriler kaydedildi.</p>
@@ -485,13 +462,12 @@
           </button>
         </div>
 
-        <!-- Controls Guide Hint Overlay -->
         <div class="absolute top-2 left-2 text-[11px] text-slate-300 bg-black/70 px-2 py-1 border border-slate-700 pointer-events-none hidden sm:block font-mono">
           KONTROLLER: [W/S] Gaz/İn • [A/D] Yön • [BOŞLUK] Kargo At • [C] FPV Modu • [QR Hedefinde 3 sn Sabit Kal]
         </div>
       </div>
 
-      <!-- Mobile Touch Controls Bar -->
+      <!-- Mobil Tuşlar -->
       <div class="grid grid-cols-6 gap-1.5 sm:hidden pt-1">
         <button id="btn-touch-left" class="pixel-btn bg-slate-800 text-white text-lg py-3 active:bg-cyan-700">◀ SOL</button>
         <button id="btn-touch-up" class="pixel-btn bg-blue-700 text-white text-lg py-3 active:bg-blue-600">▲ GAZ</button>
@@ -536,7 +512,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 font-mono">
-          <!-- Tent 1: ITU Rival Booth & Ufuk Spy Mission -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-amber-400 pixel-font text-xs mb-1 flex items-center justify-between">
@@ -560,7 +535,6 @@
             </div>
           </div>
 
-          <!-- Tent 2: ASELSAN & BAYKAR Booth -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-cyan-400 pixel-font text-xs mb-1 flex items-center justify-between">
@@ -579,7 +553,6 @@
             </button>
           </div>
 
-          <!-- Tent 3: Adana Kebap & Şalgam -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700 flex flex-col justify-between">
             <div>
               <div class="text-rose-400 pixel-font text-xs mb-1 flex items-center justify-between">
@@ -599,7 +572,6 @@
           </div>
         </div>
 
-        <!-- Advance to Jury Stage Button -->
         <div class="mt-4 pt-3 border-t-2 border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div class="text-xs text-slate-300 font-mono">
             Çadırları gezip takımı hazırladıysan resmi jüri uçuş ve sunum değerlendirmesine geç!
@@ -617,16 +589,13 @@
     <section id="screen-competition" class="w-full hidden space-y-4">
       <div class="pixel-box bg-[#1b1e36] p-4 border-4 border-black relative overflow-hidden">
         
-        <!-- TEKNOFEST Header Banner -->
         <div class="text-center pb-3 border-b-2 border-slate-700">
           <span class="pixel-font text-xs text-amber-400 tracking-wider">TEKNOFEST ADANA FİNALLERİ</span>
           <h2 class="pixel-font text-base sm:text-xl text-white mt-1">İHA SERBEST GÖREV KATEGORİSİ</h2>
           <p class="text-sm text-cyan-300 font-mono mt-0.5">Jüri Değerlendirmesi & Canlı Puan Tablosu</p>
         </div>
 
-        <!-- Evaluation Stage Visualizer -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
-          <!-- Jury 1 -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700">
             <div class="text-amber-400 pixel-font text-[10px] mb-1">JÜRİ ÜYESİ 1 (TÜBİTAK)</div>
             <div class="text-slate-300 font-mono text-xs">Uçuş Stabilitesi & Parkur Hızı</div>
@@ -634,7 +603,6 @@
             <div class="text-[11px] text-slate-400 mt-1" id="comp-feedback-flight">Değerlendiriliyor...</div>
           </div>
 
-          <!-- Jury 2 -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700">
             <div class="text-cyan-400 pixel-font text-[10px] mb-1">JÜRİ ÜYESİ 2 (ASELSAN)</div>
             <div class="text-slate-300 font-mono text-xs">Görüntü İşleme & Kargo Görevi</div>
@@ -642,7 +610,6 @@
             <div class="text-[11px] text-slate-400 mt-1" id="comp-feedback-soft">Değerlendiriliyor...</div>
           </div>
 
-          <!-- Jury 3 -->
           <div class="pixel-box bg-[#131728] p-3 border-2 border-slate-700">
             <div class="text-purple-400 pixel-font text-[10px] mb-1">JÜRİ BAŞKANI (ATÜ DANIŞMAN)</div>
             <div class="text-slate-300 font-mono text-xs">Tasarım Özgünlüğü & Takım Ruhu</div>
@@ -651,15 +618,11 @@
           </div>
         </div>
 
-        <!-- Leaderboard Table -->
         <div class="pixel-box bg-[#0f1422] p-3 border-2 border-black">
           <div class="text-xs pixel-font text-amber-300 mb-2">CANLI LİDERLİK TABLOSU (10 TAKIM)</div>
-          <div class="space-y-1.5 font-mono text-sm max-h-96 overflow-y-auto" id="comp-leaderboard">
-            <!-- Populated via JS -->
-          </div>
+          <div class="space-y-1.5 font-mono text-sm max-h-96 overflow-y-auto" id="comp-leaderboard"></div>
         </div>
 
-        <!-- Results / Next Loop Announcement -->
         <div id="comp-results-card" class="mt-4 p-3 bg-gradient-to-r from-blue-900/60 to-purple-900/60 border-2 border-cyan-400 pixel-box text-center hidden">
           <h3 id="comp-award-title" class="pixel-font text-base text-amber-300">TEBRİKLER! 🏆 KÜRSÜ BAŞARISI!</h3>
           <p id="comp-award-desc" class="text-slate-200 text-sm font-mono mt-1">
@@ -691,7 +654,6 @@
         <span>Yürüme: Tıkla / Dokun veya WASD/Oklar • İstasyonla Etkileşim: [E] tuşu ya da tıkla</span>
         <span class="text-amber-400 font-bold">Mobil: İstasyona dokunarak veya aşağıdaki tuşlarla git!</span>
       </div>
-      <!-- Room Mobile Touch Navigation Bar -->
       <div class="grid grid-cols-5 gap-2 pt-1 sm:hidden">
         <button id="btn-room-left" class="pixel-btn bg-slate-800 text-white text-lg py-2">◀</button>
         <button id="btn-room-up" class="pixel-btn bg-slate-800 text-white text-lg py-2">▲</button>
@@ -719,7 +681,6 @@
         <button id="btn-close-instagram" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button>
       </div>
 
-      <!-- Stats Bar -->
       <div class="grid grid-cols-3 gap-2 mb-3 text-center font-mono">
         <div class="p-2 bg-black/40 border border-slate-700 rounded">
           <div class="text-xs text-slate-400">Takipçi</div>
@@ -735,7 +696,6 @@
         </div>
       </div>
 
-      <!-- Milestones Bar -->
       <div class="mb-4 p-2 bg-[#231535] border border-pink-600/50 rounded">
         <div class="text-xs pixel-font text-pink-300 mb-1 flex justify-between">
           <span>SPONSORLUK HEDEFİ:</span>
@@ -746,7 +706,6 @@
         </div>
       </div>
 
-      <!-- Create Post Form -->
       <div class="p-3 bg-black/50 border border-slate-700 rounded mb-4 font-mono">
         <div class="text-xs pixel-font text-amber-300 mb-2">YENİ GÖNDERİ PAYLAŞ (-5 Moral)</div>
         <div class="space-y-2 text-xs">
@@ -765,7 +724,6 @@
         </div>
       </div>
 
-      <!-- Recent Feed History -->
       <div class="space-y-2">
         <div class="text-xs pixel-font text-slate-300 mb-1">SON GÖNDERİLER</div>
         <div id="ig-feed-list" class="space-y-1.5 font-mono text-xs max-h-40 overflow-y-auto pr-1">
@@ -775,7 +733,7 @@
     </div>
   </div>
 
-  <!-- MODAL: OCAKTA 5 SAAT NÖBET MİNİ-GÖREVİ -->
+  <!-- MODAL: OCAKTA 5 SAAT NÖBET -->
   <div id="modal-ocak" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
     <div class="pixel-box bg-[#1b1712] border-4 border-black max-w-lg w-full p-4 relative text-center font-mono">
       <div class="text-amber-400 pixel-font text-xs mb-1">🔥 OCAKTA NÖBET VAKTİ</div>
@@ -784,7 +742,6 @@
         "Ocakta oturup semaverin başında beklemek, çay doldurmak ve gelen geçenle memleket kurtarmak mecburi... Moral düşecek, kafein fırlayacak ama harçlık çıkacak!"
       </p>
 
-      <!-- Animated Clock Visual -->
       <div class="my-4 flex flex-col items-center justify-center">
         <div class="w-24 h-24 rounded-full border-4 border-amber-500 bg-black flex items-center justify-center text-3xl font-bold text-amber-300 pixel-font shadow-inner">
           <span id="ocak-clock-text">0/5</span>
@@ -880,6 +837,7 @@
         <div>SKS'ye Verilen Dilekçeler: <span id="stat-total-pet" class="text-white font-bold">0</span> adet</div>
         <div>Ocakta Geçirilen Nöbet: <span id="stat-total-ocak" class="text-white font-bold">0</span> saat</div>
         <div>Ufuk Çana Yakalama: <span id="stat-total-ufuk" class="text-white font-bold">0</span> kez</div>
+        <div>Bahakan'dan Araba Alma: <span id="stat-total-car" class="text-white font-bold">0</span> kez</div>
         <div>Barkan Kazaları (Kırım): <span id="stat-total-crash" class="text-white font-bold">0</span> kez</div>
       </div>
 
@@ -980,7 +938,7 @@
     }
 
     const audio = new RetroAudio();
-    const STORAGE_KEY = 'kaan_teknofest_game_v9_master';
+    const STORAGE_KEY = 'kaan_teknofest_game_v10_ultimate';
 
     const defaultGameState = {
       season: 1,
@@ -1005,7 +963,7 @@
       members: [],
       badges: {},
       theme: "normal",
-      stats: { pet: 0, tea: 0, ocak: 0, crash: 0, ufuk: 0 },
+      stats: { pet: 0, tea: 0, ocak: 0, crash: 0, ufuk: 0, car: 0 },
       morale: 100,
       xp: 0,
       instagram: {
@@ -1076,6 +1034,89 @@
       }, 3000);
     }
 
+    /* --- MEHMET KUYUCU RETRO PİKSEL DANSI (ÖZEL ANİMASYON) --- */
+    function mehmetDance() {
+      const ov = document.createElement('div'); 
+      ov.className = 'fixed inset-0 z-[80] bg-black/85 flex flex-col items-center justify-center p-4 text-center';
+      ov.innerHTML = `
+        <canvas width="64" height="64" style="width:192px;height:192px;image-rendering:pixelated" class="pixel-box bg-slate-900 border-4 border-amber-500 mb-3"></canvas>
+        <div class="pixel-font text-xs text-amber-300">MEHMET KUYUCU ŞOV YAPIYOR! <span id="mh-t">8</span> sn</div>
+        <div class="text-sm text-slate-300 font-mono mt-1">Takım morali için sahnede figür sergiliyor... (%50 Şans)</div>
+      `;
+      document.body.appendChild(ov); 
+      
+      const c = ov.querySelector('canvas').getContext('2d'); 
+      let f = 0, left = 8;
+
+      const draw = setInterval(() => { 
+        f++; 
+        const a = f % 2, b = a * 3; 
+        c.fillStyle = '#0f172a'; 
+        c.fillRect(0, 0, 64, 64);
+        
+        // Bacaklar
+        c.fillStyle = '#1e293b'; 
+        c.fillRect(a ? 21 : 26, 48, 6, 12); 
+        c.fillRect(a ? 37 : 32, 48, 6, 12);
+        
+        // Gövde
+        c.fillStyle = '#dc2626'; 
+        c.fillRect(22, 30 - b, 20, 20); 
+        c.fillStyle = '#facc15'; 
+        c.fillRect(30, 30 - b, 4, 20);
+        
+        // Kollar
+        c.fillStyle = '#f5c6a5'; 
+        c.fillRect(14, (a ? 14 : 30) - b, 6, 14); 
+        c.fillRect(44, (a ? 30 : 14) - b, 6, 14);
+        
+        // Kafa
+        c.fillRect(24, 16 - b, 16, 14); 
+        c.fillStyle = '#0f172a'; 
+        c.fillRect(28, 21 - b, 3, 3); 
+        c.fillRect(35, 21 - b, 3, 3); 
+        c.fillRect(29, 26 - b, 6, 2);
+        
+        // Palyaço / Şov Şapkası
+        c.fillStyle = '#dc2626'; 
+        c.fillRect(22, 8 - b, 10, 8); 
+        c.fillStyle = '#facc15'; 
+        c.fillRect(32, 8 - b, 10, 8); 
+        c.fillRect(20, 6 - b, 3, 3); 
+        c.fillRect(41, 6 - b, 3, 3);
+        
+        audio.beep(220 + (f % 8) * 45, 'square', 0.1, 0.08); 
+      }, 250);
+
+      const cd = setInterval(() => { 
+        left--; 
+        const txt = document.getElementById('mh-t');
+        if (txt) txt.innerText = left; 
+        if (left > 0) return; 
+        
+        clearInterval(draw); 
+        clearInterval(cd); 
+        ov.remove();
+
+        if (Math.random() < 0.5) { 
+          mor(30); 
+          gameState.budget += 250; 
+          audio.playSuccess(); 
+          badge('dans_ustasi', '🤡 Mehmet Şov Şampiyonu');
+          npcSay('Mehmet Kuyucu', 'Gördünüz mü, moral dediğin böyle yükselir! Bahşişleri kulüp bütçesine yazdım.'); 
+          showToast('🤡 Mehmet\'in dansı tuttu: +30 Moral, +₺250 Bahşiş!', 'pink'); 
+        } else { 
+          mor(-15); 
+          gameState.budget = Math.max(0, gameState.budget - 200); 
+          audio.playHit(); 
+          npcSay('Mehmet Kuyucu', 'Ben figür yaparken bir şeyler devrildi, benim suçum değil valla!'); 
+          showToast('🤡 Mehmet takla atarken osiloskobu devirdi: -15 Moral, -₺200 Masraf!', 'rose'); 
+        }
+        saveGame(); 
+        updateHUD(); 
+      }, 1000);
+    }
+
     /* --- UFUK ÇANA (KLEPTOMANİ REFLEKS MEKANİĞİ) --- */
     let ufukSneakTimeout = null;
     let ufukStealActive = false;
@@ -1135,6 +1176,34 @@
       if (Math.random() < 0.65) triggerUfukSneak();
     }, 30000);
 
+    /* --- BAHAKAN'DAN ARABA DİLENME MEKANİĞİ --- */
+    function askBahakanCar() {
+      mor(-5);
+      const rand = Math.random();
+      if (rand < 0.50) {
+        // Bahakan Arabayı Verdi!
+        gameState.stats.car = (gameState.stats.car || 0) + 1;
+        gameState.parts += 1;
+        gameState.budget += 100;
+        mor(20);
+        audio.playFanfare();
+        badge('araba_ustasi', '🚗 Bahakan\'ın Arabası');
+        npcSay('Bahakan', 'Al kanka anahtarı! Ama arabada lehim teli yakmayın, döşemeler yeni. Benzin ışığı yanıyor dikkat edin!');
+        showToast('🚗 Bahakan arabayı verdi! Sanayiye hızlı gittik: +1 Parça, +₺100 Tasarruf, +20 Moral!', 'emerald');
+      } else {
+        // Bahakan Arabayı Vermedi!
+        mor(-15);
+        gameState.budget = Math.max(0, gameState.budget - 40);
+        audio.playHit();
+        badge('dolmuscu', '🚌 Dolmuş Çilesi');
+        npcSay('Bahakan', 'Kanka valla pederden zor aldım arabayı, hem baskı balata bitti yolda kalırız!');
+        showToast('🚌 Bahakan arabayı vermedi! 40 derece Adana sıcağında dolmuş bekledik: -15 Moral, -₺40 Dolmuş!', 'rose');
+      }
+      spendDay();
+      saveGame();
+      updateHUD();
+    }
+
     const DRONE_THEMES = {
       'cyan': { name: 'Neon Camgöbeği', hex: '#00f2fe', flame: '#38bdf8', accent: '#0284c7' },
       'laser-red': { name: 'Lazer Kırmızısı', hex: '#f43f5e', flame: '#fb7185', accent: '#be123c' },
@@ -1158,8 +1227,9 @@
       "Lehim dumanı genzimizi yakıyor ama BARKAN bu sene TEKNOFEST Adana semalarında destan yazacak!",
       "Çukurova'nın sıcağında ESC'ler kavrulmasın diye özel hava kanalı açtık, işte ATÜ mühendisliği!",
       "Rektörlükten bir sponsorluk daha koparırsak karbon fiber gövdeyi baştan dökeceğiz!",
+      "Bahakan'dan araba anahtarını kapabilirsek sanayiden motorları ucuza kapatırız!",
       "Ufuk Çana multimetreyi montuna sokmadan otopilot PID kalibrasyonunu bitirelim.",
-      "Yazılımcımız iki gündür çayla besleniyor ama otonom rota ve QR tarama algoritmamız şiir gibi oldu.",
+      "Mehmet Kuyucu'nun dansı bittiyse artık Barkan'ın test uçuşuna geçebiliriz!",
       "FPV gözlüğü takıp uçurunca Barkan adeta Adana semalarında şahin gibi süzülüyor!",
       "Ocakta 5 saat çay beklerken bile Barkan'ın telemetri kodlarını düşündüm.",
       "Instagram'da paylaştığımız lehim dumanı videosu keşfete düşmüş, takipçi akıyor!"
@@ -1167,10 +1237,9 @@
 
     const NPCQ = [
       ["Görkem Kemal (Başkan)", "Arkadaşlar, Instagram'da rektörlüğü etiketlemeyi unutmayın, bütçe onayını oradan takip ediyorlar!"],
-      ["Görkem Kemal (Başkan)", "Toplantı 5 dakika sürecek dedim, 2 saat oldu. Neyse, dron uçsun da gerisi teferruat."],
-      ["Mehmet Kuyucu", "Dron düşerse 'planlı iniş' diyeceğiz, jüri de inanır. Ben konuşurum!"],
-      ["Mehmet Kuyucu", "Lehim kokusu bende şef parfümü etkisi yapıyor. Ocakta taze çay var mı?"],
-      ["Ufuk Çana", "Kanka o fazlalık lehim teli miydi ya? Neyse çekmeceye koymuştum..."]
+      ["Bahakan", "Kanka arabayı vereyim ama bagajdaki yedek lastiğin üzerine LiPo batarya koymayın, patlar falan!"],
+      ["Mehmet Kuyucu", "Dron düşerse 'planlı acil iniş' diyeceğiz, jüriye ben anlatırım! Çay var mı ocakta?"],
+      ["Ufuk Çana", "Kanka o tornavida seti fazlalıktı ya, ben ödünç almıştım sadece..."]
     ];
 
     function npcSay(name, text) { 
@@ -1462,7 +1531,7 @@
         if (Math.random() < fail) { 
           gameState.drone[part + 'Lvl']--; 
           gameState.budget += Math.round((b0 - gameState.budget) / 2); 
-          audio.playHit();
+          audio.playHit(); 
           showToast(part === 'software' ? '🐛 Derleme hatası, kod çöktü! Yarım bütçe iade' : '🔩 Lehim/montaj hatası! Yarım bütçe iade', 'rose'); 
         }
         spendDay(); 
@@ -1514,17 +1583,20 @@
       updateHUD();
     }
 
+    /* --- GÖREV LİSTESİ (TÜM KLASİK VE YENİ GÖREVLER) --- */
     const QUESTS = {
-      ocak: { t:'Ocakta 5 Saat Nöbet', d:'Semaver başında 5 saat nöbet tut, cep harçlığı çıkar', c:'+₺180 | -15 Moral | +40% Kafein', b:'NÖBETE GİT 🔥', col:'amber', always:1 },
-      stealth: { t:'Kampüs Hurdalığına Sız', d:'Gece bekçiye yakalanmadan bedava parça topla (Riskli)', c:'+Parça / +XP / Rektörlük Riski', b:'SIZ (GECE) 🌙', col:'emerald', always:1 },
-      tea: { t:'Demlikte Tavşan Kanı Çay', d:'Moral toplar, kafein tazeler', c:'-₺60 | +Moral | +20% Kafein', b:'DEMLE ☕', col:'rose', always:1 },
-      clean: { t:'3D Yazıcı & Masa Temizliği', d:'AR-GE tecrübesi kazan', c:'+15 XP | -10 Moral', b:'TOPLA 🧹', col:'indigo', always:1 },
+      bahakan: { t:'Bahakan\'dan Araba Dilen', d:'Sanayiden parça çekmek için anahtar iste', c:'%50 Verir (+Parça/₺) | %50 Dolmuş Çilesi', b:'ANAHTAR İSTE 🚗', col:'teal', always:1 },
+      mehmet:  { t:'Mehmet Kuyucu Şov Saati', d:'Canlı retro dans gösterisi (8 sn)', c:'%50 Büyük Moral/₺ | %50 Sakarlık', b:'DANSI BAŞLAT 🤡', col:'pink', always:1 },
+      ocak:    { t:'Ocakta 5 Saat Nöbet', d:'Semaver başında nöbet tut, harçlık çıkar', c:'+₺180 | -15 Moral | +40% Kafein', b:'NÖBETE GİT 🔥', col:'amber', always:1 },
+      stealth: { t:'Kampüs Hurdalığına Sız', d:'Gece bekçiye yakalanmadan bedava parça kap', c:'+Parça / +XP / Rektörlük Riski', b:'SIZ (GECE) 🌙', col:'emerald', always:1 },
+      tea:     { t:'Demlikte Tavşan Kanı Çay', d:'Moral toplar, kafein tazeler', c:'-₺60 | +Moral | +20% Kafein', b:'DEMLE ☕', col:'rose', always:1 },
+      tokat:   { t:'Tembel Üyeye Ense Tokadı', d:'Çalışmayan üyeyi silkele', c:'%60 Çalışır +10 XP | %40 Küser', b:'TOKATLA 👋', col:'red', p:.6 },
+      clean:   { t:'3D Yazıcı & Masa Temizliği', d:'AR-GE tecrübesi kazan', c:'+15 XP | -10 Moral', b:'TOPLA 🧹', col:'indigo', always:1 },
       sponsor: { t:'Rektörlük / SKS Dilekçesi', d:'Reddedilebilir! Çok dilekçe = azar', c:'₺500-900 (şansa bağlı) | -15 Moral', b:'DİLEKÇE 📜', col:'teal', p:.5 },
-      esnaf: { t:'Çukurova Esnafı Turu', d:'Kapı kapı dolaş, bazıları "haftaya gel" der', c:'₺200-450 (%60) | -10 Moral', b:'GEZ 🏪', col:'sky', p:.4 },
-      hurda: { t:'Hurdalıkta Parça Avı', d:'Gündüz hurda ara, ne çıkacağı belli olmaz', c:'XP / ₺ / yara bere', b:'KARIŞTIR 🔧', col:'orange', p:.5 },
-      mehmet: { t:'Mehmet Kuyucu Şov Saati', d:'Eğlenceli ama bazen ters tepiyor', c:'+20 Moral (%70)', b:'İZLE 🤡', col:'pink', p:.4 },
+      kahvalti:{ t:'Atölye Kahvaltısı', d:'Simit, peynir, domates; ekip toplanır', c:'-₺200 | +25 Moral +3 XP', b:'SOFRA KUR 🥯', col:'yellow', p:.3 },
+      esnaf:   { t:'Çukurova Esnafı Turu', d:'Kapı kapı dolaş, bazıları "haftaya gel" der', c:'₺200-450 (%60) | -10 Moral', b:'GEZ 🏪', col:'sky', p:.4 },
       siparis: { t:'Parça Siparişi', d:'Geliştirmeler için yedek parça lazım', c:'-₺350 | +2 Parça', b:'SİPARİŞ 📦', col:'orange', always:1 },
-      uye: { t:'Üye Alım Standı', d:'Yeni üye yetenek getirir ama küsebilir', c:'Rastgele üye | -5 Moral', b:'STAND AÇ 🧑‍🔧', col:'lime', p:.35 }
+      uye:     { t:'Üye Alım Standı', d:'Yeni üye yetenek getirir ama küsebilir', c:'Rastgele üye | -5 Moral', b:'STAND AÇ 🧑‍🔧', col:'lime', p:.35 }
     };
 
     function askChoice(title, text, opts) {
@@ -1762,6 +1834,14 @@
 
     function runSideQuest(type) {
       if (gameState.daysLeft <= 0) return;
+      if (type === 'bahakan') {
+        askBahakanCar();
+        return;
+      }
+      if (type === 'mehmet') {
+        mehmetDance();
+        return;
+      }
       if (type === 'ocak') {
         openOcakModal();
         return;
@@ -1841,27 +1921,25 @@
         } else {
           showToast('🏪 "Haftaya gel evladım" dediler...', 'amber'); 
         }
-      } else if (t === 'hurda') { 
-        if (r < .4) { 
-          g.xp += 10; g.parts += 1; 
-          showToast('🔧 Sağlam ESC çıktı: +10 XP +1 Parça', 'cyan'); 
-        } else if (r < .7) { 
-          g.budget += 140; 
-          showToast('🔧 Bakır kabloyu sattık: +₺140', 'emerald'); 
-        } else { 
-          mor(-12); 
-          showToast('🔧 Elini kesti, moral -12', 'rose'); 
-        }
-      } else if (t === 'mehmet') { 
-        if (r < .7) { 
-          mor(20); 
-          npcSay('Mehmet Kuyucu', 'Bir lehim ustası bara girmiş... Gülün be, moral lazım!'); 
-          showToast('🤡 Mehmet güldürdü: +20 Moral', 'pink'); 
-        } else { 
-          g.budget = Math.max(0, g.budget - 150); 
-          mor(-5); 
-          npcSay('Mehmet Kuyucu', 'Ben dokunmadım, lehim istasyonu kendi devrildi!'); 
-          showToast('🤡 Şaka ters tepti: -₺150', 'rose'); 
+      } else if (t === 'kahvalti') {
+        if (g.budget < 200) { showToast('🥯 Kahvaltılık bütçe yok!', 'rose'); return false; }
+        g.budget -= 200;
+        mor(25);
+        g.xp += 5;
+        audio.playSuccess();
+        showToast('🥯 Sıcak simit & tulum peyniri: +25 Moral, +5 XP', 'yellow');
+      } else if (t === 'tokat') {
+        if (!g.members.length) { showToast('Tokatlanacak üye yok! Önce stand açıp üye al.', 'amber'); return false; }
+        if (r < 0.6) {
+          g.xp += 12;
+          mor(-5);
+          audio.playHit();
+          showToast('👋 ŞAPLAK! Tembel üye silkelendi, kod yazmaya koştu: +12 XP', 'red');
+        } else {
+          const m = g.members.pop();
+          mor(-15);
+          audio.playHit();
+          showToast('👋 Tokat ters tepti! ' + MEM[m] + ' küsüp kulüpten ayrıldı!', 'rose');
         }
       } else if (t === 'siparis') { 
         if (g.budget < 350) { showToast('📦 Sipariş için ₺350 yok!', 'rose'); return false; } 
@@ -1873,7 +1951,7 @@
         g.members.push(k); mor(-5); 
         showToast('🧑‍🔧 Yeni üye: ' + MEM[k], 'lime');
       }
-      g.quests = g.quests.filter(k => k === 'tea' || k === 'clean' || k === 'ocak' || k !== t);
+      g.quests = g.quests.filter(k => k === 'tea' || k === 'clean' || k === 'ocak' || k === 'bahakan' || k === 'mehmet' || k !== t);
     }
 
     /* --- STEALTH GAME LOOP (KAMPÜS HURDALIĞINA SIZMA) --- */
@@ -1923,7 +2001,6 @@
       p.x = Math.max(15, Math.min(w - 15, p.x));
       p.y = Math.max(15, Math.min(h - 15, p.y));
 
-      // Guard patrol
       g.x += g.dir * 1.8;
       if (g.x > w - 110) { g.dir = -1; g.angle = Math.PI; }
       if (g.x < 130) { g.dir = 1; g.angle = 0; }
@@ -1931,7 +2008,6 @@
       stealthCtx.fillStyle = '#0a0f1d';
       stealthCtx.fillRect(0, 0, w, h);
 
-      // Crates
       stealthState.crates.forEach(c => {
         stealthCtx.fillStyle = c.looted ? '#475569' : '#10b981';
         stealthCtx.fillRect(c.x - 12, c.y - 12, 24, 24);
@@ -1949,7 +2025,6 @@
         }
       });
 
-      // Guard Flashlight Cone (FOV)
       stealthCtx.save();
       stealthCtx.fillStyle = 'rgba(250, 204, 21, 0.22)';
       stealthCtx.beginPath();
@@ -1959,19 +2034,16 @@
       stealthCtx.fill();
       stealthCtx.restore();
 
-      // Guard Body
       stealthCtx.fillStyle = '#e11d48';
       stealthCtx.beginPath();
       stealthCtx.arc(g.x, g.y, 11, 0, Math.PI * 2);
       stealthCtx.fill();
 
-      // Player Body (Burka)
       stealthCtx.fillStyle = '#00f2fe';
       stealthCtx.beginPath();
       stealthCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       stealthCtx.fill();
 
-      // Detection
       const pDist = Math.hypot(p.x - g.x, p.y - g.y);
       const pAngle = Math.atan2(p.y - g.y, p.x - g.x);
       let angleDiff = Math.abs(pAngle - g.angle);
@@ -2095,7 +2167,7 @@
         c.strokeRect(rm.targetX - 4, rm.targetY - 4, 8, 8);
       }
 
-      // Burka character
+      // Burka Karakteri
       c.fillStyle = '#1e3a8a'; 
       c.fillRect(rm.x - 8, rm.y, 16, 16); 
       c.fillStyle = '#f5c6a5'; 
@@ -2350,7 +2422,6 @@
       simState.rainDrops = [];
       simState.isFinished = false;
 
-      // Reset Payload
       simState.payload = {
         active: true,
         deployed: false,
@@ -2365,7 +2436,6 @@
       document.getElementById('sim-payload-status').innerText = '📦 KARGO: HAZIR (BOŞLUK)';
       document.getElementById('sim-payload-status').className = 'text-purple-300 font-bold bg-purple-950 px-1.5 py-0.5 border border-purple-600 text-xs';
 
-      // Drop Zone & QR Scan Target Setup
       simState.dropZone = {
         x: 2200,
         width: 110
@@ -2532,7 +2602,7 @@
       }
       if (d.x < 30) d.x = 30;
       
-      // Camera scroll
+      // Kamera kayması
       if (d.x > flightCanvas.width * 0.45) {
         const excess = d.x - flightCanvas.width * 0.45;
         d.x = flightCanvas.width * 0.45;
@@ -2547,7 +2617,6 @@
         }
       }
 
-      // Battery Drain
       const drainRate = ((gameState.theme === 'sicak' ? 3.4 : 2.8) * (specs.weight / 800)) / (1 + (gameState.drone.batteryLvl * 0.15));
       d.battery -= drainRate * dt;
       if (d.battery <= 0) {
@@ -2556,7 +2625,7 @@
         return;
       }
 
-      // Hover & Scan (QR Code ground target)
+      // QR Tarama
       const st = simState.scanTarget;
       if (!st.scanned && st.x > -50 && st.x < flightCanvas.width + 50) {
         const inScanRange = Math.abs(d.x - (st.x + st.width / 2)) < 45 && d.y > (flightCanvas.height - 180);
@@ -2578,7 +2647,6 @@
         }
       }
 
-      // Moving gates & bird spawns
       simState.gates.forEach(g => { 
         if (g.amp) g.topY = Math.max(20, Math.min(flightCanvas.height - g.gap - 30, g.baseY + Math.sin(simState.t * 1.4 + g.ph) * g.amp)); 
       });
@@ -2611,7 +2679,6 @@
         } 
       });
 
-      // Gate passing logic
       simState.gates.forEach(g => {
         if (!g.passed && g.x < d.x) {
           g.passed = true;
@@ -2649,7 +2716,7 @@
         }
       });
 
-      // Payload physics
+      // Kargo Fiziği
       const p = simState.payload;
       if (p.deployed && !p.landed) {
         p.vy = Math.min(95, p.vy + 75 * dt);
@@ -2726,7 +2793,6 @@
       const h = flightCanvas.height;
       flightCtx.clearRect(0, 0, w, h);
 
-      // Sky
       const skyGrad = flightCtx.createLinearGradient(0, 0, 0, h);
       skyGrad.addColorStop(0, '#09152e');
       skyGrad.addColorStop(0.7, '#132c54');
@@ -2734,7 +2800,6 @@
       flightCtx.fillStyle = skyGrad;
       flightCtx.fillRect(0, 0, w, h);
 
-      // Campus Silhouette
       flightCtx.fillStyle = '#0b1626';
       flightCtx.beginPath();
       flightCtx.moveTo(0, h);
@@ -2746,13 +2811,11 @@
       flightCtx.lineTo(w, h);
       flightCtx.fill();
 
-      // Ground runway
       flightCtx.fillStyle = '#08101d';
       flightCtx.fillRect(0, h - 25, w, 25);
       flightCtx.fillStyle = '#1e293b';
       flightCtx.fillRect(0, h - 25, w, 2);
 
-      // Draw QR SCAN TARGET on ground
       const st = simState.scanTarget;
       if (st.x > -100 && st.x < w + 100) {
         flightCtx.fillStyle = '#0284c7';
@@ -2788,7 +2851,6 @@
         }
       }
 
-      // Draw DROP ZONE TARGET on ground
       const dz = simState.dropZone;
       if (dz.x > -150 && dz.x < w + 150) {
         flightCtx.fillStyle = '#155e75';
@@ -2810,7 +2872,6 @@
         flightCtx.fillText('📦 HEDEF ÇEMBERİ', dz.x + 10, h - 28);
       }
 
-      // Draw Gates
       simState.gates.forEach(g => {
         if (g.x > -60 && g.x < w + 60) {
           flightCtx.fillStyle = '#475569';
@@ -2827,7 +2888,6 @@
         }
       });
 
-      // Battery pickups
       simState.cells.forEach(c => { 
         if (!c.got && c.x > -20 && c.x < w + 20) { 
           flightCtx.fillStyle = '#facc15'; 
@@ -2837,14 +2897,12 @@
         } 
       });
 
-      // Obstacle birds
       simState.birds.forEach(b => { 
         flightCtx.fillStyle = '#ef4444'; 
         flightCtx.fillRect(b.x - 8, b.y - 3, 16, 6); 
         flightCtx.fillRect(b.x - 4, b.y - ((Date.now() % 200 < 100) ? 9 : -3), 8, 6); 
       });
 
-      // Draw Payload
       const p = simState.payload;
       if (p.deployed && p.x > -40 && p.x < w + 40) {
         if (!p.landed) {
@@ -2868,7 +2926,6 @@
         flightCtx.fillRect(p.x - 6, p.y - 2, 12, 4);
       }
 
-      // Draw Particles
       simState.particles.forEach(pt => {
         flightCtx.fillStyle = pt.color;
         const size = (pt.life / pt.maxLife) * 6;
@@ -2886,7 +2943,6 @@
         });
       }
 
-      // Draw Drone (BARKAN) - Only if not in FPV
       const d = simState.drone;
       const activeColor = DRONE_THEMES[gameState.drone.colorTheme || 'cyan'];
 
@@ -3057,7 +3113,7 @@
         gameState.xp += 25;
         audio.playSuccess();
         badge('casus', '🕵️ Çadır Casusu');
-        showToast('🕵️ Ufuk İTÜ çadırından 1 takım karbon pervane aşırdı! (+1 Parça, +25 XP)', 'emerald');
+        showToast('🕵️️ Ufuk İTÜ çadırından 1 takım karbon pervane aşırdı! (+1 Parça, +25 XP)', 'emerald');
       } else {
         gameState.budget = Math.max(0, gameState.budget - 350);
         audio.playHit();
@@ -3153,8 +3209,8 @@
       const softPts = Math.min(softMax, Math.round(
         (gameState.drone.softwareLvl * 6) + 
         (gameState.perks.camera ? 4 : 0) + 
-        payloadBonus +
-        scanBonus +
+        payloadBonus + 
+        scanBonus + 
         (gameState.drone.lastFlightScore > 800 ? 5 : 2)
       ));
 
@@ -3278,7 +3334,7 @@
       if (rk === 10) badge('sonuncu', '🪦 Pes Etmeyen');
 
       document.getElementById('comp-award-title').innerText = T[1];
-      document.getElementById('comp-award-desc').innerText = `${T[4]} (+₺${T[2]}, +${T[3]} XP) | 📊 Sezon: ${g.stats.tea} çay, ${g.stats.ocak} saat nöbet, ${g.stats.crash} kırım`;
+      document.getElementById('comp-award-desc').innerText = `${T[4]} (+₺${T[2]}, +${T[3]} XP) | 📊 Sezon: ${g.stats.tea} çay, ${g.stats.ocak} saat nöbet, ${g.stats.car} araba, ${g.stats.crash} kırım`;
 
       g.trophies = g.trophies || { gold: 0, podium: 0 }; 
       if (rk === 1) g.trophies.gold++; 
@@ -3362,7 +3418,7 @@
       ctx.fillStyle = '#c084fc';
       ctx.fillText(`📦 Hedefe Kargo: ${gameState.payloadDrops || 0} adet`, 26, 285);
       ctx.fillStyle = '#f43f5e';
-      ctx.fillText(`☕ Kulüp Çayı: ${gameState.stats.tea} | 🔥 Ocak: ${gameState.stats.ocak} saat | 🦹 Ufuk: ${gameState.stats.ufuk || 0}`, 26, 310);
+      ctx.fillText(`☕ Çay: ${gameState.stats.tea} | 🔥 Ocak: ${gameState.stats.ocak} saat | 🚗 Araba: ${gameState.stats.car || 0} | 🦹 Ufuk: ${gameState.stats.ufuk || 0}`, 26, 310);
 
       ctx.fillStyle = '#94a3b8';
       ctx.font = '10px monospace';
@@ -3396,7 +3452,7 @@
       gameState.petitions = 0; 
       gameState.teas = 0; 
       rollQuests(); 
-      gameState.stats = { pet: 0, tea: 0, ocak: 0, crash: 0, ufuk: gameState.stats.ufuk || 0 }; 
+      gameState.stats = { pet: 0, tea: 0, ocak: 0, crash: 0, ufuk: gameState.stats.ufuk || 0, car: gameState.stats.car || 0 }; 
       pickTheme();
       gameState.drone.testFlightDone = false;
       gameState.drone.payloadSuccess = false;
@@ -3417,7 +3473,7 @@
     const modalMuseum = document.getElementById('modal-museum');
 
     const PERKS = [
-      ['tubitak',   '🏛️ TÜBİTAK Başlangıç Hibesi',      'Her yeni sezona +%50 bütçe ile başla.', 40],
+      ['tubitak',   '🏛️️ TÜBİTAK Başlangıç Hibesi',      'Her yeni sezona +%50 bütçe ile başla.', 40],
       ['print3d',   '🖨️ Hızlı Prototipleme & 3D Çiftliği','Takım puanı +5, geliştirme hatası %30 azalır.', 60],
       ['gps',       '🛰️ Hassas RTK-GPS & Lidar',        'Rüzgar savrulması %40 azalır.', 75],
       ['aura',      '👑 Kaptan Burka Aurası',             'Geliştirmelerde moral kaybı %40 azalır.', 95],
@@ -3466,6 +3522,9 @@
       { id: 'tarayici',       name: '📷 Görüntü İşleme Ustası',desc: 'QR hedef üzerinde 3 sn sabit kalıp tara' },
       { id: 'fpv_ace',        name: '👓 FPV Pilotu',          desc: 'Kokpit içi FPV gözlük modunda uçuş yap' },
       { id: 'ufukcu',         name: '✋ Ufuk Avcısı',          desc: 'Ufuk Çana\'yı alet çalarken ensesinden yakala' },
+      { id: 'araba_ustasi',   name: '🚗 Bahakan\'ın Arabası', desc: 'Bahakan\'dan arabayı başarıyla ödünç al' },
+      { id: 'dolmuscu',       name: '🚌 Dolmuş Çilesi',        desc: 'Bahakan araba vermeyince Adana sıcağında dolmuşa bin' },
+      { id: 'dans_ustasi',    name: '🤡 Mehmet Şov Şampiyonu',desc: 'Mehmet Kuyucu\'nun canlı dansından büyük moral kap' },
       { id: 'stealth_master', name: '🥷 Hurdalık Hayaleti',   desc: 'Gece hurdalığa sızıp yakalanmadan parça kurtar' },
       { id: 'casus',          name: '🕵️ Çadır Casusu',        desc: 'İTÜ çadırından başarıyla parça aşır' },
       { id: 'ocakci',         name: '🔥 Ocak Bekçisi',        desc: 'Ocakta 5 saat nöbet tut' },
@@ -3488,6 +3547,7 @@
       document.getElementById('stat-total-pet').innerText = gameState.stats ? gameState.stats.pet : 0;
       document.getElementById('stat-total-ocak').innerText = gameState.stats ? gameState.stats.ocak : 0;
       document.getElementById('stat-total-ufuk').innerText = gameState.stats ? (gameState.stats.ufuk || 0) : 0;
+      document.getElementById('stat-total-car').innerText = gameState.stats ? (gameState.stats.car || 0) : 0;
       document.getElementById('stat-total-crash').innerText = gameState.stats ? gameState.stats.crash : 0;
 
       const grid = document.getElementById('museum-badge-grid');
@@ -3626,7 +3686,7 @@
       gameState.theme = t; 
       if (t === 'kitlik') gameState.budget = Math.max(0, gameState.budget - 600); 
       if (t === 'bolluk') gameState.budget += 1000;
-      showToast('🗓️ Yeni sezon teması: ' + THEMES[t], 'sky');
+      showToast('🗓️ Yeni sezon teması: ' + THEMES[t], 'sky'); 
     }
 
     function newGame() {
