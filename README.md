@@ -29,6 +29,8 @@ Bu proje; öğrenci takım hayatındaki üretim, AR-GE, uçuş testi, ekip koord
 - 🔧 **Atölye yönetimi:** gövde, otopilot ve batarya geliştirmeleri
 - 🛸 **BARKAN-X1 test uçuşu:** kapı geçişleri, QR hedefi, kargo bırakma ve FPV modu
 - 🧬 **Kalıcı AR-GE sistemi:** XP ile güçlenen yetenek ağacı
+- ⚡ **Canlı sezon motoru:** ana oyun akışına kendiliğinden giren 20 kriz, ekip/araç/rakip istatistikleri ve final puanına yansıyan kararlar
+- 🌦️ **Dinamik operasyon koşulları:** hava, enerji, lojistik, sponsor, itibar ve rakip baskısı uçuş ile jüri hazırlığını değiştirir
 - 🎪 **Festival alanı ve jüri:** pist hazırlığı, takım kararları, puanlama ve liderlik tablosu
 - 🕵️ **Mini oyunlar:** atölye gezintisi, gece hurdalığı operasyonu ve sürpriz etkinlikler
 - 📱 **Kulüp sosyal medyası:** gönderiler, vlog ve takipçi sistemi
