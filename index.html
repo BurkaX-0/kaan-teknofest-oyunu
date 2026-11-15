@@ -354,7 +354,6 @@
             <button id="btn-open-arge" class="flex-1 pixel-btn bg-cyan-900 hover:bg-cyan-800 text-cyan-200 text-xs py-2">
               🧬 KALICI AR-GE
             </button>
-            <button id="btn-open-campaign" class="flex-1 pixel-btn bg-indigo-800 hover:bg-indigo-700 text-indigo-100 text-xs py-2">🗺️ SEZON HİKÂYESİ</button>
             <button id="btn-open-museum" class="flex-1 pixel-btn bg-yellow-800 hover:bg-yellow-700 text-yellow-200 text-xs py-2">
               🏆 ŞEREF KÖŞESİ
             </button>
@@ -2422,7 +2421,7 @@
       const flightPts = Math.min(40, Math.round(gameState.drone.frameLvl * 6 + (gameState.pitTuned ? 6 : 0) + 12));
       const softPts = Math.min(35, Math.round(gameState.drone.softwareLvl * 6 + (gameState.drone.payloadSuccess ? 7 : 0) + (gameState.drone.scanSuccess ? 6 : 0) + 8));
       const teamPts = Math.min(25, Math.round((gameState.morale / 100) * 15 + 6));
-      const totalScore = Math.min(100, flightPts + softPts + teamPts + bonus + (gameState.campaignJuryBonus || 0));
+      const totalScore = Math.min(100, flightPts + softPts + teamPts + bonus + (gameState.campaignJuryBonus || 0) + livingJuryModifier());
 
       setTimeout(() => { document.getElementById('comp-score-flight').innerText = flightPts; }, 500);
       setTimeout(() => { document.getElementById('comp-score-soft').innerText = softPts; }, 1000);
@@ -2658,27 +2657,103 @@
       saveGame(); updateHUD(); showToast('Zorluk: ' + DIFF().n, 'amber');
     };
 
-    /* Story campaign: choices persist and add a final jury bonus. */
-    const CAMPAIGN_BADGES=[{id:'rota_lideri',name:'🗺️ Rota Lideri',desc:'Sezon hikâyesini bitir'},{id:'kriz_muhendisi',name:'⏱️ Kriz Mühendisi',desc:'Deadline gecesini tamamla'},{id:'tasarimci',name:'🧩 Sistem Tasarımcısı',desc:'BARKAN-X1 tasarımını kilitle'},{id:'pit_ustasi',name:'🔧 Pit Ustası',desc:'Teknik kontrolü doğru yönet'}];CAMPAIGN_BADGES.forEach(x=>{if(!ALL_BADGES.some(y=>y.id===x.id))ALL_BADGES.push(x);});
-    function camp(){if(!gameState.campaign)gameState.campaign={s:0,trust:50,fatigue:10,score:0,log:[],tasks:{frame:false,code:false,deck:false},time:45,running:false};return gameState.campaign;}
-    function note(x){let c=camp();c.log.unshift('• '+x);c.log=c.log.slice(0,5);}
-    function bonus(){let c=camp();return Math.max(0,Math.min(12,Math.round(c.score/18)+(c.trust>64?2:0)-(c.fatigue>70?2:0)));}
-    function choice(k,t,d){return '<button onclick="seasonChoice(\''+k+'\')" class="w-full text-left p-3 mb-2 bg-[#17213a] hover:bg-indigo-900 border-2 border-slate-700 hover:border-indigo-400"><b class="text-indigo-200">'+t+'</b><span class="block text-xs text-slate-400 mt-1">'+d+'</span></button>';}
-    function renderSeason(){let c=camp(),o='<div class="grid grid-cols-4 gap-2 text-xs mb-3"><div class="p-2 bg-indigo-950">BÖLÜM<br><b>'+ (c.s+1)+'/7</b></div><div class="p-2 bg-slate-900">GÜVEN<br><b>'+c.trust+'</b></div><div class="p-2 bg-slate-900">YORGUNLUK<br><b>'+c.fatigue+'</b></div><div class="p-2 bg-slate-900">JÜRİ<br><b>+'+bonus()+'</b></div></div>';
-    if(c.s===0)o+='<h3 class="pixel-font text-xs text-amber-300 mb-2">1. BRİFİNG</h3><p class="text-sm mb-3">Danışman: “BARKAN-X1 takımın ne olduğunu anlatacak.”</p>'+choice('mission','🛰️ Görev Odaklı','Kamera/veri hikâyesi.')+choice('safe','🛡️ Güvenilir Platform','Pit ve kırımsız uçuş avantajı.')+choice('race','⚡ Rekabetçi Performans','Riskli, yüksek puanlı rota.');
-    else if(c.s===1)o+='<h3 class="pixel-font text-xs text-cyan-300 mb-2">2. SİSTEM TASARIMI</h3><p class="text-xs mb-2">Seçimin gerçek uçuş karakterini değiştirir.</p><div class="grid grid-cols-3 gap-2"><select id="cm"><option value="balance">Dengeli motor</option><option value="speed">Hız motoru</option></select><select id="cb"><option value="endurance">Dayanıklı 4S</option><option value="reserve">Yedekli güç</option></select><select id="cp"><option value="camera">EO kamera</option><option value="telemetry">Telemetri</option></select></div><button onclick="seasonDesign()" class="pixel-btn bg-cyan-700 text-white text-xs px-4 py-2 mt-3">KONFİGÜRASYONU KİLİTLE</button>';
-    else if(c.s===2){let t=(id,n)=>'<button '+(c.tasks[id]?'disabled':'')+' onclick="seasonTask(\''+id+'\')" class="p-3 text-left bg-slate-900 border '+(c.tasks[id]?'border-emerald-500':'border-rose-600')+'"><b>'+n+(c.tasks[id]?' ✓':'')+'</b></button>';o+='<h3 class="pixel-font text-xs text-rose-300 mb-2">3. DEADLINE GECESİ</h3><p class="text-xs">Kalan: <b id="ctime">'+c.time+' sn</b>. Ekip görevlerini sırayla bitirir.</p><div class="grid grid-cols-3 gap-2 mt-2">'+t('frame','🔩 Gövde')+t('code','💻 Otopilot')+t('deck','📽️ Sunum')+'</div>'+(!c.running?'<button onclick="seasonStart()" class="pixel-btn bg-rose-700 text-white text-xs px-4 py-2 mt-3">GECEYİ BAŞLAT</button>':'');}
-    else if(c.s===3)o+='<h3 class="pixel-font text-xs text-purple-300 mb-2">4. YOLCULUK</h3><p class="text-sm mb-3">Piste giden rota bütçe, moral ve teknik kontrolü etkiler.</p>'+choice('bus','🚌 Gece Otobüsü','Ucuz, ekip yorulur.')+choice('car','🚗 Bahakan’ın Aracı','Hızlı, yakıt masrafı.')+choice('hotel','🏨 Erken Varış','Pahalı, sakin teknik kontrol.');
-    else if(c.s===4)o+='<h3 class="pixel-font text-xs text-emerald-300 mb-2">5. TEKNİK KONTROL</h3><p class="text-xs mb-3">Titreşim var. İlk doğru teşhis kritik.</p>'+choice('prop','🔧 Pervane/motor bağlantısı','Mekanik rezonansı kontrol et.')+choice('pid','📉 PID değerini körlemesine artır','Hızlı ama riskli.')+choice('battery','🔋 Bataryayı değiştir','Maliyetli zaman kaybı olabilir.');
-    else if(c.s===5)o+='<h3 class="pixel-font text-xs text-amber-300 mb-2">6. FİNAL STRATEJİSİ</h3>'+choice('steady','🛡️ Güvenli rota','İstikrarlı puan.')+choice('bold','🔥 Cesur rota','Kargo/QR bonusu için risk.')+choice('story','🎙️ Hikâyeli sunum','Ekibin emeğini jüriye taşı.');
-    else o+='<h3 class="pixel-font text-xs text-emerald-300 mb-2">SEZON TAMAMLANDI</h3><p>İHA tasarımı, ekip krizi, yolculuk ve teknik kontrol final sonucuna bağlandı.</p><p class="mt-2">Final jüri etkisi: <b>+'+bonus()+'</b></p><button onclick="seasonFinal()" class="pixel-btn bg-red-600 text-white text-xs px-4 py-3 mt-3">⚖️ JÜRİYE GİT</button>';
-    o+='<div class="mt-3 text-xs text-slate-400">'+c.log.map(x=>'<div>'+x+'</div>').join('')+'</div>';document.getElementById('campaign-content').innerHTML=o;}
-    function seasonChoice(k){let c=camp();if(c.s===0){c.focus=k;c.score+=8;c.trust+=k==='safe'?8:4;c.s=1;}else if(c.s===3){if(k==='bus'){gameState.budget+=180;c.fatigue+=18;}if(k==='car'){gameState.budget=Math.max(0,gameState.budget-260);c.trust+=6;}if(k==='hotel'){gameState.budget=Math.max(0,gameState.budget-420);c.fatigue-=10;}c.score+=7;c.s=4;}else if(c.s===4){if(k==='prop'){gameState.pitTuned=true;c.score+=14;badge('pit_ustasi','🔧 Pit Ustası');}else if(k==='pid'){c.fatigue+=10;c.score+=2;}else{gameState.budget=Math.max(0,gameState.budget-180);c.score+=4;}c.s=5;}else if(c.s===5){c.score+=k==='bold'?13:9;c.trust+=k==='story'?10:5;c.s=6;badge('rota_lideri','🗺️ Rota Lideri');}note('Karar: '+k);saveGame();renderSeason();}
-    function seasonDesign(){let c=camp();if(document.getElementById('cm').value==='speed')gameState.drone.frameLvl=Math.min(5,gameState.drone.frameLvl+1);if(document.getElementById('cb').value==='endurance')gameState.drone.batteryLvl=Math.min(5,gameState.drone.batteryLvl+1);if(document.getElementById('cp').value==='telemetry')gameState.drone.softwareLvl=Math.min(5,gameState.drone.softwareLvl+1);c.score+=12;c.s=2;badge('tasarimci','🧩 Sistem Tasarımcısı');note('BARKAN-X1 tasarımı kilitlendi.');saveGame();renderSeason();}
-    let seasonTimer=null;function seasonStart(){let c=camp();c.running=true;saveGame();renderSeason();seasonTimer=setInterval(()=>{c=camp();if(c.time<=0||c.s!==2){clearInterval(seasonTimer);return;}c.time--;let x=document.getElementById('ctime');if(x)x.innerText=c.time+' sn';},1000);}
-    function seasonTask(id){let c=camp();if(!c.running||c.tasks[id])return;c.tasks[id]=true;c.trust+=3;c.fatigue+=5;c.score+=5;note(id+' krizi çözüldü.');if(Object.values(c.tasks).every(Boolean)){clearInterval(seasonTimer);c.score+=14;c.trust+=8;c.s=3;badge('kriz_muhendisi','⏱️ Kriz Mühendisi');}saveGame();renderSeason();}
-    function seasonFinal(){gameState.campaignJuryBonus=bonus();saveGame();document.getElementById('modal-campaign').classList.add('hidden');showScreen('festival');showToast('Sezon hikâyesi jüriye +'+gameState.campaignJuryBonus+' puan taşıdı.','cyan');}
-    document.getElementById('btn-open-campaign').onclick=()=>{camp();renderSeason();document.getElementById('modal-campaign').classList.remove('hidden');};document.getElementById('btn-close-campaign').onclick=()=>document.getElementById('modal-campaign').classList.add('hidden');
+    /* --- CANLI SEZON MOTORU: oyun akışına gömülü 20 dinamik --- */
+    const LIVING_EVENTS = [
+      {n:'Şebeke Gitti', t:'Atölyenin elektriği kesildi. Lehim istasyonu “ben de dinleneyim” diyor.', a:[['Jeneratör kirala',-280,5,-4],['Karanlıkta devam et',0,-8,8],['Eve taşı',-80,2,1]]},
+      {n:'Rakip Sızıntısı', t:'İTÜ ArıDrone’un hesabı tasarım görsellerini beğenmeye başladı. Fazla beğeniyor.', a:[['Planı kilitle',-120,4,-3],['Sahte CAD paylaş',0,1,8],['Açık çağrı yap',0,7,-5]]},
+      {n:'Sponsordan Arama', t:'Sponsor “logomuz görünür mü?” diye soruyor. Drone henüz vida arıyor.', a:[['Sunum hazırla',-60,8,-2],['Şeffaf ol',0,3,0],['Logoyu dev yap',180,-6,6]]},
+      {n:'Adana Sıcağı', t:'ESC sıcaklık uyarısı verdi. Pervane değil, ekip de eriyor.', a:[['Soğutma kur',-150,5,-5],['Gece çalış',0,-2,5],['Şalgam molası',-45,7,-1]]},
+      {n:'Güvenlik Turu', t:'Güvenlik görevlisi “bu drone neden bana bakıyor?” diye geldi.', a:[['İzin belgesi',-90,4,-2],['Demo uçuşu',0,6,4],['Sakla',0,-7,7]]},
+      {n:'Kampüs Kedisi', t:'Kedi BARKAN-X1’i yeni yatağı ilan etti. Mühendislik tarihinde ilk kez tüy analizi.', a:[['Nazikçe ikna et',-25,6,-1],['Kedi ödülü ver',-55,9,0],['Pervaneyi çevir',0,-10,9]]},
+      {n:'Gece Vardiyası', t:'Saat 02.43. Kod derleniyor, gözler artık 144p.', a:[['Vardiyayı böl',0,5,-3],['Herkes kalsın',0,-5,8],['Mola ver',-40,8,-2]]},
+      {n:'Canlı Yayın', t:'Ela yayına girdi: “Bize bir cümleyle projeyi anlatın.” Üç kişi aynı anda konuştu.', a:[['Görev hikâyesi',0,9,-3],['Teknik konuş',0,4,1],['Dans et',0,6,4]]},
+      {n:'Batarya Alarmı', t:'Bir LiPo’nun morali sizden düşük. Şişkinliği de daha yüksek.', a:[['Yenisini al',-220,4,-5],['Storage’a çek',-30,2,1],['Şansını dene',0,-9,10]]},
+      {n:'Salon Krizi', t:'Sunum salonu mezuniyet provasıyla çakıştı. Mikrofon da tarafsız değil.', a:[['Kütüphaneye geç',-30,3,-1],['Rektörlüğe yaz',0,5,-2],['Koridorda sun',0,-3,6]]},
+      {n:'Mentor Denetimi', t:'Danışman “neden bu kablo burada?” diye sordu. Hepimiz o kabloyduk.', a:[['Checklist çıkar',-20,7,-4],['Açıklamaya çalış',0,1,2],['Yeni kablo çek',-70,5,-1]]},
+      {n:'Ulaşım Meselesi', t:'Bahakan’ın araba anahtarı ortada yok. Anahtarın kendisi de yarışmak istiyor.', a:[['Araç kirala',-200,4,-2],['Otobüs planla',-45,2,0],['Bahakan’ı ara',0,6,3]]},
+      {n:'Yemekhane Grevi', t:'Ekip aç. Aç ekip, PID yerine pide ayarlıyor.', a:[['Toplu sipariş',-110,8,-3],['Atıştırmalık',-45,3,0],['Dayanın',0,-8,7]]},
+      {n:'Ekip Fikri Ayrılığı', t:'Biri hız, biri güvenlik, biri de “rengi mor yapalım” diyor.', a:[['Oylama yap',0,6,-2],['Veriyle karar ver',-20,5,-3],['Kaptan kararı',0,-4,5]]},
+      {n:'Sensör Hayaleti', t:'IMU düz masada bile macera arıyor. Yerçekimiyle kişisel problemi olabilir.', a:[['Kalibre et',-45,5,-4],['Filtre ayarla',-30,3,-2],['Görmezden gel',0,-7,9]]},
+      {n:'İzin Evrakı', t:'Bir imza eksik. Evrakın kaçtığı yön belirsiz, muhtemelen kantin.', a:[['Takip et',-35,4,-1],['Dijital başvur',-20,2,0],['Son güne bırak',0,-6,6]]},
+      {n:'İmkânsız Deadline', t:'“Yarın sabah prototip videosu lazım.” diyen kişi sabahın ne olduğunu bilmiyor.', a:[['Görev paylaş',0,6,-3],['Tek kişi yüklen',0,-8,9],['Kapsamı daralt',0,3,-1]]},
+      {n:'Yatırımcı Koridoru', t:'Bir yatırımcı prototipi gördü. “Bu gerçekten uçuyor mu?” diye sordu.', a:[['Demo yap',-40,7,2],['Veri göster',0,5,-1],['Risk alma',0,2,-2]]},
+      {n:'Final Öncesi Fırtına', t:'Hava durumu: rüzgâr. Ekip durumu: daha rüzgârlı.', a:[['Güvenli rota',0,4,-4],['Simülasyon yap',-60,5,-3],['Cesur ol',0,-5,9]]},
+      {n:'Jüri Dedikodusu', t:'Jürinin “hikâyesi olan projeleri” sevdiği söyleniyor. Mehmet zaten hikâye.', a:[['Takım hikâyesi yaz',-25,8,-2],['Teknik rapor',-10,3,-2],['Mehmet’i öne sür',0,5,4]]}
+    ];
+    const LIVING_QUOTES = [
+      'Ufuk multimetreyi cebine koyduysa ölçüm değil, kaçış planı yapıyordur.',
+      'Barkan’ın pervanesi dönüyor; ekipteki herkesin fikri daha hızlı dönüyor.',
+      'Lehim dumanı yükseldi: fikir değil, havalandırma gerekiyor olabilir.',
+      'Bahakan anahtarı buldu. Araba mı çalışacak, yoksa anahtar mı karar verecek?',
+      'Ela kamerayı açtı; hata ayıklama artık belgesel kalitesinde.',
+      'PID ayarı tutarsa mühendislik, tutmazsa ekip ruhu testidir.',
+      'Şalgam içildi. Telemetri verisi hâlâ gazlı ama umut verici.',
+      'Kedi drone’a onay verdi. Jürinin fikri ikinci planda.',
+      'Sunum fontu büyüdü. Projenin özgüveni de onunla beraber büyüdü.',
+      'Rüzgâr var. Bu sorun değil; artık grafiklerde “çevresel etki” diye geçiyor.'
+    ];
+    function living(){ 
+      if(!gameState.living) gameState.living={phase:1,reputation:35,trust:62,energy:76,supplies:4,health:88,heat:18,intel:20,rival:34,sponsor:48,weather:'Açık',fame:12,logistics:58,focus:60,streak:0,risk:22,fatigue:18,eventNo:0,resolved:0,lastRoute:'workshop',objective:0,cooldown:0};
+      return gameState.living;
+    }
+    function livingJuryModifier(){let w=living();return Math.max(-10,Math.min(14,Math.round((w.reputation-45)/9+(w.trust-55)/12+(w.health-70)/12+(w.intel-30)/15-w.rival/20+w.streak/3))); }
+    function livingClamp(w){['reputation','trust','energy','health','heat','intel','rival','sponsor','fame','logistics','focus','risk','fatigue'].forEach(k=>w[k]=Math.max(0,Math.min(100,Math.round(w[k]))));w.supplies=Math.max(0,Math.min(9,w.supplies));}
+    function livingStatus(w){return w.health<35?'KRİTİK':w.energy<30?'TÜKENİŞ':w.rival>75?'BASKI':w.weather==='Fırtına'?'FIRTINA':'AKIŞTA';}
+    function livingObjective(w){return [
+      'BARKAN-X1 için ilk güvenilir uçuşu tamamla.',
+      'Atölye düzenini koru: ekip enerjisi %50 üstünde kalsın.',
+      'Rakip baskısını istihbaratla dengele.',
+      'Festival alanında görünürlük kazan.',
+      'Jüri öncesi araç sağlığını %70 üstünde tut.'
+    ][w.objective%5];}
+    function livingDashboard(){
+      const w=living(), host=document.getElementById('living-dashboard'); if(!host)return;
+      const stat=(i,n,v,c)=>'<div class="living-stat"><span>'+i+' '+n+'</span><b class="'+c+'">'+v+'</b></div>';
+      host.innerHTML='<div class="flex items-center justify-between gap-2 mb-2"><div><span class="pixel-font text-[9px] text-cyan-300">CANLI SEZON // FAZ '+w.phase+'</span><div class="text-xs text-slate-300">Durum: <b class="text-amber-300">'+livingStatus(w)+'</b> · Sıradaki: '+livingObjective(w)+'</div></div><div class="text-right text-[10px] text-slate-400">JÜRİ ETKİSİ <b class="text-emerald-300">'+(livingJuryModifier()>=0?'+':'')+livingJuryModifier()+'</b><br>Seri '+w.streak+'</div></div><div class="grid grid-cols-3 sm:grid-cols-6 gap-1">'+stat('⚡','Enerji',w.energy,'text-yellow-300')+stat('🤝','Uyum',w.trust,'text-emerald-300')+stat('🛸','Sağlık',w.health,'text-cyan-300')+stat('👁️','Rakip',w.rival,'text-rose-300')+stat('📣','İtibar',w.reputation,'text-purple-300')+stat('🔩','Parça',w.supplies,'text-amber-300')+'</div><div class="mt-2 flex gap-2 text-[10px] text-slate-400"><span>Hava: <b>'+w.weather+'</b></span><span>•</span><span>İstihbarat: <b>'+w.intel+'</b></span><span>•</span><span>Sponsor: <b>'+w.sponsor+'</b></span><span>•</span><span>Lojistik: <b>'+w.logistics+'</b></span></div>';
+    }
+    function livingAddUI(){
+      if(document.getElementById('living-dashboard'))return;
+      const host=document.createElement('div');host.id='living-dashboard';host.className='living-dashboard pixel-box mx-auto max-w-6xl mb-3 p-3 border-2 border-cyan-800 bg-[#0d172b]';
+      const workshop=document.getElementById('screen-workshop'); workshop.insertBefore(host,workshop.firstChild);
+      const modal=document.createElement('div');modal.id='living-event-modal';modal.className='hidden fixed inset-0 z-[100] bg-slate-950/85 flex items-center justify-center p-4';
+      modal.innerHTML='<div class="living-event-card pixel-box w-full max-w-xl border-4 border-amber-400 bg-[#121b31] p-5"><div class="text-[10px] text-amber-300 pixel-font">CANLI OLAY // KARAR BEKLİYOR</div><h2 id="living-event-title" class="pixel-font text-sm text-white mt-3"></h2><p id="living-event-text" class="text-lg text-slate-300 mt-3"></p><div id="living-event-options" class="mt-4 space-y-2"></div><div class="text-[10px] text-slate-500 mt-3">Karar vermezsen ekip “en az zararlı” seçeneği uygular.</div></div>';
+      document.body.appendChild(modal);
+    }
+    function livingRenderEvent(ev){
+      const m=document.getElementById('living-event-modal'); if(!m)return;
+      document.getElementById('living-event-title').innerText='⚠️ '+ev.n;
+      document.getElementById('living-event-text').innerText=ev.t;
+      const opts=document.getElementById('living-event-options');opts.innerHTML='';
+      ev.a.forEach((a,i)=>{const b=document.createElement('button');b.className='pixel-btn w-full text-left bg-slate-800 hover:bg-cyan-800 border border-slate-600 p-3 text-sm';b.innerHTML='<b>'+a[0]+'</b><span class="block text-xs text-slate-400 mt-1">Bütçe '+(a[1]>=0?'+':'')+a[1]+' · uyum '+(a[2]>=0?'+':'')+a[2]+' · risk '+(a[3]>=0?'+':'')+a[3]+'</span>';b.onclick=()=>livingResolve(i);opts.appendChild(b);});
+      m.classList.remove('hidden');
+      clearTimeout(window.livingAutoPick);window.livingAutoPick=setTimeout(()=>livingResolve(1),15000);
+    }
+    function livingResolve(i){
+      const w=living(),ev=LIVING_EVENTS[w.eventNo%LIVING_EVENTS.length]; if(!ev||!document.getElementById('living-event-modal')||document.getElementById('living-event-modal').classList.contains('hidden'))return;
+      const a=ev.a[i];clearTimeout(window.livingAutoPick);document.getElementById('living-event-modal').classList.add('hidden');
+      gameState.budget=Math.max(0,gameState.budget+a[1]); w.trust+=a[2];w.risk+=a[3];w.energy-=Math.max(1,Math.round(Math.abs(a[3])/2));w.reputation+=a[2]>4?3:0;w.health-=a[3]>5?4:0;w.rival+=a[3]>4?3:-2;w.intel+=i===1?5:2;w.sponsor+=i===0?2:0;w.streak=a[3]<=1?w.streak+1:0;w.resolved++;w.eventNo++;w.cooldown=2;w.objective++;livingClamp(w);saveGame();updateHUD();livingDashboard();updateBurkaDialogue('Kriz çözüldü: '+ev.n+'. “'+a[0]+'” kararı takım günlüğüne yazıldı.');showToast('⚡ CANLI OLAY: '+ev.n+' — '+a[0],'amber');
+    }
+    function livingTrigger(){
+      const w=living();if(w.cooldown>0||document.getElementById('living-event-modal')&&!document.getElementById('living-event-modal').classList.contains('hidden'))return;
+      w.weather=['Açık','Rüzgârlı','Bulutlu','Sıcak','Fırtına'][(w.resolved+gameState.season)%5]; livingRenderEvent(LIVING_EVENTS[w.eventNo%LIVING_EVENTS.length]);
+    }
+    function livingRoute(name){
+      const w=living();if(w.lastRoute!==name){w.lastRoute=name;w.cooldown=Math.max(0,w.cooldown-1);w.energy-=name==='flight'?3:name==='competition'?5:1;w.fatigue+=name==='flight'?2:1;
+        if(name==='flight'){w.health-=w.weather==='Fırtına'?4:w.weather==='Rüzgârlı'?2:0;w.focus+=3;showToast('🌦️ Uçuş koşulu: '+w.weather+' · araç sağlığı '+w.health,'cyan');}
+        if(name==='festival'){w.fame+=4;w.reputation+=2;w.sponsor+=2;}
+        if(name==='competition'){w.risk+=2;w.focus+=4;}
+        if(name==='workshop'){w.energy+=4;w.focus+=2;setTimeout(()=>livingTrigger(),500);}
+        livingClamp(w);saveGame();livingDashboard();
+      }
+    }
+    const originalLivingShowScreen=showScreen;
+    showScreen=function(name){originalLivingShowScreen(name);livingRoute(name);};
+    const originalLivingAward=revealAwardAndProgress;
+    revealAwardAndProgress=function(score){originalLivingAward(score);const w=living();w.reputation+=score>=80?8:score>=60?4:-3;w.sponsor+=score>=80?6:1;w.rival+=score>=80?-7:5;w.phase++;w.streak=score>=70?w.streak+1:0;livingClamp(w);saveGame();livingDashboard();};
+    const originalLivingDialogue=updateBurkaDialogue;
+    updateBurkaDialogue=function(custom){if(custom)return originalLivingDialogue(custom);const w=living();const contextual=w.energy<35?'Ekip enerjisi kritik. Şalgamla kanunları değil ama morali değiştirebiliriz.':w.rival>70?'Rakipler hızlandı; panik yok, panik uçuş kontrolcüsü değil.':w.weather==='Fırtına'?'Hava fırtınalı. BARKAN sakin, ekip biraz daha az sakin.':LIVING_QUOTES[Math.floor(Math.random()*LIVING_QUOTES.length)];originalLivingDialogue(contextual);};
+    setInterval(()=>{if(!document.getElementById('screen-workshop').classList.contains('hidden')){livingDashboard();const w=living();if(w.cooldown===0&&Math.random()<0.35)livingTrigger();}},28000);
+    setTimeout(()=>{living();livingAddUI();livingDashboard();},0);
 
     setInterval(() => renderDronePreview(), 120);
 
