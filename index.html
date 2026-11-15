@@ -354,6 +354,7 @@
             <button id="btn-open-arge" class="flex-1 pixel-btn bg-cyan-900 hover:bg-cyan-800 text-cyan-200 text-xs py-2">
               🧬 KALICI AR-GE
             </button>
+            <button id="btn-open-campaign" class="flex-1 pixel-btn bg-indigo-800 hover:bg-indigo-700 text-indigo-100 text-xs py-2">🗺️ SEZON HİKÂYESİ</button>
             <button id="btn-open-museum" class="flex-1 pixel-btn bg-yellow-800 hover:bg-yellow-700 text-yellow-200 text-xs py-2">
               🏆 ŞEREF KÖŞESİ
             </button>
@@ -569,6 +570,8 @@
     </section>
 
   </main>
+
+  <div id="modal-campaign" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden"><div class="pixel-box bg-[#10182b] border-4 border-indigo-400 max-w-3xl w-full p-4 max-h-[90vh] overflow-y-auto"><div class="flex justify-between border-b-2 border-indigo-700 pb-2 mb-3"><h2 class="pixel-font text-xs text-indigo-200">BARKAN-X1 • SEZON HİKÂYESİ</h2><button id="btn-close-campaign" class="pixel-btn bg-rose-700 text-white text-xs px-2 py-1">✕</button></div><div id="campaign-content" class="font-mono"></div></div></div>
 
   <!-- ================= MODAL: INSTAGRAM SAYFASI & ELA VLOG ÇEKİMİ ================= -->
   <div id="modal-instagram" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 hidden">
@@ -2419,7 +2422,7 @@
       const flightPts = Math.min(40, Math.round(gameState.drone.frameLvl * 6 + (gameState.pitTuned ? 6 : 0) + 12));
       const softPts = Math.min(35, Math.round(gameState.drone.softwareLvl * 6 + (gameState.drone.payloadSuccess ? 7 : 0) + (gameState.drone.scanSuccess ? 6 : 0) + 8));
       const teamPts = Math.min(25, Math.round((gameState.morale / 100) * 15 + 6));
-      const totalScore = Math.min(100, flightPts + softPts + teamPts + bonus);
+      const totalScore = Math.min(100, flightPts + softPts + teamPts + bonus + (gameState.campaignJuryBonus || 0));
 
       setTimeout(() => { document.getElementById('comp-score-flight').innerText = flightPts; }, 500);
       setTimeout(() => { document.getElementById('comp-score-soft').innerText = softPts; }, 1000);
@@ -2654,6 +2657,28 @@
       gameState.difficulty = k[(k.indexOf(gameState.difficulty) + 1) % 3];
       saveGame(); updateHUD(); showToast('Zorluk: ' + DIFF().n, 'amber');
     };
+
+    /* Story campaign: choices persist and add a final jury bonus. */
+    const CAMPAIGN_BADGES=[{id:'rota_lideri',name:'🗺️ Rota Lideri',desc:'Sezon hikâyesini bitir'},{id:'kriz_muhendisi',name:'⏱️ Kriz Mühendisi',desc:'Deadline gecesini tamamla'},{id:'tasarimci',name:'🧩 Sistem Tasarımcısı',desc:'BARKAN-X1 tasarımını kilitle'},{id:'pit_ustasi',name:'🔧 Pit Ustası',desc:'Teknik kontrolü doğru yönet'}];CAMPAIGN_BADGES.forEach(x=>{if(!ALL_BADGES.some(y=>y.id===x.id))ALL_BADGES.push(x);});
+    function camp(){if(!gameState.campaign)gameState.campaign={s:0,trust:50,fatigue:10,score:0,log:[],tasks:{frame:false,code:false,deck:false},time:45,running:false};return gameState.campaign;}
+    function note(x){let c=camp();c.log.unshift('• '+x);c.log=c.log.slice(0,5);}
+    function bonus(){let c=camp();return Math.max(0,Math.min(12,Math.round(c.score/18)+(c.trust>64?2:0)-(c.fatigue>70?2:0)));}
+    function choice(k,t,d){return '<button onclick="seasonChoice(\''+k+'\')" class="w-full text-left p-3 mb-2 bg-[#17213a] hover:bg-indigo-900 border-2 border-slate-700 hover:border-indigo-400"><b class="text-indigo-200">'+t+'</b><span class="block text-xs text-slate-400 mt-1">'+d+'</span></button>';}
+    function renderSeason(){let c=camp(),o='<div class="grid grid-cols-4 gap-2 text-xs mb-3"><div class="p-2 bg-indigo-950">BÖLÜM<br><b>'+ (c.s+1)+'/7</b></div><div class="p-2 bg-slate-900">GÜVEN<br><b>'+c.trust+'</b></div><div class="p-2 bg-slate-900">YORGUNLUK<br><b>'+c.fatigue+'</b></div><div class="p-2 bg-slate-900">JÜRİ<br><b>+'+bonus()+'</b></div></div>';
+    if(c.s===0)o+='<h3 class="pixel-font text-xs text-amber-300 mb-2">1. BRİFİNG</h3><p class="text-sm mb-3">Danışman: “BARKAN-X1 takımın ne olduğunu anlatacak.”</p>'+choice('mission','🛰️ Görev Odaklı','Kamera/veri hikâyesi.')+choice('safe','🛡️ Güvenilir Platform','Pit ve kırımsız uçuş avantajı.')+choice('race','⚡ Rekabetçi Performans','Riskli, yüksek puanlı rota.');
+    else if(c.s===1)o+='<h3 class="pixel-font text-xs text-cyan-300 mb-2">2. SİSTEM TASARIMI</h3><p class="text-xs mb-2">Seçimin gerçek uçuş karakterini değiştirir.</p><div class="grid grid-cols-3 gap-2"><select id="cm"><option value="balance">Dengeli motor</option><option value="speed">Hız motoru</option></select><select id="cb"><option value="endurance">Dayanıklı 4S</option><option value="reserve">Yedekli güç</option></select><select id="cp"><option value="camera">EO kamera</option><option value="telemetry">Telemetri</option></select></div><button onclick="seasonDesign()" class="pixel-btn bg-cyan-700 text-white text-xs px-4 py-2 mt-3">KONFİGÜRASYONU KİLİTLE</button>';
+    else if(c.s===2){let t=(id,n)=>'<button '+(c.tasks[id]?'disabled':'')+' onclick="seasonTask(\''+id+'\')" class="p-3 text-left bg-slate-900 border '+(c.tasks[id]?'border-emerald-500':'border-rose-600')+'"><b>'+n+(c.tasks[id]?' ✓':'')+'</b></button>';o+='<h3 class="pixel-font text-xs text-rose-300 mb-2">3. DEADLINE GECESİ</h3><p class="text-xs">Kalan: <b id="ctime">'+c.time+' sn</b>. Ekip görevlerini sırayla bitirir.</p><div class="grid grid-cols-3 gap-2 mt-2">'+t('frame','🔩 Gövde')+t('code','💻 Otopilot')+t('deck','📽️ Sunum')+'</div>'+(!c.running?'<button onclick="seasonStart()" class="pixel-btn bg-rose-700 text-white text-xs px-4 py-2 mt-3">GECEYİ BAŞLAT</button>':'');}
+    else if(c.s===3)o+='<h3 class="pixel-font text-xs text-purple-300 mb-2">4. YOLCULUK</h3><p class="text-sm mb-3">Piste giden rota bütçe, moral ve teknik kontrolü etkiler.</p>'+choice('bus','🚌 Gece Otobüsü','Ucuz, ekip yorulur.')+choice('car','🚗 Bahakan’ın Aracı','Hızlı, yakıt masrafı.')+choice('hotel','🏨 Erken Varış','Pahalı, sakin teknik kontrol.');
+    else if(c.s===4)o+='<h3 class="pixel-font text-xs text-emerald-300 mb-2">5. TEKNİK KONTROL</h3><p class="text-xs mb-3">Titreşim var. İlk doğru teşhis kritik.</p>'+choice('prop','🔧 Pervane/motor bağlantısı','Mekanik rezonansı kontrol et.')+choice('pid','📉 PID değerini körlemesine artır','Hızlı ama riskli.')+choice('battery','🔋 Bataryayı değiştir','Maliyetli zaman kaybı olabilir.');
+    else if(c.s===5)o+='<h3 class="pixel-font text-xs text-amber-300 mb-2">6. FİNAL STRATEJİSİ</h3>'+choice('steady','🛡️ Güvenli rota','İstikrarlı puan.')+choice('bold','🔥 Cesur rota','Kargo/QR bonusu için risk.')+choice('story','🎙️ Hikâyeli sunum','Ekibin emeğini jüriye taşı.');
+    else o+='<h3 class="pixel-font text-xs text-emerald-300 mb-2">SEZON TAMAMLANDI</h3><p>İHA tasarımı, ekip krizi, yolculuk ve teknik kontrol final sonucuna bağlandı.</p><p class="mt-2">Final jüri etkisi: <b>+'+bonus()+'</b></p><button onclick="seasonFinal()" class="pixel-btn bg-red-600 text-white text-xs px-4 py-3 mt-3">⚖️ JÜRİYE GİT</button>';
+    o+='<div class="mt-3 text-xs text-slate-400">'+c.log.map(x=>'<div>'+x+'</div>').join('')+'</div>';document.getElementById('campaign-content').innerHTML=o;}
+    function seasonChoice(k){let c=camp();if(c.s===0){c.focus=k;c.score+=8;c.trust+=k==='safe'?8:4;c.s=1;}else if(c.s===3){if(k==='bus'){gameState.budget+=180;c.fatigue+=18;}if(k==='car'){gameState.budget=Math.max(0,gameState.budget-260);c.trust+=6;}if(k==='hotel'){gameState.budget=Math.max(0,gameState.budget-420);c.fatigue-=10;}c.score+=7;c.s=4;}else if(c.s===4){if(k==='prop'){gameState.pitTuned=true;c.score+=14;badge('pit_ustasi','🔧 Pit Ustası');}else if(k==='pid'){c.fatigue+=10;c.score+=2;}else{gameState.budget=Math.max(0,gameState.budget-180);c.score+=4;}c.s=5;}else if(c.s===5){c.score+=k==='bold'?13:9;c.trust+=k==='story'?10:5;c.s=6;badge('rota_lideri','🗺️ Rota Lideri');}note('Karar: '+k);saveGame();renderSeason();}
+    function seasonDesign(){let c=camp();if(document.getElementById('cm').value==='speed')gameState.drone.frameLvl=Math.min(5,gameState.drone.frameLvl+1);if(document.getElementById('cb').value==='endurance')gameState.drone.batteryLvl=Math.min(5,gameState.drone.batteryLvl+1);if(document.getElementById('cp').value==='telemetry')gameState.drone.softwareLvl=Math.min(5,gameState.drone.softwareLvl+1);c.score+=12;c.s=2;badge('tasarimci','🧩 Sistem Tasarımcısı');note('BARKAN-X1 tasarımı kilitlendi.');saveGame();renderSeason();}
+    let seasonTimer=null;function seasonStart(){let c=camp();c.running=true;saveGame();renderSeason();seasonTimer=setInterval(()=>{c=camp();if(c.time<=0||c.s!==2){clearInterval(seasonTimer);return;}c.time--;let x=document.getElementById('ctime');if(x)x.innerText=c.time+' sn';},1000);}
+    function seasonTask(id){let c=camp();if(!c.running||c.tasks[id])return;c.tasks[id]=true;c.trust+=3;c.fatigue+=5;c.score+=5;note(id+' krizi çözüldü.');if(Object.values(c.tasks).every(Boolean)){clearInterval(seasonTimer);c.score+=14;c.trust+=8;c.s=3;badge('kriz_muhendisi','⏱️ Kriz Mühendisi');}saveGame();renderSeason();}
+    function seasonFinal(){gameState.campaignJuryBonus=bonus();saveGame();document.getElementById('modal-campaign').classList.add('hidden');showScreen('festival');showToast('Sezon hikâyesi jüriye +'+gameState.campaignJuryBonus+' puan taşıdı.','cyan');}
+    document.getElementById('btn-open-campaign').onclick=()=>{camp();renderSeason();document.getElementById('modal-campaign').classList.remove('hidden');};document.getElementById('btn-close-campaign').onclick=()=>document.getElementById('modal-campaign').classList.add('hidden');
 
     setInterval(() => renderDronePreview(), 120);
 
