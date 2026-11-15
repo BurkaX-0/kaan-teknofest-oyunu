@@ -1842,7 +1842,8 @@
     const screenCompetition = document.getElementById('screen-competition');
 
     function showScreen(name) {
-      if (window.music) music.setMode(name);
+      music.setMode(name);
+      simState.keys.up = simState.keys.down = simState.keys.left = simState.keys.right = false;
       document.getElementById('screen-room').classList.add('hidden');
       screenStealth.classList.add('hidden');
       roomOn = name === 'room';
@@ -2306,26 +2307,41 @@
         if (e.key === '2' && btns[1]) btns[1].click();
         if (e.key === '3' && btns[2]) btns[2].click();
       }
-      // Uçuş Kontrolleri
-      if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = true;
-      if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = true;
-      if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = true;
-      if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = true;
-      if (e.code === 'Space' && !screenFlight.classList.contains('hidden')) { e.preventDefault(); deployPayload(); }
-      if (e.code === 'KeyC' && !screenFlight.classList.contains('hidden')) toggleFpvMode();
+      // Uçuş kontrolleri yalnızca aktif simülasyonda sayfayı devralır.
+      // Böylece atölyede ok tuşları normal kaydırma işlevini korur.
+      const flightActive = !screenFlight.classList.contains('hidden') && !simState.isFinished;
+      if (flightActive && (e.code === 'KeyW' || e.code === 'ArrowUp')) { e.preventDefault(); simState.keys.up = true; }
+      if (flightActive && (e.code === 'KeyS' || e.code === 'ArrowDown')) { e.preventDefault(); simState.keys.down = true; }
+      if (flightActive && (e.code === 'KeyA' || e.code === 'ArrowLeft')) { e.preventDefault(); simState.keys.left = true; }
+      if (flightActive && (e.code === 'KeyD' || e.code === 'ArrowRight')) { e.preventDefault(); simState.keys.right = true; }
+      if (e.code === 'Space' && flightActive) { e.preventDefault(); deployPayload(); }
+      if (e.code === 'KeyC' && flightActive) { e.preventDefault(); toggleFpvMode(); }
     });
 
     window.addEventListener('keyup', e => {
-      if (e.code === 'KeyW' || e.code === 'ArrowUp') simState.keys.up = false;
-      if (e.code === 'KeyS' || e.code === 'ArrowDown') simState.keys.down = false;
-      if (e.code === 'KeyA' || e.code === 'ArrowLeft') simState.keys.left = false;
-      if (e.code === 'KeyD' || e.code === 'ArrowRight') simState.keys.right = false;
+      const flightActive = !screenFlight.classList.contains('hidden');
+      if (flightActive && (e.code === 'KeyW' || e.code === 'ArrowUp')) simState.keys.up = false;
+      if (flightActive && (e.code === 'KeyS' || e.code === 'ArrowDown')) simState.keys.down = false;
+      if (flightActive && (e.code === 'KeyA' || e.code === 'ArrowLeft')) simState.keys.left = false;
+      if (flightActive && (e.code === 'KeyD' || e.code === 'ArrowRight')) simState.keys.right = false;
+    });
+
+    function clearFlightControls() {
+      simState.keys.up = simState.keys.down = simState.keys.left = simState.keys.right = false;
+    }
+
+    window.addEventListener('blur', clearFlightControls);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) clearFlightControls();
     });
 
     function bindFlightTouch(id, k) {
       const b = document.getElementById(id);
+      const release = e => { e.preventDefault(); simState.keys[k] = false; };
       b.addEventListener('pointerdown', e => { e.preventDefault(); simState.keys[k] = true; });
-      b.addEventListener('pointerup', e => { e.preventDefault(); simState.keys[k] = false; });
+      b.addEventListener('pointerup', release);
+      b.addEventListener('pointercancel', release);
+      b.addEventListener('pointerleave', release);
     }
     bindFlightTouch('btn-touch-left', 'left'); bindFlightTouch('btn-touch-right', 'right');
     bindFlightTouch('btn-touch-up', 'up'); bindFlightTouch('btn-touch-down', 'down');
