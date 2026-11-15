@@ -9,6 +9,10 @@
 </p>
 
 <p align="center">
+  <a href="https://kaan-teknofest-oyunu.vercel.app"><strong>🕹️ Canlı oyunu aç</strong></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Platform-Web-0b0f19?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Web">
   <img src="https://img.shields.io/badge/Language-Türkçe-00f2fe?style=for-the-badge" alt="Türkçe">
   <img src="https://img.shields.io/badge/Style-Pixel%20Art-f39c12?style=for-the-badge" alt="Pixel Art">
